@@ -1,12 +1,12 @@
-export const URL = "https://basketball-9e231.firebaseio.com";
+export const URL = "https://quick-rental-9e5.firebaseio.com";
 import Firebase from 'firebase';
  let config = {
-    apiKey: "AIzaSyCbIHF6AK4Kc1HK0Z9wELL7BEI3qst7-bg",
-    authDomain: "basketball-9e231.firebaseapp.com",
+    apiKey: "AIzaSyA1WGJAy8V2Ym7m3JrmLKvyaay-YABHJcs",
+    authDomain: "quick-rental-9e5.firebaseapp.com",
     databaseURL: URL,
-    projectId: "basketball-9e231",
-    storageBucket: "basketball-9e231.appspot.com",
-    messagingSenderId: "223402913199"
+    projectId: "quick-rental-9e5",
+    storageBucket: "quick-rental-9e5.appspot.com",
+    messagingSenderId: "329178222611"
   };
 let app = Firebase.initializeApp(config);
 export const db = app.database();
