@@ -5,7 +5,7 @@ import {
     StyleSheet,
     View,
     Text,
-    ToastAndroid,
+    // ToastAndroid,
     TouchableOpacity,
     TextInput,
 } from 'react-native';
@@ -51,9 +51,9 @@ class Settings extends Component {
             }).catch(function(error) {
                 // An error happened.
                 if(error.code === 'auth/email-already-in-use')
-                    ToastAndroid.showWithGravityAndOffset('E-mail already in use',ToastAndroid.LONG,ToastAndroid.TOP,25, 50);
+                    // ToastAndroid.showWithGravityAndOffset('E-mail already in use',ToastAndroid.LONG,ToastAndroid.TOP,25, 50);
                 if(error.code === 'auth/invalid-email')
-                    ToastAndroid.showWithGravityAndOffset('Invalid E-mail',ToastAndroid.LONG,ToastAndroid.TOP,25, 50);    
+                    // ToastAndroid.showWithGravityAndOffset('Invalid E-mail',ToastAndroid.LONG,ToastAndroid.TOP,25, 50);    
                 console.log(error.code) 
             });
         }
@@ -65,12 +65,12 @@ class Settings extends Component {
                 // An error happened.
                 console.log(error.code);
                 if(error.code === 'auth/weak-password')
-                    ToastAndroid.showWithGravityAndOffset('Weak Password',ToastAndroid.LONG,ToastAndroid.TOP,25, 50);
+                    // ToastAndroid.showWithGravityAndOffset('Weak Password',ToastAndroid.LONG,ToastAndroid.TOP,25, 50);
               });    
         };
         this.props.setProfile(p);
         this.async.storeLogin(p, user.uid);
-        ToastAndroid.showWithGravityAndOffset('Profile Updated',ToastAndroid.LONG,ToastAndroid.TOP,25, 50);
+        // ToastAndroid.showWithGravityAndOffset('Profile Updated',ToastAndroid.LONG,ToastAndroid.TOP,25, 50);
 
     }
     render() {

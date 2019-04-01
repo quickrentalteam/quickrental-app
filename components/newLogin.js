@@ -7,7 +7,7 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
-    ToastAndroid,
+    // ToastAndroid,
     KeyboardAvoidingView
 } from 'react-native';
 
@@ -58,23 +58,23 @@ class newLogin extends Component {
                     firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.pass).then( (user) => {
                         let p = new Profile(this.state.name, this.state.email, this.state.pass);
                         this.async.storeLogin(p, user.user.uid);
-                        ToastAndroid.showWithGravityAndOffset('Login Created',ToastAndroid.LONG,ToastAndroid.TOP,25, 50);
+                        // ToastAndroid.showWithGravityAndOffset('Login Created',ToastAndroid.LONG,ToastAndroid.TOP,25, 50);
                         this.props.navigation.navigate('Login'); 
                     }).catch((error) => {
                         if(error.code === 'auth/email-already-in-use')
-                            ToastAndroid.showWithGravityAndOffset('E-mail already in use',ToastAndroid.LONG,ToastAndroid.TOP,25, 50);
+                            // ToastAndroid.showWithGravityAndOffset('E-mail already in use',ToastAndroid.LONG,ToastAndroid.TOP,25, 50);
 
                         if(error.code === 'auth/weak-password')
-                            ToastAndroid.showWithGravityAndOffset('Weak Password',ToastAndroid.LONG,ToastAndroid.TOP,25, 50);
+                            // ToastAndroid.showWithGravityAndOffset('Weak Password',ToastAndroid.LONG,ToastAndroid.TOP,25, 50);
                         console.log(error.code);
                     });
 
             }else{
-                ToastAndroid.showWithGravityAndOffset('Passwords Do not Match',ToastAndroid.LONG,ToastAndroid.TOP,25,50);
+                // ToastAndroid.showWithGravityAndOffset('Passwords Do not Match',ToastAndroid.LONG,ToastAndroid.TOP,25,50);
             }
 
         }else{
-            ToastAndroid.showWithGravityAndOffset('A Field is Empty',ToastAndroid.LONG,ToastAndroid.TOP,25,50);
+            // ToastAndroid.showWithGravityAndOffset('A Field is Empty',ToastAndroid.LONG,ToastAndroid.TOP,25,50);
         };
     };
 

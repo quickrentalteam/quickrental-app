@@ -3,7 +3,7 @@ import Firebase from 'firebase';
  let config = {
     apiKey: "AIzaSyA1WGJAy8V2Ym7m3JrmLKvyaay-YABHJcs",
     authDomain: "quick-rental-9e5.firebaseapp.com",
-    databaseURL: URL,
+    databaseURL: "https://quick-rental-9e5.firebaseio.com/",
     projectId: "quick-rental-9e5",
     storageBucket: "quick-rental-9e5.appspot.com",
     messagingSenderId: "329178222611"

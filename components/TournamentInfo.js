@@ -5,7 +5,7 @@ import {
     StyleSheet,
     View,
     Text,
-    ToastAndroid,
+    // ToastAndroid,
     FlatList,
     TouchableOpacity,
     ScrollView,

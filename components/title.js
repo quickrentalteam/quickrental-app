@@ -30,7 +30,7 @@ class Title extends Component {
         return (
             <View style={styles.container}>
                 <View>
-                    <Image source={require('../assets/logo.png')} style={{height:200, width: 200, top:100}}/>
+                    <Image source={require('../assets/logo.png')} style={{height:200, width: 250, top:100}}/>
                 </View>
                 <View style={{padding: 5,}}>
                     <TouchableOpacity style={styles.signupButton} onPress={() => {this.props.navigation.navigate('CreateLogin')}}>

@@ -10,7 +10,7 @@ import {
     ImageBackground,
     Image,
     ScrollView,
-    ToastAndroid,
+    // ToastAndroid,
 } from 'react-native';
 
 import {bindActionCreators} from 'redux';
@@ -61,13 +61,13 @@ class OrganizationInfo extends Component {
     subscribe = () => {
         // Check if already subscribed, else subcribe by adding key to the profiles subscription list;
         if (this.state.subscribed){
-            ToastAndroid.showWithGravityAndOffset('Already Subscribed',ToastAndroid.SHORT,ToastAndroid.BOTTOM,25,50);
+            // ToastAndroid.showWithGravityAndOffset('Already Subscribed',ToastAndroid.SHORT,ToastAndroid.BOTTOM,25,50);
         }else{
             let sub = new Subscription(this.key, new Date);
             console.log(sub)
             this.props.profile.addSubscription(sub);
             this.props.setProfile(this.profile);
-            ToastAndroid.showWithGravityAndOffset('You are now Subscribed',ToastAndroid.SHORT,ToastAndroid.BOTTOM,25,50);
+            // ToastAndroid.showWithGravityAndOffset('You are now Subscribed',ToastAndroid.SHORT,ToastAndroid.BOTTOM,25,50);
             this.setState({
                 subscribed:true,
                 subText: SUBBED,
@@ -80,7 +80,7 @@ class OrganizationInfo extends Component {
         if (this.state.subscribed === true || this.props.profile.getRole() === 'ADMIN'){
             this.props.navigation.navigate('Tournament', {tournament: tourn})
         }else{
-            ToastAndroid.showWithGravityAndOffset('Subscribed Members Only',ToastAndroid.SHORT,ToastAndroid.BOTTOM,25,50);
+            // ToastAndroid.showWithGravityAndOffset('Subscribed Members Only',ToastAndroid.SHORT,ToastAndroid.BOTTOM,25,50);
         }
     }
     render() {

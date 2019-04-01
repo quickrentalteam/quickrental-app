@@ -7,7 +7,7 @@ import {
     Text,
     TextInput,
     Image,
-    ToastAndroid,
+    // ToastAndroid,
     TouchableOpacity,
     TouchableHighlight,
     KeyboardAvoidingView,
@@ -70,10 +70,10 @@ class Home extends Component {
         }).catch((error) => {
             console.log(error.code);
             if (error.code === 'auth/invalid-email')
-                ToastAndroid.showWithGravityAndOffset( 'Invalid E-mail',ToastAndroid.SHORT,ToastAndroid.BOTTOM,25,50);
+                // ToastAndroid.showWithGravityAndOffset( 'Invalid E-mail',ToastAndroid.SHORT,ToastAndroid.BOTTOM,25,50);
             
             if(error.code === 'auth/wrong-password')
-                ToastAndroid.showWithGravityAndOffset( 'Incorrect Password',ToastAndroid.SHORT,ToastAndroid.BOTTOM,25,50);
+                // ToastAndroid.showWithGravityAndOffset( 'Incorrect Password',ToastAndroid.SHORT,ToastAndroid.BOTTOM,25,50);
         });
     }
     onPressButton = () => {
