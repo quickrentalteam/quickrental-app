@@ -65,7 +65,10 @@ class Settings extends Component {
                 // An error happened.
                 console.log(error.code);
                 if(error.code === 'auth/weak-password')
+                {
                     // ToastAndroid.showWithGravityAndOffset('Weak Password',ToastAndroid.LONG,ToastAndroid.TOP,25, 50);
+                }
+                    
               });    
         };
         this.props.setProfile(p);
