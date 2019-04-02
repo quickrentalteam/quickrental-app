@@ -7,7 +7,7 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
-    // ToastAndroid,
+    ToastAndroid,
     KeyboardAvoidingView
 } from 'react-native';
 
@@ -17,6 +17,7 @@ import { connect } from 'react-redux';
 import * as Actions from '../actions'; //Import your actions
 import Async from '../components/Async';
 import Profile from '../components/Profile';
+import { Button, ThemeProvider } from 'react-native-elements';
 
 import * as firebase from 'firebase';
 
@@ -28,7 +29,8 @@ class newLogin extends Component {
             name: "",
             email: "",
             pass: "",
-            re_pass: "",
+            re_pass: "",            
+            type: ""
         };
         this.async = new Async();
     }
@@ -44,9 +46,11 @@ class newLogin extends Component {
 
     };
     checkNonEmpty = () => {
-        if( this.state.name === "" || this.state.email === "" || this.state.pass === ""){
+        if( this.state.name === "" || this.state.email === "" || this.state.pass === "" || this.state.type === ""){
             return false;
-        }else{
+        }
+        else
+        {
             return true;
         }
     }
@@ -56,25 +60,25 @@ class newLogin extends Component {
             if(this.state.pass === this.state.re_pass){
                     //Save user to firebase
                     firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.pass).then( (user) => {
-                        let p = new Profile(this.state.name, this.state.email, this.state.pass);
+                        let p = new Profile(this.state.name, this.state.email, this.state.pass, this.state.type);
                         this.async.storeLogin(p, user.user.uid);
-                        // ToastAndroid.showWithGravityAndOffset('Login Created',ToastAndroid.LONG,ToastAndroid.TOP,25, 50);
+                        ToastAndroid.showWithGravityAndOffset('Login Created',ToastAndroid.LONG,ToastAndroid.TOP,25, 50);
                         this.props.navigation.navigate('Login'); 
                     }).catch((error) => {
                         if(error.code === 'auth/email-already-in-use')
-                            // ToastAndroid.showWithGravityAndOffset('E-mail already in use',ToastAndroid.LONG,ToastAndroid.TOP,25, 50);
+                            ToastAndroid.showWithGravityAndOffset('E-mail already in use',ToastAndroid.LONG,ToastAndroid.TOP,25, 50);
 
                         if(error.code === 'auth/weak-password')
-                            // ToastAndroid.showWithGravityAndOffset('Weak Password',ToastAndroid.LONG,ToastAndroid.TOP,25, 50);
+                            ToastAndroid.showWithGravityAndOffset('Weak Password',ToastAndroid.LONG,ToastAndroid.TOP,25, 50);
                         console.log(error.code);
                     });
 
             }else{
-                // ToastAndroid.showWithGravityAndOffset('Passwords Do not Match',ToastAndroid.LONG,ToastAndroid.TOP,25,50);
+                ToastAndroid.showWithGravityAndOffset('Passwords Do not Match',ToastAndroid.LONG,ToastAndroid.TOP,25,50);
             }
 
         }else{
-            // ToastAndroid.showWithGravityAndOffset('A Field is Empty',ToastAndroid.LONG,ToastAndroid.TOP,25,50);
+            ToastAndroid.showWithGravityAndOffset('A Field is Empty',ToastAndroid.LONG,ToastAndroid.TOP,25,50);
         };
     };
 
@@ -82,6 +86,18 @@ class newLogin extends Component {
         return (
             <KeyboardAvoidingView keyboardVerticalOffset={5} behavior="position" style={styles.container}>
                 <View style={{marginTop:50}}>
+
+                    <View style={{padding:10}}>
+                        <Text style={styles.textHeader}>Who are you?</Text>
+                        <View style={styles.loginContainer}>
+
+                        <View style={styles.button} />
+                        <View style={styles.button} />
+
+                            <TextInput secureTextEntry={true} underlineColorAndroid="transparent" value={this.state.pass} onChangeText={(value) => {this.setPassword(value)}}/>
+                        </View>
+                    </View>
+
                     <View style={{padding:10}}>
                         <Text style={styles.textHeader}>Name</Text>
                         <View style={styles.loginContainer}>

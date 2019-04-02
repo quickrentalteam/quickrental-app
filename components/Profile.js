@@ -7,6 +7,7 @@ export default class Profile{
         this.name = name;
         this.email = email;
         this.password = password;
+        this.type = type;
         this.subscriptions = [];
     }
 
@@ -26,6 +27,15 @@ export default class Profile{
 
     setEmail = (email) => {
         this.email = email;
+    }
+
+    setType = (type) => {
+        this.type = type;
+        if(type == "landlord")
+        {
+            setAdmin();
+        }
+            
     }
 
     setName = (value) => {
@@ -48,6 +58,7 @@ export default class Profile{
         this.email = obj.email;
         this.password = obj.password;
         this.subscriptions = obj.subscriptions;
+        this.type = obj.type;
     };
 
     checkSubscription = (key) =>{
