@@ -18,7 +18,6 @@ import {
   RkTheme,
   RkAvoidKeyboard,
 } from 'react-native-ui-kitten';
-// import Icon from '@expo/vector-icons/Ionicons';
 
 import { Ionicons } from '@expo/vector-icons';
 
