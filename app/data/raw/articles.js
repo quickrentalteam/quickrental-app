@@ -135,21 +135,21 @@ const articles = [{
   comments: [],
 }, {
   id: 12,
-  photo: require('../img/photo17.png'),
+  photo: require('../img/img1.jpg'),
   type: 'post',
-  time: -300,
-  title: 'My Little Kitten',
-  text: 'I have got a cat. Her name is Matilda. She is quite old for a cat. She is eleven years old. Matilda is very' +
-  ' fluffy. Her back is black and her belly and chest are white. She also has a black muzzle with long white whiskers. ' +
-  'Her legs and paws are white. Matilda has big eyes. Her eyes are light green, but they become yellow in bright sunlight. I love my cat.',
+  time: -3000000,
+  title: 'Kappan Apartments',
+  text: 'Fully-furnished\n' +
+  'Studio\n' +
+  'Air-Conditioned\n',
   comments: [],
 }, {
   id: 13,
-  photo: require('../img/photo18.png'),
+  photo: require('../img/img2.jpg'),
   type: 'post',
-  time: -1373,
-  header: 'Interesting Fact',
-  text: 'One chef prepared a delicious cake with apples and named it in honor of his beloved Charlotte.',
+  time: -1373000,
+  header: 'Streatham Lodge',
+  text: 'Shared bathroom...',
   comments: [],
 }, {
   id: 14,
@@ -164,8 +164,8 @@ const articles = [{
   photo: require('../img/photo20.png'),
   type: 'post',
   time: -3519,
-  header: 'Exciting Adventure',
-  text: 'My trip to Spain last summer. I think that it was the most interesting trip in my life.',
+  header: 'Lorem Ipsum',
+  text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu diam est. Vivamus lectus ex, aliquet non suscipit sed, lobortis.',
   comments: [],
 },
 ];

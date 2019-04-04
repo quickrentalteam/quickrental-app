@@ -34,8 +34,8 @@ export class LoginV1 extends React.Component {
   renderImage = () => {
     const screenSize = Dimensions.get('window');
     const imageSize = {
-      width: screenSize.width,
-      height: screenSize.height - scaleModerate(375, 1),
+      width: 400,
+      height: 200,
     };
     return (
       <Image
@@ -81,9 +81,9 @@ export class LoginV1 extends React.Component {
         />
         <View style={styles.footer}>
           <View style={styles.textRow}>
-            <RkText rkType='primary3'>Don’t have an account?</RkText>
+            <RkText rkType='primary3'>Don’t have an account? </RkText>
             <RkButton rkType='clear'>
-              <RkText rkType='header6' onPress={this.onSignUpButtonPressed}>Sign up now</RkText>
+              <RkText rkType='header6' onPress={this.onSignUpButtonPressed}> Sign up now</RkText>
             </RkButton>
           </View>
         </View>

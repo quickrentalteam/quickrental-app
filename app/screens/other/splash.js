@@ -66,8 +66,8 @@ export class SplashScreen extends React.Component {
           source={require('../../assets/images/splashBack.png')}
         />
         <View style={styles.text}>
-          <RkText rkType='light' style={styles.hero}>React Native</RkText>
-          <RkText rkType='logo' style={styles.appName}>UI Kitten</RkText>
+          <RkText rkType='light' style={styles.hero}>Finding Better Homes</RkText>
+          <RkText rkType='logo' style={styles.appName}>QuickRental</RkText>
         </View>
       </View>
       <ProgressBar
