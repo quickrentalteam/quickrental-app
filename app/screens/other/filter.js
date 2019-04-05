@@ -25,6 +25,7 @@ import { FontIcons } from '../../assets/icons';
 import { FontAwesome } from '../../assets/icons';
 import { UtilStyles } from '../../assets/style/styles';
 
+
 export class Filter extends React.Component {
   static navigationOptions = {
     title: 'Filter Component',
@@ -42,7 +43,9 @@ export class Filter extends React.Component {
         name: 'All Girls',
       },
       onChangeHandleText: 'Co-ed Selected',
-      value: 0.2,
+      distance: 8,
+      minDistance: 1,
+      maxDistance: 20
   };
 
   onOptionsGroupValueChanged = (index) => {
@@ -89,17 +92,50 @@ export class Filter extends React.Component {
         </View>
         </View>
 
-        <View style={styles.slideCont}>
-            <Slider
-            value={this.state.value}
-            onValueChange={value => this.setState({ value })}
-            />
-            <RkText>
-            Value: {this.state.value}
-            </RkText>
-        </View>
+        {/* <SliderContainer caption='<Slider/> with custom style #9 and thumbImage'>
+          <Slider
+            minimumTrackTintColor='#13a9d6'
+            thumbImage={require('../../assets/images/thumb.png')}
+            thumbStyle={customStyles9.thumb}
+            thumbTintColor='#0c6692'
+          />
+        </SliderContainer> */}
+
 
         <View style={[UtilStyles.section, UtilStyles.bordered]}>
+
+        <RkText rkType='header'>Location</RkText>
+        <View style={styles.slideCont}>
+            <RkText style={styles.caption}>
+            Walking Distance: {this.state.distance + 'km'}
+            </RkText>
+            <Slider
+            style={{ width: 290}}
+            minimumTrackTintColor='#13a9d6'
+            thumbImage={require('../../assets/images/thumb.png')}
+            thumbStyle={customStyles9.thumb}
+            thumbTintColor='#0c6692'
+            step={1} 
+            minimumValue = {this.state.minDistance}
+            maximumValue = {this.state.maxDistance}
+            value={this.state.distance}
+            onValueChange={value => this.setState({ distance:value })}
+            />
+
+            <View style={styles.valueChange}>
+                <RkText style={styles.caption}>
+                {this.state.minDistance} km
+                </RkText>
+                <RkText style={styles.caption}>
+                {this.state.distance + 'km'}
+                </RkText>
+                <RkText style={styles.caption}>
+                {this.state.maxDistance}km
+                </RkText>
+            </View>
+
+        </View>
+
           <RkText rkType='header'>Amenities</RkText>
           <View style={[UtilStyles.rowContainer]}>
             <View style={[UtilStyles.columnContainer, { flex: 1 }]}>
@@ -113,7 +149,7 @@ export class Filter extends React.Component {
               </View>
               <View style={styles.componentRow}>
                 <RkChoice/>
-                <RkText rkType='bold' style={styles.caption}>Air Condiioned</RkText>
+                <RkText rkType='bold' style={styles.caption}>Air Conditoned</RkText>
               </View>
               <View style={styles.componentRow}>
                 <RkChoice/>
@@ -184,6 +220,18 @@ export class Filter extends React.Component {
   )
 }
 
+var customStyles9 = RkStyleSheet.create({
+    thumb: {
+      width: 30,
+      height: 30,
+      shadowColor: 'black',
+      shadowOffset: {width: 0, height: 1},
+      shadowOpacity: 0.5,
+      shadowRadius: 1,
+    }
+  });
+  
+
 const styles = RkStyleSheet.create(theme => ({
   container: {
     flex: 1,
@@ -253,10 +301,20 @@ const styles = RkStyleSheet.create(theme => ({
     // height: 30,
   },
   sliderCont: {
+    // flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 20,
     flex: 1,
-    marginLeft: 10,
-    marginRight: 10,
-    alignItems: "stretch",
-    justifyContent: "center"
-  }
+    marginRight: 200,
+    // marginLeft: 10,
+    // marginRight: 10,
+    // alignItems: "stretch",
+    // justifyContent: "center"
+  },
+  valueChange: {
+    width: 320,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+},
 }));
