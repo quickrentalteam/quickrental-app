@@ -19,7 +19,7 @@ import {
   RkAvoidKeyboard,
 } from 'react-native-ui-kitten';
 
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, AntDesign } from '@expo/vector-icons';
 
 
 import { FontIcons } from '../../assets/icons';
@@ -90,7 +90,7 @@ export class SignUp extends React.Component {
 
   getThemeImageSource = (theme) => (
     theme.name === 'light' ?
-      require('../../assets/images/logo.png') : require('../../assets/images/logoDark.png')
+      require('../../assets/images/logo-light-final.png') : require('../../assets/images/logo-dark-final.png')
   );
 
   renderImage = () => (
@@ -126,28 +126,30 @@ export class SignUp extends React.Component {
 
       <View style={{ alignItems: 'center' }}>
         {this.renderImage()}
+
+        {/* <Image style={styles.logoImg} source={require('../../assets/images/logo-final.png')}/> */}
         <RkText rkType='h1'>Registration</RkText>
         <RkText style={styles.whoAreYouText}>WHO YOU ARE ?</RkText>
       </View>
       
       {/* <Text style={styles.signUpText}>Sign up</Text> */}
 
-          <View style={styles.userTypesContainer}>
-            <UserTypeItem
-              label="LANDLORD"
-              labelColor="#ECC841"
-              image={USER_COOL}
-              onPress={() => this.setSelectedType('landlord')}
-              selected={this.state.selectedType === 'landlord'}
-            />
-            <UserTypeItem
-              label="STUDENT"
-              labelColor="#990000"
-              image={USER_STUDENT}
-              onPress={() => this.setSelectedType('student')}
-              selected={this.state.selectedType === 'student'}
-            />
-          </View>
+      <View style={styles.userTypesContainer}>
+        <UserTypeItem
+          label="LANDLORD"
+          labelColor="#ECC841"
+          image={USER_COOL}
+          onPress={() => this.setSelectedType('landlord')}
+          selected={this.state.selectedType === 'landlord'}
+        />
+        <UserTypeItem
+          label="STUDENT"
+          labelColor="#990000"
+          image={USER_STUDENT}
+          onPress={() => this.setSelectedType('student')}
+          selected={this.state.selectedType === 'student'}
+        />
+      </View>
 
 
       <View style={styles.content}>
@@ -212,24 +214,23 @@ export class SignUp extends React.Component {
             /> */}
 
 
-
-        <View>
-        <RkText rkType='moon large primary'>{FontIcons.login}</RkText>
+        <View style={{ justifyContent: 'center'}}>
+        <View style={styles.widthLimit}>
+        {/* <RkText rkType='moon large primary'>{FontIcons.login}</RkText> */}
           {/* <RkTextInput label={FontIcons.profile}   rkType='rounded' placeholder='Name' /> */}
           {/* <RkText rkType='moon large primary'>{FontIcons.login} </RkText> */}
-            
-          <Ionicons name="md-checkmark-circle" size={32} color="green" />
-          {/* <RkTextInput label={<Icon name={'ios-search'}/>}/> */}
-          <RkTextInput rkType='rounded' placeholder='Name' /> 
-          <RkTextInput rkType='rounded' placeholder='Email' />
-          <RkTextInput rkType='rounded' placeholder='Password' secureTextEntry />
-          <RkTextInput rkType='rounded' placeholder='Confirm Password' secureTextEntry />
+          
+          <RkTextInput rkType='rounded' containerStyle={styles.inputContainer1} label = {<Ionicons name={"ios-person-outline"} />} labelStyle={styles.inputIcon} style={styles.input} placeholder='Name' /> 
+          <RkTextInput rkType='rounded' containerStyle={styles.inputContainer1} label = {<Ionicons name={"ios-mail-outline"} />} labelStyle={styles.inputIcon} style={styles.input}  placeholder='Email' />
+          <RkTextInput rkType='rounded' containerStyle={styles.inputContainer1} label = {<Ionicons name={"ios-lock-outline"} />} labelStyle={styles.inputIcon} style={styles.input}  placeholder='Password' secureTextEntry />
+          <RkTextInput rkType='rounded' containerStyle={styles.inputContainer1} label = {<Ionicons name={"ios-lock-outline"} />} labelStyle={styles.inputIcon} style={styles.input}  placeholder='Confirm Password' secureTextEntry />
           <GradientButton
             style={styles.save}
             rkType='large'
             text='SIGN UP'
             onPress={this.onSignUpButtonPressed}
           />
+        </View>
         </View>
         <View style={styles.footer}>
           <View style={styles.textRow}>
@@ -292,8 +293,12 @@ export const FormInput = props => {
 
 const styles = RkStyleSheet.create(theme => ({
   screen: {
-    padding: 16,
+    paddingHorizontal: 10,
+    paddingTop: 70,
+    paddingBottom: 20,
     flex: 1,
+    // padding: 16,
+    // flex: 1,
     justifyContent: 'space-around',
     backgroundColor: theme.colors.screen.base,
   },
@@ -303,6 +308,7 @@ const styles = RkStyleSheet.create(theme => ({
     resizeMode: 'contain',
   },
   content: {
+    justifyContent: 'space-between',
     // flex: 1,
     // paddingBottom: 10,
     // paddingTop: 10,
@@ -310,7 +316,15 @@ const styles = RkStyleSheet.create(theme => ({
     // width: SCREEN_WIDTH,
     // height: SCREEN_HEIGHT,
     // alignItems: 'center',
-    justifyContent: 'space-between',
+    // flex: 1,
+    // maxWidth: 275,
+    // minHeight: 120,
+    // justifyContent: 'space-between',
+  },
+  widthLimit: {
+    flex: 1,
+    // maxWidth: 375,
+    // minHeight: 220,
   },
   save: {
     marginVertical: 20,
@@ -328,6 +342,26 @@ const styles = RkStyleSheet.create(theme => ({
     flexDirection: 'row',
     justifyContent: 'center',
   },
+  input: {
+    flex: 1,
+    color: 'black',
+    fontWeight: '300',
+    fontSize: 20,
+    textAlign: 'left',
+    height: '100%',
+    marginHorizontal: 10
+  },
+  inputContainer1: {
+    backgroundColor: "white",
+    // marginTop: 15,
+    // paddingLeft: 15,
+  },
+  inputIcon: {
+    color: 'red',
+    fontSize: 28,
+    fontWeight: '300',
+    padding: 7,
+  },
   inputContainer: {
     paddingLeft: 8,
     borderRadius: 40,
@@ -342,6 +376,12 @@ const styles = RkStyleSheet.create(theme => ({
     color: 'black',
     // fontFamily: 'light',
     fontSize: 16.0,
+  },
+  logoImg: {
+    alignSelf: 'center',
+    width: 80,
+    height: 80,
+    resizeMode: 'contain'
   },
   whoAreYouText: {
     padding: 16,

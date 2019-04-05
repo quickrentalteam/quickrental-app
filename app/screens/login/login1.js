@@ -14,6 +14,7 @@ import {
   RkTheme,
 } from 'react-native-ui-kitten';
 import { FontAwesome } from '../../assets/icons';
+import { Ionicons, AntDesign } from '@expo/vector-icons';
 import { GradientButton } from '../../components/gradientButton';
 import { scaleModerate, scaleVertical } from '../../utils/scale';
 import NavigationType from '../../config/navigation/propTypes';
@@ -34,8 +35,8 @@ export class LoginV1 extends React.Component {
   renderImage = () => {
     const screenSize = Dimensions.get('window');
     const imageSize = {
-      width: 400,
-      height: 200,
+      width: 320,
+      height: 160,
     };
     return (
       <Image
@@ -71,8 +72,11 @@ export class LoginV1 extends React.Component {
             <RkText rkType='awesome hero accentColor'>{FontAwesome.facebook}</RkText>
           </RkButton>
         </View>
-        <RkTextInput rkType='rounded' placeholder='Username' />
-        <RkTextInput rkType='rounded' placeholder='Password' secureTextEntry />
+        <RkTextInput rkType='rounded' containerStyle={styles.inputContainer1} label = {<Ionicons name={"ios-mail-outline"} />} labelStyle={styles.inputIcon} style={styles.input}  placeholder='Email' />
+        <RkTextInput rkType='rounded' containerStyle={styles.inputContainer1} label = {<Ionicons name={"ios-lock-outline"} />} labelStyle={styles.inputIcon} style={styles.input}  placeholder='Password' secureTextEntry />
+
+        {/* <RkTextInput rkType='rounded' placeholder='Username' />
+        <RkTextInput rkType='rounded' placeholder='Password' secureTextEntry /> */}
         <GradientButton
           style={styles.save}
           rkType='large'
@@ -101,12 +105,19 @@ const styles = RkStyleSheet.create(theme => ({
   image: {
     resizeMode: 'cover',
     marginBottom: scaleVertical(10),
+    marginTop: 70,
   },
   container: {
     paddingHorizontal: 17,
     paddingBottom: scaleVertical(22),
     alignItems: 'center',
     flex: -1,
+  },
+  inputIcon: {
+    color: 'red',
+    fontSize: 28,
+    fontWeight: '300',
+    padding: 7,
   },
   footer: {
     justifyContent: 'flex-end',
