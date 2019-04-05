@@ -19,7 +19,7 @@ import {
   GradientButton,
 } from '../../components';
 import PropTypes from 'prop-types';
-
+import Slider from "react-native-slider";
 import { Ionicons, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontIcons } from '../../assets/icons';
 import { FontAwesome } from '../../assets/icons';
@@ -42,6 +42,7 @@ export class Filter extends React.Component {
         name: 'All Girls',
       },
       onChangeHandleText: 'Co-ed Selected',
+      value: 0.2,
   };
 
   onOptionsGroupValueChanged = (index) => {
@@ -86,6 +87,16 @@ export class Filter extends React.Component {
                 </RkButton>
             </View>
         </View>
+        </View>
+
+        <View style={styles.slideCont}>
+            <Slider
+            value={this.state.value}
+            onValueChange={value => this.setState({ value })}
+            />
+            <RkText>
+            Value: {this.state.value}
+            </RkText>
         </View>
 
         <View style={[UtilStyles.section, UtilStyles.bordered]}>
@@ -241,4 +252,11 @@ const styles = RkStyleSheet.create(theme => ({
     // width: 30,
     // height: 30,
   },
+  sliderCont: {
+    flex: 1,
+    marginLeft: 10,
+    marginRight: 10,
+    alignItems: "stretch",
+    justifyContent: "center"
+  }
 }));
