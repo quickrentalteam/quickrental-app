@@ -247,6 +247,12 @@ export const MainRoutes = [
         screen: Screens.Settings,
         children: [],
       },
+      {
+        id: 'Filter',
+        title: 'Filter',
+        screen: Screens.Filter,
+        children: [],
+      },
     ],
   },
   {
