@@ -250,6 +250,7 @@ const styles = RkStyleSheet.create(theme => ({
   },
   section: {
     marginVertical: 25,
+    padding: 100,
   },
   heading: {
     paddingBottom: 12.5,
