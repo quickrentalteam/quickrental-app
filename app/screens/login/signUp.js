@@ -30,6 +30,11 @@ import { cacheFonts } from "../../../helpers/AssetsCaching";
 import { GradientButton } from '../../components/';
 import { scaleVertical } from '../../utils/scale';
 import NavigationType from '../../config/navigation/propTypes';
+// import Toast from 'react-native-smart-toast';
+import Async from '../../components/Async';
+import Profile from '../../components/Profile';
+
+import * as firebase from 'firebase';
 
 // Enable LayoutAnimation on Android
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -56,7 +61,12 @@ export class SignUp extends React.Component {
     super(props);
 
     this.state = {
-      selectedType: null,
+      name: "",
+      email: "",
+      pass: "",
+      re_pass: "",            
+      type: ""
+      // selectedType: null,
       // fontLoaded: false,
       // username: '',
       // email: '',
@@ -69,6 +79,7 @@ export class SignUp extends React.Component {
     };
 
     this.setSelectedType = this.setSelectedType.bind(this);
+    this.async = new Async();
     // this.validateEmail = this.validateEmail.bind(this);
     // this.validatePassword = this.validatePassword.bind(this);
     // this.validateConfirmationPassword = this.validateConfirmationPassword.bind(
@@ -76,6 +87,67 @@ export class SignUp extends React.Component {
     // );
     // this.signup = this.signup.bind(this);
   }
+  setUsername = (value) =>{
+    this.setState({
+        user: value,
+    });
+  };
+  setPassword = (value) =>{
+      this.setState({
+          pass: value,
+      });
+
+  };
+
+  setType = (value) =>{
+    this.setState({
+      type: value,
+    })
+  };
+
+  checkNonEmpty = () => {
+      if( this.state.name === "" || this.state.email === "" || this.state.pass === "" || this.state.type === ""){
+          return false;
+      }
+      else
+      {
+          return true;
+      }
+  }
+
+  createLogin = () => {
+    if(this.checkNonEmpty()){
+        if(this.state.pass === this.state.re_pass){
+                //Save user to firebase
+                firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.pass).then( (user) => {
+                    // let p = new Profile(this.state.name, this.state.email, this.state.pass, this.state.type);
+                    // this.async.storeLogin(p, user.user.uid);
+                    // this.showBottomToast('Login Created');
+                    // ToastAndroid.showWithGravityAndOffset('Login Created',ToastAndroid.LONG,ToastAndroid.TOP,25, 50);
+                    this.onSignUpButtonPressed(); 
+                }).catch((error) => {
+                    if(error.code === 'auth/email-already-in-use')
+                    {}
+                      // this.showBottomToast('Email already in use');
+                        // ToastAndroid.showWithGravityAndOffset('E-mail already in use',ToastAndroid.LONG,ToastAndroid.TOP,25, 50);
+
+                    if(error.code === 'auth/weak-password')
+                    {}
+                      // this.showBottomToast('Weak Password');
+                        // ToastAndroid.showWithGravityAndOffset('Weak Password',ToastAndroid.LONG,ToastAndroid.TOP,25, 50);
+                    console.log(error.code);
+                });
+
+        }else{
+          // this.showBottomToast('Passwords Don\'t Match');
+            // ToastAndroid.showWithGravityAndOffset('Passwords Do not Match',ToastAndroid.LONG,ToastAndroid.TOP,25,50);
+        }
+
+    }else{
+      // this.showBottomToast('Field is Empty');
+        // ToastAndroid.showWithGravityAndOffset('A Field is Empty',ToastAndroid.LONG,ToastAndroid.TOP,25,50);
+    };
+};
 
   // async componentDidMount() {
   //   await cacheFonts({
@@ -98,7 +170,8 @@ export class SignUp extends React.Component {
   );
 
   onSignUpButtonPressed = () => {
-    this.props.navigation.goBack();
+    this.createLogin();
+    this.props.navigation.navigate('Login1');
   };
 
   onSignInButtonPressed = () => {
@@ -107,6 +180,13 @@ export class SignUp extends React.Component {
 
   setSelectedType = selectedType =>
     LayoutAnimation.easeInEaseOut() || this.setState({ selectedType });
+
+  // showBottomToast = (toastMessage) => {
+  //     this._toast.show({
+  //         position: Toast.constants.gravity.bottom,
+  //         children: toastMessage
+  //     })
+  // }
     
 
   render = () => (
@@ -136,6 +216,7 @@ export class SignUp extends React.Component {
 
       <View style={styles.userTypesContainer}>
         <UserTypeItem
+
           label="LANDLORD"
           labelColor="#ECC841"
           image={USER_COOL}
@@ -220,10 +301,10 @@ export class SignUp extends React.Component {
           {/* <RkTextInput label={FontIcons.profile}   rkType='rounded' placeholder='Name' /> */}
           {/* <RkText rkType='moon large primary'>{FontIcons.login} </RkText> */}
           
-          <RkTextInput rkType='rounded' containerStyle={styles.inputContainer1} label = {<Ionicons name={"ios-person-outline"} />} labelStyle={styles.inputIcon} style={styles.input} placeholder='Name' /> 
-          <RkTextInput rkType='rounded' containerStyle={styles.inputContainer1} label = {<Ionicons name={"ios-mail-outline"} />} labelStyle={styles.inputIcon} style={styles.input}  placeholder='Email' />
-          <RkTextInput rkType='rounded' containerStyle={styles.inputContainer1} label = {<Ionicons name={"ios-lock-outline"} />} labelStyle={styles.inputIcon} style={styles.input}  placeholder='Password' secureTextEntry />
-          <RkTextInput rkType='rounded' containerStyle={styles.inputContainer1} label = {<Ionicons name={"ios-lock-outline"} />} labelStyle={styles.inputIcon} style={styles.input}  placeholder='Confirm Password' secureTextEntry />
+          <RkTextInput rkType='rounded' value={this.state.name} onChangeText={(value) => {this.setState({name: value})}} containerStyle={styles.inputContainer1} label = {<Ionicons name={"ios-person-outline"} />} labelStyle={styles.inputIcon} style={styles.input} placeholder='Name' /> 
+          <RkTextInput rkType='rounded' value={this.state.email} onChangeText={(value) => {this.setState({email: value})}}  containerStyle={styles.inputContainer1} label = {<Ionicons name={"ios-mail-outline"} />} labelStyle={styles.inputIcon} style={styles.input}  placeholder='Email' />
+          <RkTextInput rkType='rounded' value={this.state.pass} onChangeText={(value) => {this.setState({pass: value})}}  containerStyle={styles.inputContainer1} label = {<Ionicons name={"ios-lock-outline"} />} labelStyle={styles.inputIcon} style={styles.input}  placeholder='Password' secureTextEntry />
+          <RkTextInput rkType='rounded' value={this.state.re_pass} onChangeText={(value) => {this.setState({re_pass: value})}}  containerStyle={styles.inputContainer1} label = {<Ionicons name={"ios-lock-outline"} />} labelStyle={styles.inputIcon} style={styles.input}  placeholder='Confirm Password' secureTextEntry />
           <GradientButton
             style={styles.save}
             rkType='large'
@@ -242,7 +323,9 @@ export class SignUp extends React.Component {
         </View>
       </View>
       </ScrollView>
+  
     </RkAvoidKeyboard>
+    
   )
 }
 
@@ -304,7 +387,7 @@ const styles = RkStyleSheet.create(theme => ({
   },
   image: {
     marginBottom: 10,
-    height: scaleVertical(77),
+    height: scaleVertical(200),
     resizeMode: 'contain',
   },
   content: {
@@ -379,8 +462,8 @@ const styles = RkStyleSheet.create(theme => ({
   },
   logoImg: {
     alignSelf: 'center',
-    width: 80,
-    height: 80,
+    width: 200,
+    height: 200,
     resizeMode: 'contain'
   },
   whoAreYouText: {

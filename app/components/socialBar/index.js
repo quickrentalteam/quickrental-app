@@ -7,6 +7,10 @@ import {
 } from 'react-native-ui-kitten';
 import { FontAwesome } from '../../assets/icons';
 
+import { Ionicons } from '@expo/vector-icons';
+
+// import NavigationType from '../../config/navigation/propTypes';
+
 export class SocialBar extends RkComponent {
   componentName = 'SocialBar';
   typeMapping = {
@@ -20,6 +24,13 @@ export class SocialBar extends RkComponent {
     comments: 26,
     shares: 5,
   };
+
+  // static navigationOptions = {
+  //   header: null,
+  // };
+  // static propTypes = {
+  //   navigation: NavigationType.isRequired,
+  // };
 
   constructor(props) {
     super(props);
@@ -39,6 +50,7 @@ export class SocialBar extends RkComponent {
 
   onCommentButtonPressed = () => {
     const defaultCount = SocialBar.data.comments;
+    // this.props.navigation.navigate('Comments');
     this.setState({
       comments: this.state.comments === defaultCount ? this.state.comments + 1 : defaultCount,
     });
@@ -76,8 +88,9 @@ export class SocialBar extends RkComponent {
         </View>
         <View style={section}>
           <RkButton rkType='clear' onPress={this.onShareButtonPressed}>
-            <RkText rkType='awesome hintColor' style={icon}>{FontAwesome.user}</RkText>
-            <RkText rkType='primary4 hintColor' style={label}>{shares}</RkText>
+            <Ionicons style={icon} name="ios-checkmark-circle-outline" />
+            {/* <RkText rkType='awesome hintColor' style={icon}>{FontAwesome.user}</RkText> */}
+            {/* <RkText rkType='primary4 hintColor' style={label}>{shares}</RkText> */}
           </RkButton>
         </View>
       </View>

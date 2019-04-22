@@ -1,6 +1,6 @@
 export const Conversations = [
   {
-    withUserId: 1,
+    withUserId: 4,
     messages: [
       {
         id: 0,
@@ -40,7 +40,7 @@ export const Conversations = [
       }],
   },
   {
-    withUserId: 5,
+    withUserId: 3,
     messages: [
       {
         id: 0,
@@ -64,19 +64,17 @@ export const Conversations = [
         id: 3,
         time: -45,
         type: 'out',
-        text: 'More testinbg',
-      },
+        text: 'More testing',
+      },],
+  },
+  {
+    withUserId: 2,
+    messages: [
       {
-        id: 4,
-        time: -25,
-        type: 'in',
-        text: 'One more.',
-      },
-      {
-        id: 5,
-        time: -5,
+        id: 0,
         type: 'out',
-        text: 'Sweet',
+        time: -300,
+        text: 'Hey what\'s up?',
       }],
   },
 ];

@@ -18,8 +18,82 @@ import { Ionicons, AntDesign } from '@expo/vector-icons';
 import { GradientButton } from '../../components/gradientButton';
 import { scaleModerate, scaleVertical } from '../../utils/scale';
 import NavigationType from '../../config/navigation/propTypes';
+import Async from '../../components/Async';
+import Profile from '../../components/Profile';
+// import Toast from 'react-native-smart-toast';
+
+import * as firebase from 'firebase';
 
 export class LoginV1 extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+        email: "",
+        pass: "",
+    };
+    this.async = new Async();
+}
+
+// showBottomToast = (toastMessage) => {
+//   this._toast.show({
+//       position: Toast.constants.gravity.bottom,
+//       children: toastMessage
+//   })
+// }
+
+componentDidMount() {
+    // this.props.getData(); //call our action
+};
+
+setUsername = (value) =>{
+    this.setState({
+        email: value,
+    });
+};
+setPassword = (value) =>{
+    this.setState({
+        pass: value,
+    });
+
+};
+
+validateLogin = (email, pass) =>{
+    let that = this;
+    // Firebase Login Authentication
+    firebase.auth().signInWithEmailAndPassword(email, pass).then(function(user){
+        let uid = user.user.uid;
+        //Retrieve profile saved on phone
+        that.async.getLogin(uid).then( (value) => {
+            //Parse and create the profile object
+            let obj = JSON.parse(value);
+            let profile = new Profile();
+            profile.copyObj(obj);
+
+            //Set the profile state in Redux to be used throughout application
+            that.props.setProfile(profile);
+            //Navigate to Main screen
+            that.props.navigation.navigate('Main');
+        
+        });
+    }).catch((error) => {
+        console.log(error.code);
+        if (error.code === 'auth/invalid-email')
+        {
+          // this.showBottomToast('Invalid Email');
+            // ToastAndroid.showWithGravityAndOffset( 'Invalid E-mail',ToastAndroid.SHORT,ToastAndroid.BOTTOM,25,50);
+        }
+            
+        
+        if(error.code === 'auth/wrong-password')
+        {
+          // this.showBottomToast('Incorrect Password');
+            // ToastAndroid.showWithGravityAndOffset( 'Incorrect Password',ToastAndroid.SHORT,ToastAndroid.BOTTOM,25,50);
+        }
+            
+    });
+}
+
   static propTypes = {
     navigation: NavigationType.isRequired,
   };

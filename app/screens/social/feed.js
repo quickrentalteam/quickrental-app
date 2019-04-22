@@ -3,30 +3,82 @@ import {
   FlatList,
   View,
   Image,
+  ScrollView,
 } from 'react-native';
 import {
   RkCard,
   RkText, RkStyleSheet,
+  RkButton,
+  RkSwitch,
+  RkTheme,
 } from 'react-native-ui-kitten';
 import { Avatar } from '../../components/avatar';
 import { SocialBar } from '../../components/socialBar';
 import { data } from '../../data';
 
+import { ImageIcon } from '../../components/ImageIcon';
+
+import { FontAwesome } from '@expo/vector-icons';
+
+// import { RkSwitch } from './switch/index';
+import PropTypes from 'prop-types';
+
+import { UtilStyles } from '../../assets/style/styles';
+
 const moment = require('moment');
 
 export class Feed extends React.Component {
+
+  // static propTypes = {
+  //   selected: PropTypes.bool,
+  //   tintColor: PropTypes.string,
+  // };
+  // static defaultProps = {
+  //   selected: true,
+  //   tintColor: RkTheme.current.colors.accent,
+  // };
+
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     selected: this.props.selected,
+  //   };
+  // }
+
   static navigationOptions = {
-    title: 'Feed'.toUpperCase(),
+    title: 'Apartment Listing'.toUpperCase(),
   };
 
   state = {
     data: data.getArticles('post'),
+    value: false,
   };
+
+  onBasicSwitchValueChange = (value) => {
+    this.setState({ value: value });
+  };
+
+  // onSwitchValueChanged = (value) => {
+  //   this.setState({ selected: value });
+  // };
 
   extractItemKey = (item) => `${item.id}`;
 
-  renderItem = ({ item }) => (
+  renderItem = ({ item, index }) => (
+
+    // <View>
+    //   <View style={[UtilStyles.columnContainer, UtilStyles.bordered]}>
+    //         <View style={styles.componentRow}>
+    //           <RkText>List View</RkText>
+    //           <RkSwitch
+    //             value={this.state.value}
+    //             onValueChange={this.onBasicSwitchValueChange}
+    //           />
+    //         </View>
+    //       </View>
+    
     <RkCard style={styles.card}>
+
       <View rkCardHeader>
         <Avatar
           rkType='small'
@@ -38,7 +90,22 @@ export class Feed extends React.Component {
           <RkText rkType='secondary2 hintColor'>{moment().add(item.time, 'seconds').fromNow()}</RkText>
         </View>
       </View>
-      <Image rkCardImg source={item.photo} />
+
+
+      <View>
+          <Image rkCardImg source={item.photo} /> 
+          <View rkCardImgOverlay={true} />
+      </View>
+
+
+        <RkButton rkType='circle accent-bg' style={styles.floating}>
+          <ImageIcon name='plus' />
+        </RkButton>
+
+      <View rkCardHeader style={styles.content}>
+          <RkText style={styles.section} rkType='header4'>{item.title}</RkText>
+      </View>
+
       <View rkCardContent>
         <RkText rkType='primary3'>{item.text}</RkText>
       </View>
@@ -46,15 +113,39 @@ export class Feed extends React.Component {
         <SocialBar />
       </View >
     </RkCard>
+
+    // </View>
+
+    
   );
 
   render = () => (
-    <FlatList
+
+    <ScrollView
+    automaticallyAdjustContentInsets={true}
+    style={UtilStyles.container}>
+
+      <View style={[UtilStyles.columnContainer, UtilStyles.bordered]}>
+            <View style={styles.componentRow}>
+              <RkText style={styles.text}>List View</RkText>
+              <RkSwitch
+                tintColor='orange'
+                value={this.state.value}
+                onValueChange={this.onBasicSwitchValueChange}
+              />
+            </View>
+          </View>
+
+          <FlatList
       data={this.state.data}
       renderItem={this.renderItem}
       keyExtractor={this.extractItemKey}
       style={styles.container}
     />
+
+  </ScrollView>
+    
+    
   );
 }
 
@@ -69,5 +160,22 @@ const styles = RkStyleSheet.create(theme => ({
   },
   avatar: {
     marginRight: 16,
+  },
+  floating: {
+    width: 56,
+    height: 56,
+    position: 'absolute',
+    zIndex: 200,
+    right: 16,
+    top: 236,
+  },
+  text: {
+    marginVertical: 8,
+  },
+  componentRow: {
+    paddingVertical: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 }));

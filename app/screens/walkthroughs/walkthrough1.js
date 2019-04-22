@@ -12,7 +12,7 @@ import {
 export class Walkthrough1 extends React.Component {
   getThemeImageSource = (theme) => (
     theme.name === 'light' ?
-      require('../../assets/images/kittenImage.png') : require('../../assets/images/kittenImageDark.png')
+      require('../../assets/images/backgroundLoginV1.png') : require('../../assets/images/backgroundLoginV1DarkTheme.png')
   );
 
   renderImage = () => (
