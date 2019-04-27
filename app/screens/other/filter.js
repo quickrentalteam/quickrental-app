@@ -25,6 +25,32 @@ import { FontIcons } from '../../assets/icons';
 import { FontAwesome } from '../../assets/icons';
 import { UtilStyles } from '../../assets/style/styles';
 
+import { Dropdown } from 'react-native-material-dropdown';
+
+let data = [{
+  value: '< 1500',
+}, {
+  value: '1500',
+},{
+  value: '1800',
+}, {
+  value: '2200',
+},{
+  value: '> 2200',
+},];
+
+let data1 = [{
+  value: '< 1500',
+}, {
+  value: '1500',
+},{
+  value: '1800',
+}, {
+  value: '2200',
+},{
+  value: '> 2200',
+},];
+
 
 export class Filter extends React.Component {
   static navigationOptions = {
@@ -100,6 +126,29 @@ export class Filter extends React.Component {
             thumbTintColor='#0c6692'
           />
         </SliderContainer> */}
+        
+        <View style={[UtilStyles.section, UtilStyles.bordered]}>
+
+        <RkText rkType='header'>Price Range</RkText>
+
+          <View style={{ flexDirection: 'row' }}>
+              <View style={{ flex: 1 }}>
+                <Dropdown
+                  label='1500'
+                  data={data}
+                />
+              </View>
+
+              {/* <RkText>to</RkText> */}
+
+              <View style={{ width: 156, marginLeft: 15 }}>
+                <Dropdown
+                  label='2200'
+                  data={data1}
+                />
+              </View>
+            </View>
+          </View>
 
 
         <View style={[UtilStyles.section, UtilStyles.bordered]}>
@@ -135,7 +184,10 @@ export class Filter extends React.Component {
             </View>
 
         </View>
+        </View>
 
+
+        <View style={[UtilStyles.section, UtilStyles.bordered]}>
           <RkText rkType='header'>Amenities</RkText>
           <View style={[UtilStyles.rowContainer]}>
             <View style={[UtilStyles.columnContainer, { flex: 1 }]}>
@@ -236,6 +288,7 @@ const styles = RkStyleSheet.create(theme => ({
   container: {
     flex: 1,
     backgroundColor: theme.colors.screen.base,
+    paddingTop: 10,
   },
   header: {
     paddingVertical: 25,
@@ -250,6 +303,7 @@ const styles = RkStyleSheet.create(theme => ({
   },
   section: {
     marginVertical: 25,
+    padding: 100,
   },
   heading: {
     paddingBottom: 12.5,
@@ -286,6 +340,7 @@ const styles = RkStyleSheet.create(theme => ({
   caption: {
     marginLeft: 16,
     fontSize: 15,
+    margin: 10,
   },
   button: {
     marginHorizontal: 16,

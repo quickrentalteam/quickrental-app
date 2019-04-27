@@ -83,10 +83,12 @@ export default class App extends React.Component {
   renderApp = () => (
     <View style={{ flex: 1 }}>
       <KittenApp onNavigationStateChange={this.onNavigationStateChange} />
+      
     </View>
   );
 
   render = () => (this.state.isLoaded ? this.renderApp() : this.renderLoading());
+  
 }
 
 Expo.registerRootComponent(App);

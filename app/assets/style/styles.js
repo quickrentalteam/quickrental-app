@@ -12,7 +12,7 @@ export const UtilStyles = StyleSheet.create({
     color: RkTheme.current.colors.text.base,
   },
   section: {
-    marginTop: 14,
+    marginTop: 54,
     paddingHorizontal: 24,
     paddingVertical: 15,
   },

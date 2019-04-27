@@ -4,15 +4,19 @@ import {
   Image,
   View,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import {
   RkText,
   RkCard,
   RkStyleSheet,
+  RkSwitch,
 } from 'react-native-ui-kitten';
 import { SocialBar } from '../../components';
 import { data } from '../../data';
 import NavigationType from '../../config/navigation/propTypes';
+
+import { UtilStyles } from '../../assets/style/styles';
 
 
 export class Articles4 extends React.Component {
@@ -20,11 +24,17 @@ export class Articles4 extends React.Component {
     navigation: NavigationType.isRequired,
   };
   static navigationOptions = {
-    title: 'Article List'.toUpperCase(),
+    title: 'Apartment Listing'.toUpperCase(),
   };
 
   state = {
     data: data.getArticles(),
+    value: false,
+  };
+
+  
+  onBasicSwitchValueChange = (value) => {
+    this.setState({ value: value });
   };
 
   extractItemKey = (item) => `${item.id}`;
@@ -51,14 +61,30 @@ export class Articles4 extends React.Component {
   );
 
   render = () => (
-    <View>
+    // <View>
+      <ScrollView
+    automaticallyAdjustContentInsets={true}
+    style={UtilStyles.container}>
+
+      <View style={[UtilStyles.columnContainer, UtilStyles.bordered]}>
+            <View style={styles.componentRow}>
+              <RkText style={styles.text}>Card View</RkText>
+              <RkSwitch
+                tintColor='orange'
+                value={this.state.value}
+                onValueChange={this.onBasicSwitchValueChange}
+              />
+            </View>
+          </View>
+
       <FlatList
         data={this.state.data}
         renderItem={this.renderItem}
         keyExtractor={this.extractItemKey}
         style={styles.container}
       />
-    </View>
+      </ScrollView>
+    // </View>
   );
 }
 
@@ -72,7 +98,16 @@ const styles = RkStyleSheet.create(theme => ({
   card: {
     marginVertical: 8,
   },
+  text: {
+    marginVertical: 8,
+  },
   post: {
     marginTop: 13,
+  },
+  componentRow: {
+    paddingVertical: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 }));

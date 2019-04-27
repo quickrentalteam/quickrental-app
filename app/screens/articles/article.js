@@ -18,6 +18,8 @@ import {
 } from '../../components';
 import NavigationType from '../../config/navigation/propTypes';
 
+import { Gallery } from '../../components/gallery';
+
 const moment = require('moment');
 
 export class Article extends React.Component {
@@ -25,14 +27,21 @@ export class Article extends React.Component {
     navigation: NavigationType.isRequired,
   };
   static navigationOptions = {
-    title: 'Article View'.toUpperCase(),
+    title: 'Apartment Details'.toUpperCase(),
   };
 
   constructor(props) {
     super(props);
     const articleId = this.props.navigation.getParam('id', 1);
     this.data = data.getArticle(articleId);
+
+    const id = this.props.navigation.getParam('id', 1);
+    this.state.data = data.getUser(id);
   }
+
+  state = {
+    data: undefined,
+  };
 
   onAvatarPressed = () => {
     this.props.navigation.navigate('ProfileV1', { id: this.data.user.id });
@@ -62,6 +71,8 @@ export class Article extends React.Component {
           <SocialBar />
         </View>
       </RkCard>
+
+      <Gallery items={this.state.data.images} />
     </ScrollView>
   )
 }
