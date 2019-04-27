@@ -1,53 +1,28 @@
-# Kitten Tricks
+# quick-rental-app
+QuickRental intends to embark on and will serve as an all-in-one mobile app solution for students of the University of the West Indies (UWI) who are seeking rental accommodation near to campus. This project endeavors to enhance the lives of students at the UWI by making it easier to decide on which housing would be best for them to rent.
 
-A perfect starter kit for your next cross-platform React Native app. **FREE** and open-source! Check out live demo on [App Store](https://itunes.apple.com/us/app/kitten-tricks/id1246143230) or [Google Play](https://play.google.com/store/apps/details?id=com.akveo.kittenTricks).
+## 🚀 Getting Started
 
-![Preview](http://i.imgur.com/w1CAPJF.jpg)
+#### 1. Clone and Install
 
-<a href="https://itunes.apple.com/us/app/kitten-tricks/id1246143230" alt="App Store"><img src="http://i.imgur.com/7IxtMV0.png" width="200"/></a> <a href="https://play.google.com/store/apps/details?id=com.akveo.kittenTricks" alt="Google play"><img src="http://i.imgur.com/pxFfB0S.png" width="200"/></a>
+```bash
+# Clone the repo
+git clone https://github.com/quickrentalteam/quickrental-app.git
 
+# Install dependencies
+npm install
+```
 
-## Key Features
-- More than 40 ready to use application screens. Currently includes:
-  - App loader
-  - Auth screens: Login/Signup/Password recovery
-  - Social screens: User profile/Profile settings/Notifications/Contacts/Feed
-  - Articles Lists & Article details
-  - Chat list/Chat details/Comments
-  - Dashboard
-  - Walkthrough
-  - Credit cards
-  - Different navigation types
-  - Settings
-- **In app theme hot reload support**!
-- Carefully crafted user experience and design
-- Clean and comprehensive codebase
+#### 2.1. Run the _React Native_ App
 
-## Made with help of
-- [react-native](https://github.com/facebook/react-native)
-- [react-native-ui-kitten](https://github.com/akveo/react-native-ui-kitten)
-- [realm](https://github.com/realm/realm-js)
-- [react-navigation](https://github.com/react-community/react-navigation)
-- [victory-native](https://github.com/FormidableLabs/victory-native) charts
-- [Google Analytics](https://github.com/idehub/react-native-google-analytics-bridge)
+```bash
+# Start the React Native packager
+expo start
+```
 
-## Documentation
-Installation, customization and component docs are here: https://akveo.github.io/react-native-ui-kitten/
+Instructions are shown in the terminal. You can select to open it in:
 
-## Can I hire you guys?
-Yes!  Visit [our homepage](http://akveo.com/) or simply leave us a message to [contact@akveo.com](mailto:contact@akveo.com). We will be happy to work with you!
+- An emulator (either iOS or Android)
+- Your mobile device with the [Expo app](https://expo.io/). Simply scan the QR code using your iOS or Android device. It will reload if you save edits to your files and you will see build errors and logs in the terminal.
 
-## License
-[MIT](LICENSE.txt) license.
-
-## How can I support developers?
-- Star our GitHub repo :star:
-- Create pull requests, submit bugs, suggest new features or documentation updates :wrench:
-- Follow us on [Twitter](https://twitter.com/akveo_inc) :feet:
-- Like our page on [Facebook](https://www.facebook.com/akveo/) :thumbsup:
-
-
-### From akveo
-
-Enjoy :metal:
-We're always happy to receive your feedback!
+---
