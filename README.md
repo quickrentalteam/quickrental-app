@@ -26,3 +26,9 @@ Instructions are shown in the terminal. You can select to open it in:
 - Your mobile device with the [Expo app](https://expo.io/). Simply scan the QR code using your iOS or Android device. It will reload if you save edits to your files and you will see build errors and logs in the terminal.
 
 ---
+
+## Made with help of
+- [react-native](https://github.com/facebook/react-native)
+- [react-native-ui-kitten](https://github.com/akveo/react-native-ui-kitten)
+- [react-navigation](https://github.com/react-community/react-navigation)
+
