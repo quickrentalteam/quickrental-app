@@ -6,6 +6,7 @@ import {
   Image,
   ScrollView,
   Button,
+  FlatList,
 } from 'react-native';
 import {
   RkText,
@@ -85,11 +86,16 @@ export class CRUDApartment extends React.Component {
     
       renderImage(item, i) {
         return(
-          <Image
-            style={{height: 100, width: 100}}
-            source={{uri: item.file}}
-            key={i}
-          />
+            <View style={styles.images}>
+                <Image
+                    style={{height: 100, width: 100}}
+                    source={{uri: item.file}}
+                    key={i}
+                />
+                <FlatList
+                    numColumns={4}
+                />
+            </View>
         )
       }
     //End Multiple Image Upload
@@ -236,6 +242,10 @@ const styles = RkStyleSheet.create(theme => ({
     borderRadius: 100,
     borderWidth: 0.5,
     borderColor: theme.colors.border.solid,
+  },
+  images: {
+    flexDirection: 'row',
+    paddingHorizontal: 0.5,
   },
 
   text: {
