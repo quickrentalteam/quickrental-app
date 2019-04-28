@@ -25,6 +25,9 @@ import { FontIcons } from '../../assets/icons';
 import { FontAwesome } from '../../assets/icons';
 import { UtilStyles } from '../../assets/style/styles';
 
+
+import {Features} from '../../components';
+
 import { Dropdown } from 'react-native-material-dropdown';
 
 let data = [{
@@ -186,56 +189,7 @@ export class Filter extends React.Component {
         </View>
         </View>
 
-
-        <View style={[UtilStyles.section, UtilStyles.bordered]}>
-          <RkText rkType='header'>Amenities</RkText>
-          <View style={[UtilStyles.rowContainer]}>
-            <View style={[UtilStyles.columnContainer, { flex: 1 }]}>
-              <View style={styles.componentRow}>
-                <RkChoice/>
-                <RkText rkType='bold' style={styles.caption}>Furnished</RkText>
-              </View>
-              <View style={styles.componentRow}>
-                <RkChoice/>
-                <RkText rkType='bold' style={styles.caption}>Studio</RkText>
-              </View>
-              <View style={styles.componentRow}>
-                <RkChoice/>
-                <RkText rkType='bold' style={styles.caption}>Air Conditoned</RkText>
-              </View>
-              <View style={styles.componentRow}>
-                <RkChoice/>
-                <RkText rkType='bold' style={styles.caption}>Utilities Included</RkText>
-              </View>
-              <View style={styles.componentRow}>
-                <RkChoice/>
-                <RkText rkType='bold' style={styles.caption}>Laundry</RkText>
-              </View>
-            </View>
-            <View style={[UtilStyles.columnContainer, { flex: 1 }]}>
-              <View style={styles.componentRow}>
-                <RkChoice/>
-                <RkText rkType='bold' style={styles.caption}>Unfurnished</RkText>
-              </View>
-              <View style={styles.componentRow}>
-                <RkChoice/>
-                <RkText rkType='bold' style={styles.caption}>Shared</RkText>
-              </View>
-              <View style={styles.componentRow}>
-                <RkChoice/>
-                <RkText rkType='bold' style={styles.caption}>Security</RkText>
-              </View>
-              <View style={styles.componentRow}>
-                <RkChoice/>
-                <RkText rkType='bold' style={styles.caption}>Parking Available</RkText>
-              </View>
-              <View style={styles.componentRow}>
-                <RkChoice/>
-                <RkText rkType='bold' style={styles.caption}>Pets Allowed</RkText>
-              </View>
-            </View>
-          </View>
-          </View>
+        <Features/>
 
           <View style={[UtilStyles.section, UtilStyles.bordered]}>
           <RkText rkType='header'>{`Gender Preference - ${this.state.onChangeHandleText}`}</RkText>

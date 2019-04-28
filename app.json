@@ -19,7 +19,8 @@
     },
     "android": {
       "package": "com.akveo.kittentricks",
-      "versionCode": 16
+      "versionCode": 16,
+      "permissions": ["READ_EXTERNAL_STORAGE"]
     },
     "version": "1.0.10"
   }

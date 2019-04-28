@@ -14,11 +14,12 @@ export class SocialSetting extends React.Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
     icon: PropTypes.node.isRequired,
+    functionName: PropTypes.node.isRequired,
     selected: PropTypes.bool,
     tintColor: PropTypes.string,
   };
   static defaultProps = {
-    selected: true,
+    selected: false,
     tintColor: RkTheme.current.colors.accent,
   };
 

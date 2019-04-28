@@ -10,6 +10,7 @@ import {
   RkCard,
   RkText,
   RkStyleSheet,
+  RkButton,
 } from 'react-native-ui-kitten';
 import { data } from '../../data';
 import {
@@ -17,8 +18,13 @@ import {
   SocialBar,
 } from '../../components';
 import NavigationType from '../../config/navigation/propTypes';
-
+import { GradientButton } from '../../components/';
+import { UtilStyles } from '../../assets/style/styles';
 import { Gallery } from '../../components/gallery';
+import { Constants, MapView } from 'expo';
+
+
+import { Ionicons, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 
 const moment = require('moment');
 
@@ -41,16 +47,42 @@ export class Article extends React.Component {
 
   state = {
     data: undefined,
+    mapRegion: {
+      latitude: 10.641890,
+      longitude: -61.400718,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+    },
   };
 
   onAvatarPressed = () => {
     this.props.navigation.navigate('ProfileV1', { id: this.data.user.id });
   };
 
+  _handleMapRegionChange = mapRegion => {
+    this.setState({ mapRegion });
+  };
+
+
   render = () => (
     <ScrollView style={styles.root}>
       <RkCard rkType='article'>
-        <Image rkCardImg source={this.data.photo} />
+      <View style={styles.container}>
+        <MapView
+          style={{ alignSelf: 'stretch', height: 300 }}
+          region={this.state.mapRegion}
+          onRegionChange={this._handleMapRegionChange}
+          onPress={() => this.props.navigation.navigate('Map')}
+        />
+      </View>
+        {/* <Image rkCardImg source={this.data.photo} /> */}
+        <View rkCardHeader>
+          <SocialBar rkType='space' showLabel />
+        </View>
+        {/* <View style={styles.bordered}>
+          <SocialBar rkType='space' showLabel />
+          {/* <SocialBar /> */}
+        {/* </View> */} 
         <View rkCardHeader>
           <View>
             <RkText style={styles.title} rkType='header4'>{this.data.header}</RkText>
@@ -64,15 +96,62 @@ export class Article extends React.Component {
         </View>
         <View rkCardContent>
           <View>
+            {/* This will contain all features of the apartment */}
             <RkText rkType='primary3 bigLine'>{this.data.text}</RkText>
           </View>
         </View>
         <View rkCardFooter>
-          <SocialBar />
+        <RkText style={styles.title} rkType='header4'>Images</RkText>
         </View>
       </RkCard>
 
       <Gallery items={this.state.data.images} />
+
+      <View style={{ alignItems: 'center' }}>
+      <View style={styles.bordered}>
+        <RkText style={styles.title} rkType='header4'>Interested?</RkText>
+        </View>
+
+        {/* <View> */}
+
+        <RkButton
+              rkType='rounded success'
+              style={[
+                { width: 100, justifyContent: 'flex-start', paddingLeft: 9 },
+                UtilStyles.spaceVertical,
+              ]}>
+
+              {/* <RkText rkType='moon large primary'> {<Ionicons name={"ios-heart-outline"} size={25}/>} </RkText> */}
+
+              <Ionicons style={[styles.icon, styles.iconRound]} name={"ios-heart-outline"}  />
+              <RkText rkType='caption'>{`Message ${this.data.user.firstName}`}</RkText>
+          </RkButton>
+
+
+        <GradientButton
+              style={styles.save}
+              rkType='large'
+              text={`Message ${this.data.user.firstName} ${this.data.user.lastName}`}
+              // onPress={this.onSignUpButtonPressed}
+        />
+
+        <GradientButton
+              style={styles.save}
+              rkType='large'
+              text={`Call ${this.data.user.firstName}`}
+              // onPress={this.onSignUpButtonPressed}
+        />
+
+        <GradientButton
+              style={styles.save}
+              rkType='large'
+              text={`Direct Message ${this.data.user.firstName}`}
+              // onPress={this.onSignUpButtonPressed}
+        />
+        {/* </View> */}
+      </View>
+
+
     </ScrollView>
   )
 }
@@ -83,5 +162,30 @@ const styles = RkStyleSheet.create(theme => ({
   },
   title: {
     marginBottom: 5,
+  },
+  save: {
+    marginVertical: 20,
+  },
+  bordered: {
+    marginTop: 14,
+    paddingHorizontal: 24,
+    paddingVertical: 15,
+
+    borderBottomWidth: 1,
+    borderTopWidth: 1,
+    borderColor: theme.colors.border.base,
+  },
+  icon: {
+    color: 'white',
+  },
+  iconRound: {
+    marginRight: 9,
+    fontSize: 29,
+  },
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: Constants.statusBarHeight,
   },
 }));

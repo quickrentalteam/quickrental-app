@@ -11,10 +11,14 @@ import {
   RkCard,
   RkStyleSheet,
   RkSwitch,
+  RkTheme,
 } from 'react-native-ui-kitten';
-import { SocialBar } from '../../components';
+
+import { SocialBar, SocialSetting } from '../../components';
 import { data } from '../../data';
 import NavigationType from '../../config/navigation/propTypes';
+
+import { FontAwesome } from '../../assets/icons';
 
 import { UtilStyles } from '../../assets/style/styles';
 
@@ -35,6 +39,7 @@ export class Articles4 extends React.Component {
   
   onBasicSwitchValueChange = (value) => {
     this.setState({ value: value });
+    this.props.navigation.navigate('CardView');
   };
 
   extractItemKey = (item) => `${item.id}`;
@@ -61,12 +66,15 @@ export class Articles4 extends React.Component {
   );
 
   render = () => (
-    // <View>
       <ScrollView
-    automaticallyAdjustContentInsets={true}
-    style={UtilStyles.container}>
+      automaticallyAdjustContentInsets={true}
+      style={UtilStyles.container}>
 
-      <View style={[UtilStyles.columnContainer, UtilStyles.bordered]}>
+      <View>
+          <SocialSetting name='Card View' icon={FontAwesome.google} tintColor={RkTheme.current.colors.google} functionName ={this.onBasicSwitchValueChange} onPress={() => this.props.navigation.navigate('CardView')}> </SocialSetting>/>
+      </View>
+
+      {/* <View style={[UtilStyles.columnContainer, UtilStyles.bordered]}>
             <View style={styles.componentRow}>
               <RkText style={styles.text}>Card View</RkText>
               <RkSwitch
@@ -75,7 +83,7 @@ export class Articles4 extends React.Component {
                 onValueChange={this.onBasicSwitchValueChange}
               />
             </View>
-          </View>
+          </View> */}
 
       <FlatList
         data={this.state.data}
@@ -84,7 +92,6 @@ export class Articles4 extends React.Component {
         style={styles.container}
       />
       </ScrollView>
-    // </View>
   );
 }
 

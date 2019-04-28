@@ -35,6 +35,7 @@ export class ProfileSettings extends React.Component {
     password: this.user.password,
     newPassword: this.user.newPassword,
     confirmPassword: this.user.confirmPassword,
+    // selected: false,
   };
 
   onFirstNameInputChanged = (text) => {
@@ -68,6 +69,10 @@ export class ProfileSettings extends React.Component {
   onConfirmPasswordInputChanged = (text) => {
     this.setState({ confirmPassword: text });
   };
+
+  // onSwitchValueChanged = (value) => {
+  //   this.setState({ selected: value });
+  // };
 
   render = () => (
     <ScrollView style={styles.root}>
@@ -157,13 +162,13 @@ export class ProfileSettings extends React.Component {
             <RkText rkType='primary header6'>CONNECT YOUR ACCOUNT</RkText>
           </View>
           <View style={styles.row}>
-            <SocialSetting name='Twitter' icon={FontAwesome.twitter} tintColor={RkTheme.current.colors.twitter} />
+            <SocialSetting name='Twitter' icon={FontAwesome.twitter} tintColor={RkTheme.current.colors.twitter}/>
           </View>
           <View style={styles.row}>
-            <SocialSetting name='Google' icon={FontAwesome.google} tintColor={RkTheme.current.colors.google} />
+            <SocialSetting name='Google' icon={FontAwesome.google} tintColor={RkTheme.current.colors.google}/>
           </View>
           <View style={styles.row}>
-            <SocialSetting name='Facebook' icon={FontAwesome.facebook} tintColor={RkTheme.current.colors.facebook} />
+            <SocialSetting name='Facebook' icon={FontAwesome.facebook} tintColor={RkTheme.current.colors.facebook}/>
           </View>
         </View>
         <GradientButton rkType='large' style={styles.button} text='SAVE' />

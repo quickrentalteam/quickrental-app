@@ -27,7 +27,7 @@ export class SideMenu extends React.Component {
 
   getThemeImageSource = (theme) => (
     theme.name === 'light' ?
-      require('../../assets/images/smallLogo.png') : require('../../assets/images/smallLogoDark.png')
+      require('../../assets/images/smallLogoQuickRental.png') : require('../../assets/images/smallLogoDark.png')
   );
 
   renderIcon = () => (
@@ -62,7 +62,7 @@ export class SideMenu extends React.Component {
         showsVerticalScrollIndicator={false}>
         <View style={[styles.container, styles.content]}>
           {this.renderIcon()}
-          <RkText rkType='logo'>UI Kitten</RkText>
+          <RkText rkType='logo'>QuickRental</RkText>
         </View>
         {this.renderMenu()}
       </ScrollView>

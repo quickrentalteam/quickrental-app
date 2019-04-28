@@ -12,3 +12,8 @@ export * from './navBar';
 export * from './paginationIndicator';
 export * from './passwordTextInput';
 export * from './cardInput';
+export * from './features';
+
+export * from './ImageBrowser';
+export * from './ImageTile';
+
