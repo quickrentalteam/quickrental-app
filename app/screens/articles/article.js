@@ -48,8 +48,8 @@ export class Article extends React.Component {
   state = {
     data: undefined,
     mapRegion: {
-      latitude: 10.641890,
-      longitude: -61.400718,
+      latitude: 10.240582320848704, //change to values obtained from firebase
+      longitude: -61.47291180683437, //change to values obtained from firebase
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421,
     },
@@ -66,15 +66,18 @@ export class Article extends React.Component {
 
   render = () => (
     <ScrollView style={styles.root}>
-      <RkCard rkType='article'>
       <View style={styles.container}>
         <MapView
           style={{ alignSelf: 'stretch', height: 300 }}
           region={this.state.mapRegion}
           onRegionChange={this._handleMapRegionChange}
-          onPress={() => this.props.navigation.navigate('Map')}
+          provider={MapView.PROVIDER_GOOGLE}
+          showsUserLocation={true}
+          showsMyLocationButton={true}
+          onPress={() => this.props.navigation.navigate('MapScreen')}
         />
       </View>
+      <RkCard rkType='article'>
         {/* <Image rkCardImg source={this.data.photo} /> */}
         <View rkCardHeader>
           <SocialBar rkType='space' showLabel />
