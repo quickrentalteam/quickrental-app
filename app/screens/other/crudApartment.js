@@ -7,12 +7,14 @@ import {
   ScrollView,
   Button,
   FlatList,
+  Dimensions,
 } from 'react-native';
 import {
   RkText,
   RkTextInput,
   RkStyleSheet,
   RkAvoidKeyboard,
+  RkButton,
 } from 'react-native-ui-kitten';
 import { GradientButton } from '../../components/';
 import { PasswordTextInput } from '../../components/passwordTextInput';
@@ -24,9 +26,14 @@ import { CardInput } from '../../components/cardInput';
 import { scale } from '../../utils/scale';
 import NavigationType from '../../config/navigation/propTypes';
 
-import { ImagePicker, Permissions } from 'expo';
+import { ImagePicker, MapView, Location, Permissions } from 'expo';
 import ImageBrowser from '../../components/ImageBrowser';
 import {Features} from '../../components';
+
+import Grid from 'react-native-grid-component';
+
+
+const { width } = Dimensions.get('window')
 
 export class CRUDApartment extends React.Component {
 
@@ -46,6 +53,8 @@ export class CRUDApartment extends React.Component {
   }
 
   state = {
+    locationResult: null,
+    location: {coords: { latitude: 37.78825, longitude: -122.4324}},
     image: null,
     nameOnCard: '',
     price: '',
@@ -53,52 +62,69 @@ export class CRUDApartment extends React.Component {
     expireYear: 2017,
     expireMonth: 8,
     pickerVisible: false,
+    // imageBrowserOpen: false,
+    // photos: []
   };
 
-    //Allows Select Image Upload
-    selectPicture = async () => {
-        await Permissions.askAsync(Permissions.CAMERA_ROLL);
-        const { cancelled, uri } = await ImagePicker.launchImageLibraryAsync({
-            aspect: 1,
-            allowsEditing: true,
-        });
-        if (!cancelled) this.setState({ image: uri });
-    };
+  componentDidMount() {
+    this._getLocationAsync();
+  }
 
-    takePicture = async () => {
-        await Permissions.askAsync(Permissions.CAMERA);
-        const { cancelled, uri } = await ImagePicker.launchCameraAsync({
-            allowsEditing: false,
-        });
-        this.setState({ image: uri });
-    };
+  _getLocationAsync = async () => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      this.setState({
+        locationResult: 'Permission to access location was denied',
+        location,
+      });
+    }
+    let location = await Location.getCurrentPositionAsync({});
+    this.setState({ locationResult: JSON.stringify(location), location});
+  };
 
-    //Allows Multiple Image Upload
-    imageBrowserCallback = (callback) => {
-        callback.then((photos) => {
-          console.log(photos)
-          this.setState({
-            imageBrowserOpen: false,
-            photos
-          })
-        }).catch((e) => console.log(e))
-      }
-    
-      renderImage(item, i) {
-        return(
-            <View style={styles.images}>
-                <Image
-                    style={{height: 100, width: 100}}
-                    source={{uri: item.file}}
-                    key={i}
-                />
-                <FlatList
-                    numColumns={4}
-                />
-            </View>
-        )
-      }
-    //End Multiple Image Upload
+  //Allows Select Image Upload
+  selectPicture = async () => {
+      await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      const { cancelled, uri } = await ImagePicker.launchImageLibraryAsync({
+          aspect: 1,
+          allowsEditing: true,
+      });
+      if (!cancelled) this.setState({ image: uri });
+  };
+
+  takePicture = async () => {
+      await Permissions.askAsync(Permissions.CAMERA);
+      const { cancelled, uri } = await ImagePicker.launchCameraAsync({
+          allowsEditing: false,
+      });
+      this.setState({ image: uri });
+  };
+
+  //Allows Multiple Image Upload
+  imageBrowserCallback = (callback) => {
+      callback.then((photos) => {
+        console.log(photos)
+        this.setState({
+          imageBrowserOpen: false,
+          photos
+        })
+      }).catch((e) => console.log(e))
+    }
+  
+  renderImage(item, i) {
+    return(
+        <View style={styles.item}>
+            <Image
+                style={{height: 160, width: (Dimensions.get('window').width - 50) / 3}}
+                source={{uri: item.file}}
+                key={i}
+            />
+        </View>
+    )
+  }
+
+  renderPlaceholder = i => <View style={styles.item} key={i} />;
+  //End Multiple Image Upload
 
   onDatePickerConfirm = (date) => {
     this.setState({
@@ -118,7 +144,7 @@ export class CRUDApartment extends React.Component {
 
   render() {
     if (this.state.imageBrowserOpen) {
-        return(<ImageBrowser max={4} callback={this.imageBrowserCallback}/>);
+        return(<ImageBrowser max={20} callback={this.imageBrowserCallback}/>);
       }
 
     return (
@@ -162,6 +188,16 @@ export class CRUDApartment extends React.Component {
               value={this.state.price}
             />
           </View>
+
+          <View style={[styles.content]}>
+            <View style={[styles.textRow]}>
+              <RkText rkType='subtitle'>Location</RkText>
+            </View>
+
+            <RkButton rkType='success' onPress={() => this.props.navigation.navigate('MapScreen')}>Enter Location</RkButton>
+            
+          </View>
+
           
           <Features/>
           {/* <Features></Features> */}
@@ -176,9 +212,20 @@ export class CRUDApartment extends React.Component {
                 onPress={() => this.setState({imageBrowserOpen: true})}
                 />
                 <RkText>Upload all Apartment Photos</RkText>
+
                 <ScrollView>
-                {this.state.photos.map((item,i) => this.renderImage(item,i))}
+                <Grid
+                  style={styles.list}
+                  renderItem={this.renderImage}
+                  renderPlaceholder={this.renderPlaceholder}
+                  data={this.state.photos}
+                  itemsPerRow={3}
+                />
                 </ScrollView>
+
+                {/* <ScrollView style={styles.images}>
+                {this.state.photos.map((item,i) => this.renderImage(item,i))}
+                </ScrollView> */}
             </View>
             
           </View>
@@ -267,5 +314,13 @@ const styles = RkStyleSheet.create(theme => ({
   containerImages: {
     flex: 1,
     marginTop: 30,
+  },
+  list: {
+    flex: 1
+  },
+  item: {
+    flex: 1,
+    height: 160,
+    margin: 1,
   },
 }));

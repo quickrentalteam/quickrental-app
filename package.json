@@ -25,6 +25,7 @@
     "react-native-elements": "^1.1.0",
     "react-native-firebase": "^5.3.1",
     "react-native-google-place-picker": "^1.2.1",
+    "react-native-grid-component": "^1.1.0",
     "react-native-keyboard-spacer": "0.4.1",
     "react-native-linear-gradient": "2.4.0",
     "react-native-looped-carousel": "^0.1.13",

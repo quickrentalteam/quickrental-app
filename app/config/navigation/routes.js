@@ -271,6 +271,12 @@ export const MainRoutes = [
         screen: Screens.CRUDApartment,
         children: [],
       },
+      {
+        id: 'MapScreen',
+        title: 'Map',
+        screen: Screens.MapScreen,
+        children: [],
+      },
     ],
   },
   {
