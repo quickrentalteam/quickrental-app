@@ -1,8 +1,7 @@
 {
   "expo": {
-    "name": "Kitten Tricks",
-    "slug": "kitten-tricks",
-    "githubUrl": "https://github.com/akveo/kittenTricks",
+    "name": "QuickRental",
+    "slug": "quick-rental",
     "sdkVersion": "28.0.0",
     "icon": "./icon.png",
     "orientation": "portrait",
@@ -13,15 +12,13 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "bundleIdentifier": "com.akveo.kittentricks",
       "buildNumber": "1.0.10",
       "supportsTablet": true
     },
     "android": {
-      "package": "com.akveo.kittentricks",
       "versionCode": 16,
       "permissions": ["READ_EXTERNAL_STORAGE"]
     },
-    "version": "1.0.10"
+    "version": "1.0.0"
   }
 }
