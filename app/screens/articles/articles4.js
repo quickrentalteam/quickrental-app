@@ -12,6 +12,7 @@ import {
   RkStyleSheet,
   RkSwitch,
   RkTheme,
+  RkButton,
 } from 'react-native-ui-kitten';
 
 import { SocialBar, SocialSetting } from '../../components';
@@ -21,7 +22,16 @@ import NavigationType from '../../config/navigation/propTypes';
 import { FontAwesome } from '../../assets/icons';
 
 import { UtilStyles } from '../../assets/style/styles';
+import HeaderButtons, { HeaderButton, Item } from 'react-navigation-header-buttons';
 
+import { Ionicons, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
+
+// const IoniconsHeaderButton = passMeFurther => (
+//   // the `passMeFurther` variable here contains props from <Item .../> as well as <HeaderButtons ... />
+//   // and it is important to pass those props to `HeaderButton`
+//   // then you may add some information like icon size or color (if you use icons)
+//   <HeaderButton {...passMeFurther} {<MaterialCommunityIcons name={"lock-reset"} size={25}/>}  IconComponent={Ionicons} iconSize={23} color="blue" />
+// );
 
 export class Articles4 extends React.Component {
   static propTypes = {
@@ -29,6 +39,25 @@ export class Articles4 extends React.Component {
   };
   static navigationOptions = {
     title: 'Apartment Listing'.toUpperCase(),
+
+    headerRight: (
+      <HeaderButtons>
+        <Item title="search" onPress={() => alert('search')} />
+        <Item title="select" onPress={() => alert('select')} />
+      </HeaderButtons>
+    ),
+
+    // headerRight: (
+    //   <RkButton
+    //     onPress={() => alert('This is a button!')}
+    //     title="Info"
+    //     color="#fff"
+    //   />,
+    //   <RkText onPress={() => alert('This is a button!')}> {<MaterialCommunityIcons name={"lock-reset"} size={25}/>} </RkText>
+    // ),
+
+    // headerRight: <RkText> {<MaterialCommunityIcons name={"lock-reset"} size={25}/>} </RkText>,
+    // headerLeft: <RkText>hmm</RkText>,
   };
 
   state = {
@@ -39,6 +68,11 @@ export class Articles4 extends React.Component {
   
   onBasicSwitchValueChange = (value) => {
     this.setState({ value: value });
+    this.props.navigation.navigate('CardView');
+  };
+
+  //Navigate To Maps
+  onEventButtonPress = () => {
     this.props.navigation.navigate('CardView');
   };
 
@@ -71,7 +105,7 @@ export class Articles4 extends React.Component {
       style={UtilStyles.container}>
 
       <View>
-          <SocialSetting name='Card View' icon={FontAwesome.google} tintColor={RkTheme.current.colors.google} functionName ={this.onBasicSwitchValueChange} onPress={() => this.props.navigation.navigate('CardView')}> </SocialSetting>/>
+          <SocialSetting name='Card View' icon={FontAwesome.google} tintColor={RkTheme.current.colors.google}  onPress={this.onEventButtonPress}/> 
       </View>
 
       {/* <View style={[UtilStyles.columnContainer, UtilStyles.bordered]}>

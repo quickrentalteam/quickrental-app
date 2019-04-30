@@ -36,6 +36,13 @@ export class LoginV1 extends React.Component {
     this.async = new Async();
 }
 
+static propTypes = {
+  navigation: NavigationType.isRequired,
+};
+static navigationOptions = {
+  header: null,
+};
+
 // showBottomToast = (toastMessage) => {
 //   this._toast.show({
 //       position: Toast.constants.gravity.bottom,
@@ -46,6 +53,8 @@ export class LoginV1 extends React.Component {
 componentDidMount() {
     // this.props.getData(); //call our action
 };
+
+
 
 setUsername = (value) =>{
     this.setState({
@@ -95,13 +104,6 @@ validateLogin = (email, pass) =>{
             
     });
 }
-
-  static propTypes = {
-    navigation: NavigationType.isRequired,
-  };
-  static navigationOptions = {
-    header: null,
-  };
 
   getThemeImageSource = (theme) => (
     theme.name === 'light' ?

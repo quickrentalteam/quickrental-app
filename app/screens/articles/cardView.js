@@ -20,10 +20,11 @@ import { data } from '../../data';
 
 import { ImageIcon } from '../../components/ImageIcon';
 import Toast, {DURATION} from 'react-native-easy-toast'
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome } from '../../assets/icons';
 
 // import { RkSwitch } from './switch/index';
 import PropTypes from 'prop-types';
+import NavigationType from '../../config/navigation/propTypes';
 
 import { UtilStyles } from '../../assets/style/styles';
 
@@ -48,13 +49,17 @@ export class CardView extends React.Component {
   //   };
   // }
 
+  static propTypes = {
+    navigation: NavigationType.isRequired,
+  };
+
   static navigationOptions = {
     title: 'Apartment Listing'.toUpperCase(),
   };
 
   state = {
     data: data.getArticles('post'),
-    value: false,
+    // value: false,
     tintColor: RkTheme.current.colors.accent,
   };
 
@@ -66,10 +71,10 @@ export class CardView extends React.Component {
     this.refs.toast.show('hmmmm :D!');
   };
 
-  onBasicSwitchValueChange = (value) => {
-    this.setState({ value: value });
-    this.props.navigation.navigate('Articles4');
-  };
+  // onBasicSwitchValueChange = (val) => {
+  //   this.setState({ value: val });
+  //   this.props.navigation.navigate('Articles4');
+  // };
 
   // onSwitchValueChanged = (value) => {
   //   this.setState({ selected: value });
@@ -146,9 +151,10 @@ export class CardView extends React.Component {
       // style={UtilStyles.container}
       >
 
+
           <View style={styles.row}>
-            <SocialSetting name='List View' icon={FontAwesome.google} tintColor={RkTheme.current.colors.google} onPress={() => this.props.navigation.navigate('Articles4')}></SocialSetting>/>
-        </View>
+            <SocialSetting name='List View' icon={FontAwesome.google} tintColor={RkTheme.current.colors.google} onPress={() => this.props.navigation.navigate('Articles4')}/>
+        </View>  
         {/* <View style={[UtilStyles.columnContainer, UtilStyles.bordered]}>
               <View style={styles.componentRow}>
                 <RkText style={styles.text}>List View</RkText>

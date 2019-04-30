@@ -8,7 +8,7 @@ import {
   createDrawerNavigator,
   createStackNavigator,
 } from 'react-navigation';
-import { withRkTheme } from 'react-native-ui-kitten';
+import { withRkTheme, RkButton, RkText } from 'react-native-ui-kitten';
 import { AppRoutes } from './config/navigation/routesBuilder';
 import * as Screens from './screens';
 import { bootstrap } from './config/bootstrap';
@@ -36,6 +36,15 @@ const KittenApp = createStackNavigator({
     ),
   },
 }, {
+  // navigationOptions: {
+  //   headerRight: <RkButton> {<MaterialCommunityIcons name={"lock-reset"} size={25}/>} </RkButton>,
+  //   headerLeft: <RkText>hmm</RkText>,
+  //   headerTitleStyle: {
+  //     fontWeight: "bold",
+  //     color: "#fff",
+  //   },
+  // },
+
   headerMode: 'none',
 });
 
