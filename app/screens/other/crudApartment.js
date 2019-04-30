@@ -112,6 +112,10 @@ export class CRUDApartment extends React.Component {
     this.props.navigation.navigate('MapScreen');
   };
 
+  onNavigateButtonPress = () => {
+    this.props.navigation.navigate('CardView');
+  }
+
   //Alert for saving apartment and navigation to the home page 
   onSaveButtonPress = () => {
 
@@ -119,7 +123,7 @@ export class CRUDApartment extends React.Component {
       'Alert Title',
       'Apartment has been Saved!',
       [
-        {text: 'OK', onPress: () => this.onNavigateButtonPress},
+        {text: 'OK', onPress: this.onNavigateButtonPress},
       ],
       {cancelable: false},
     );
@@ -127,11 +131,6 @@ export class CRUDApartment extends React.Component {
     // setTimeout(function(){
   //  }, 2500);
   };
-
-  onNavigateButtonPress = () => {
-    this.alert(' OnDelete')
-    this.props.navigation.navigate('CardView');
-  }
 
 
   onDatePickerConfirm = (date) => {
