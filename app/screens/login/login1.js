@@ -154,6 +154,7 @@ validateLogin = (email, pass) =>{
         <GradientButton
           style={styles.save}
           rkType='large'
+          icon=''
           onPress={this.onLoginButtonPressed}
           text='LOGIN'
         />

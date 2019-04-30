@@ -308,6 +308,7 @@ export class SignUp extends React.Component {
           <GradientButton
             style={styles.save}
             rkType='large'
+            icon=''
             text='SIGN UP'
             onPress={this.onSignUpButtonPressed}
           />

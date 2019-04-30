@@ -14,6 +14,7 @@ export * from './passwordTextInput';
 export * from './cardInput';
 export * from './features';
 
+export * from './progressiveImage';
 export * from './ImageBrowser';
 export * from './ImageTile';
 

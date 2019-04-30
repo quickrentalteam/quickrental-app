@@ -8,6 +8,7 @@ import {
   Button,
   FlatList,
   Dimensions,
+  Alert,
 } from 'react-native';
 import {
   RkText,
@@ -25,11 +26,13 @@ import {
 import { CardInput } from '../../components/cardInput';
 import { scale } from '../../utils/scale';
 import NavigationType from '../../config/navigation/propTypes';
+import { UtilStyles } from '../../assets/style/styles';
 
-import { ImagePicker, MapView, Location, Permissions } from 'expo';
+import { ImagePicker, Permissions } from 'expo';
 import ImageBrowser from '../../components/ImageBrowser';
 import {Features} from '../../components';
 
+import ProgressiveImage from '../../components/progressiveImage';
 import Grid from 'react-native-grid-component';
 
 
@@ -53,8 +56,6 @@ export class CRUDApartment extends React.Component {
   }
 
   state = {
-    locationResult: null,
-    location: {coords: { latitude: 37.78825, longitude: -122.4324}},
     image: null,
     nameOnCard: '',
     price: '',
@@ -62,24 +63,6 @@ export class CRUDApartment extends React.Component {
     expireYear: 2017,
     expireMonth: 8,
     pickerVisible: false,
-    // imageBrowserOpen: false,
-    // photos: []
-  };
-
-  componentDidMount() {
-    this._getLocationAsync();
-  }
-
-  _getLocationAsync = async () => {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== 'granted') {
-      this.setState({
-        locationResult: 'Permission to access location was denied',
-        location,
-      });
-    }
-    let location = await Location.getCurrentPositionAsync({});
-    this.setState({ locationResult: JSON.stringify(location), location});
   };
 
   //Allows Select Image Upload
@@ -126,6 +109,16 @@ export class CRUDApartment extends React.Component {
   renderPlaceholder = i => <View style={styles.item} key={i} />;
   //End Multiple Image Upload
 
+  //Alert For Location
+  onEventButtonPress = () => {
+    this.props.navigation.navigate('MapScreen');
+  };
+
+  onSaveButtonPress = () => {
+    Alert.alert('Apartment has been Saved!');
+  };
+
+
   onDatePickerConfirm = (date) => {
     this.setState({
       expireMonth: date.month.key,
@@ -142,10 +135,37 @@ export class CRUDApartment extends React.Component {
     this.props.navigation.goBack();
   };
 
+  onChangedNumber (text) {
+    this.setState({
+        mobile: text.replace(/[^0-9]/g, ''),
+    });
+  }
+
+  onPhoneTextChange(text) {
+    var cleaned = ('' + text).replace(/\D/g, '')
+    var match = cleaned.match(/^(1|)?(\d{3})(\d{3})(\d{4})$/)
+    if (match) {
+        var intlCode = (match[1] ? '+1 ' : ''),
+            number = [intlCode, '(', match[2], ') ', match[3], '-', match[4]].join('');
+
+        this.setState({
+            phoneNum: number
+        });
+
+        return;
+    }
+
+    this.setState({
+        phoneNum: text
+    });
+  }
+
+
   render() {
     if (this.state.imageBrowserOpen) {
         return(<ImageBrowser max={20} callback={this.imageBrowserCallback}/>);
       }
+      
 
     return (
     <ScrollView>
@@ -154,9 +174,97 @@ export class CRUDApartment extends React.Component {
       onStartShouldSetResponder={() => true}
       onResponderRelease={() => Keyboard.dismiss()}>
       <View style={[styles.formContent]}>
-        <View>
 
-          <View style={[styles.content]}>
+        <View style={[UtilStyles.columnContainer]}>
+            <RkTextInput label='Apartment name' rkType='form' />
+
+            {/* <View style={[styles.textRow]}> */}
+            <View style={styles.row}>
+              <RkText style={styles.txt} rkType='subtitle'>Apartment Image</RkText>
+            {/* </View> */}
+              <Image style={styles.image} source={{ uri: this.state.image }} defaultSource={require('../../assets/images/placeholder.png')} />
+            </View>
+
+            <View style={styles.row}>
+              <RkButton rkType='outline rounded' style={UtilStyles.spaceTop} onPress={this.selectPicture}>Gallery</RkButton>
+              <RkButton rkType='outline rounded' style={[UtilStyles.spaceTop, styles.align]} onPress={this.takePicture}>Camera</RkButton>
+            </View>
+
+            <RkTextInput 
+              label='Price' 
+              rkType='form'
+              keyboardType='numeric'
+              onChangeText={(text)=> this.onChangedNumber(text)}
+              value={this.state.mobile}
+              maxLength={10}  //setting limit of input 
+            />
+
+            <View style={styles.row}>
+              <RkText rkType='subtitle'>Location</RkText>
+            {/* </View> */}
+
+              <RkButton rkType='outline rounded' style={{alignSelf: 'stretch', width: 160 }} onPress={this.onEventButtonPress}>Enter Location</RkButton>
+            </View>
+
+            {/* onPress={() => this.props.navigation.navigate('MapScreen')} */}
+            {/* <RkButton
+              rkType='warning'
+              onPress={this.onEventButtonPress}
+              onLongPress={this.onEventButtonLongPress}>Push me!
+            </RkButton> */}
+
+            <RkTextInput 
+              label='Contact' 
+              rkType='form'
+              onChangeText={(text) => this.onPhoneTextChange(text) }
+              value={this.state.phoneNum}
+              textContentType='telephoneNumber' 
+              dataDetectorTypes='phoneNumber' 
+              keyboardType='phone-pad' 
+              maxLength={14}
+            />
+
+            <Features/>
+
+            <View style={[styles.content]}>
+
+              <View style={[styles.textRow]}>
+                <RkText rkType='subtitle'>Upload Apartment Photos</RkText>
+              </View>
+              <View style={styles.containerImages}>
+                  <RkButton rkType='outline rounded' style={{alignSelf: 'stretch', width: 160 }} onPress={() => this.setState({imageBrowserOpen: true})}>
+                  Upload Photos</RkButton>
+                  <RkText>Your Apartment Photos</RkText>
+
+                  <ScrollView>
+                  <Grid
+                    style={styles.list}
+                    renderItem={this.renderImage}
+                    renderPlaceholder={this.renderPlaceholder}
+                    data={this.state.photos}
+                    itemsPerRow={3}
+                  />
+                  </ScrollView>
+              </View>
+            
+            </View>
+
+            <View>
+              <GradientButton
+                rkType='large'
+                icon= ''
+                text='SAVE APARTMENT'
+                onPress={this.onSaveButtonPress}
+              />
+            </View>
+
+            <RkTextInput rkType="form" secureTextEntry={true} label='Password' />
+          </View>
+
+
+
+
+          {/* <View style={[styles.content]}>
             <View style={[styles.textRow]}>
               <RkText rkType='subtitle'>Name Of Apartment</RkText>
             </View>
@@ -200,7 +308,6 @@ export class CRUDApartment extends React.Component {
 
           
           <Features/>
-          {/* <Features></Features> */}
 
           <View style={[styles.content]}>
             <View style={[styles.textRow]}>
@@ -221,12 +328,12 @@ export class CRUDApartment extends React.Component {
                   data={this.state.photos}
                   itemsPerRow={3}
                 />
-                </ScrollView>
+                </ScrollView> */}
 
                 {/* <ScrollView style={styles.images}>
                 {this.state.photos.map((item,i) => this.renderImage(item,i))}
                 </ScrollView> */}
-            </View>
+            {/* </View>
             
           </View>
         </View>
@@ -234,10 +341,11 @@ export class CRUDApartment extends React.Component {
         <View>
           <GradientButton
             rkType='large'
+            icon= ''
             text='SAVE APARTMENT'
-            onPress={this.onAddButtonPressed}
+            onPress={this.onSaveButtonPress}
           />
-        </View>
+        </View> */}
       </View>
     </RkAvoidKeyboard>
     </ScrollView>
@@ -245,11 +353,11 @@ export class CRUDApartment extends React.Component {
     }
 }
 
-const ButtonTest = ({ onPress, children }) => (
-    <TouchableOpacity style={styles.button} onPress={onPress}>
-      <RkText style={styles.text}>{children}</RkText>
-    </TouchableOpacity>
-  );
+// const ButtonTest = ({ onPress, children }) => (
+//     <TouchableOpacity style={styles.button} onPress={onPress}>
+//       <RkText style={styles.text}>{children}</RkText>
+//     </TouchableOpacity>
+//   );
   
 
 const styles = RkStyleSheet.create(theme => ({
@@ -298,8 +406,12 @@ const styles = RkStyleSheet.create(theme => ({
   text: {
     fontSize: 21,
   },
-  row: { flexDirection: 'row' },
-  image: { width: 100, height: 100, backgroundColor: 'gray' },
+  row: { flex: 1, flexDirection: 'row', justifyContent: 'space-between'},
+  row1: { flex: 1, flexDirection: 'row',},
+  txt: {
+    paddingHorizontal: 7
+  },
+  image: { width: 100, height: 100 },
   button: {
     padding: 13,
     margin: 15,
@@ -322,5 +434,8 @@ const styles = RkStyleSheet.create(theme => ({
     flex: 1,
     height: 160,
     margin: 1,
+  },
+  align: {
+    alignSelf: 'stretch'
   },
 }));

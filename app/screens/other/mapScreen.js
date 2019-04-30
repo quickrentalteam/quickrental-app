@@ -1,4 +1,5 @@
 import React from 'react';
+import { Alert } from 'react-native';
 import { MapView, Location, Permissions } from 'expo';
 
 export class MapScreen extends React.Component {
@@ -11,8 +12,13 @@ export class MapScreen extends React.Component {
     location: {coords: { latitude: 37.78825, longitude: -122.4324}},
   };
   
+  
   componentDidMount() {
+
     this._getLocationAsync();
+    // setTimeout(function(){
+    //    Alert.alert('Your Location Has Been Entered. Press Back.');
+    // }, 2000);
   }
   
   _getLocationAsync = async () => {
@@ -26,6 +32,10 @@ export class MapScreen extends React.Component {
     
     let location = await Location.getCurrentPositionAsync({});
     this.setState({ locationResult: JSON.stringify(location), location});
+
+    setTimeout(function(){
+      Alert.alert('Your Location Has Been Entered. Press Back.');
+   }, 2000);
     console.log("wee" + this.state.location.coords.latitude + " " + this.state.location.coords.longitude);
   };
   
