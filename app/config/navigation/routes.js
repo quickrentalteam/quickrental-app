@@ -83,6 +83,12 @@ export const MainRoutes = [
         screen: Screens.Feed,
         children: [],
       },
+      {
+        id: 'Bookmarks',
+        title: 'Bookmarks',
+        screen: Screens.Bookmarks,
+        children: [],
+      },
     ],
   },
   {

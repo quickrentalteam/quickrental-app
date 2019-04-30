@@ -120,8 +120,8 @@ export class CRUDApartment extends React.Component {
   onSaveButtonPress = () => {
 
     Alert.alert(
-      'Alert Title',
-      'Apartment has been Saved!',
+      'Apartment Saved!',
+      'You will redirected to the Home Screen.',
       [
         {text: 'OK', onPress: this.onNavigateButtonPress},
       ],
@@ -180,9 +180,8 @@ export class CRUDApartment extends React.Component {
       }
       
     return (
-    <ScrollView>
+    <ScrollView style={styles.screen}>
     <RkAvoidKeyboard
-      style={styles.screen}
       onStartShouldSetResponder={() => true}
       onResponderRelease={() => Keyboard.dismiss()}>
       <View style={[styles.formContent]}>

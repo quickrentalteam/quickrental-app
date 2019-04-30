@@ -9,6 +9,7 @@ import {
   LayoutAnimation,
   TouchableOpacity,
   ScrollView,
+  Alert
 } from 'react-native';
 import {
   RkButton,
@@ -35,6 +36,7 @@ import Async from '../../components/Async';
 import Profile from '../../components/Profile';
 
 import * as firebase from 'firebase';
+import { db } from '../../../db/database';
 
 // Enable LayoutAnimation on Android
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -47,6 +49,12 @@ const USER_STUDENT = require('../../assets/images/user-student.png');
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
+
+let addUserToDB = item => {
+  db.ref('/users').push({
+    item
+  });
+};
 
 
 export class SignUp extends React.Component {
@@ -118,7 +126,13 @@ export class SignUp extends React.Component {
   createLogin = () => {
     if(this.checkNonEmpty()){
         if(this.state.pass === this.state.re_pass){
-                //Save user to firebase
+                //Save user to firebase auth and realtime db
+                addItem({
+                  name: this.state.name,
+                  email: this.state.email,
+                  type: this.state.type
+                });
+
                 firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.pass).then( (user) => {
                     // let p = new Profile(this.state.name, this.state.email, this.state.pass, this.state.type);
                     // this.async.storeLogin(p, user.user.uid);

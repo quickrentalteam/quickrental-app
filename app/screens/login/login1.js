@@ -4,6 +4,7 @@ import {
   Image,
   Dimensions,
   Keyboard,
+  Alert
 } from 'react-native';
 import {
   RkButton,

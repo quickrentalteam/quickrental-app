@@ -5,3 +5,4 @@ export * from './profileSettings';
 export * from './notifications';
 export * from './contacts';
 export * from './feed';
+export * from './bookmarks';
