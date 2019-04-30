@@ -30,7 +30,13 @@ export class MapScreen extends React.Component {
     this.setState({ locationResult: JSON.stringify(location), location});
 
     setTimeout(function(){
-      Alert.alert('Your Location Has Been Entered. Press Back.');
+      Alert.alert(
+        'Your Location Has Been Entered. Press OK to be redirected back.',
+        [
+          {text: 'OK', onPress: this.props.navigation.goBack()},
+        ],
+        {cancelable: false},
+        );
    }, 2000);
     console.log("wee" + this.state.location.coords.latitude + " " + this.state.location.coords.longitude);
   };
