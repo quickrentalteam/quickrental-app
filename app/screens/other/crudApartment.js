@@ -31,8 +31,6 @@ import { UtilStyles } from '../../assets/style/styles';
 import { ImagePicker, Permissions } from 'expo';
 import ImageBrowser from '../../components/ImageBrowser';
 import {Features} from '../../components';
-
-import ProgressiveImage from '../../components/progressiveImage';
 import Grid from 'react-native-grid-component';
 
 
@@ -109,13 +107,18 @@ export class CRUDApartment extends React.Component {
   renderPlaceholder = i => <View style={styles.item} key={i} />;
   //End Multiple Image Upload
 
-  //Alert For Location
+  //Navigate To Maps
   onEventButtonPress = () => {
     this.props.navigation.navigate('MapScreen');
   };
 
+  //Alert for saving apartment and navigation to the home page 
   onSaveButtonPress = () => {
     Alert.alert('Apartment has been Saved!');
+
+    setTimeout(function(){
+      this.props.navigation.navigate('CardView');
+   }, 2500);
   };
 
 
@@ -160,13 +163,11 @@ export class CRUDApartment extends React.Component {
     });
   }
 
-
   render() {
     if (this.state.imageBrowserOpen) {
         return(<ImageBrowser max={20} callback={this.imageBrowserCallback}/>);
       }
       
-
     return (
     <ScrollView>
     <RkAvoidKeyboard
@@ -204,7 +205,8 @@ export class CRUDApartment extends React.Component {
             {/* </View> */}
 
               <RkButton rkType='outline rounded' style={{alignSelf: 'stretch', width: 160 }} onPress={this.onEventButtonPress}>Enter Location</RkButton>
-            </View>
+            </View> 
+            {/* add info that states user must be standing at the apartments location to automatically get location */}
 
             {/* onPress={() => this.props.navigation.navigate('MapScreen')} */}
             {/* <RkButton
@@ -232,7 +234,7 @@ export class CRUDApartment extends React.Component {
                 <RkText rkType='subtitle'>Upload Apartment Photos</RkText>
               </View>
               <View style={styles.containerImages}>
-                  <RkButton rkType='outline rounded' style={{alignSelf: 'stretch', width: 160 }} onPress={() => this.setState({imageBrowserOpen: true})}>
+                  <RkButton rkType='outline rounded' style={{alignSelf: 'center', width: 160 }} onPress={() => this.setState({imageBrowserOpen: true})}>
                   Upload Photos</RkButton>
                   <RkText>Your Apartment Photos</RkText>
 
@@ -258,7 +260,7 @@ export class CRUDApartment extends React.Component {
               />
             </View>
 
-            <RkTextInput rkType="form" secureTextEntry={true} label='Password' />
+            {/* <RkTextInput rkType="form" secureTextEntry={true} label='Password' /> */}
           </View>
 
 

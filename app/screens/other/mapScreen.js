@@ -14,11 +14,7 @@ export class MapScreen extends React.Component {
   
   
   componentDidMount() {
-
     this._getLocationAsync();
-    // setTimeout(function(){
-    //    Alert.alert('Your Location Has Been Entered. Press Back.');
-    // }, 2000);
   }
   
   _getLocationAsync = async () => {

@@ -72,7 +72,7 @@ export class Article extends React.Component {
           provider={MapView.PROVIDER_GOOGLE}
           showsUserLocation={true}
           showsMyLocationButton={true}
-          onPress={() => this.props.navigation.navigate('MapScreen')}
+          onPress={() => this.props.navigation.navigate('Map')}
         />
       </View>
       <RkCard rkType='article'>
