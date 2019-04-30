@@ -114,12 +114,23 @@ export class CRUDApartment extends React.Component {
 
   //Alert for saving apartment and navigation to the home page 
   onSaveButtonPress = () => {
-    Alert.alert('Apartment has been Saved!');
 
-    setTimeout(function(){
-      this.props.navigation.navigate('CardView');
-   }, 2500);
+    Alert.alert(
+      'Alert Title',
+      'Apartment has been Saved!',
+      [
+        {text: 'OK', onPress: () => {this.onNavigateButtonPress}},
+      ],
+      {cancelable: false},
+    );
+
+    // setTimeout(function(){
+  //  }, 2500);
   };
+
+  onNavigateButtonPress = () => {
+    this.props.navigation.navigate('CardView');
+  }
 
 
   onDatePickerConfirm = (date) => {
