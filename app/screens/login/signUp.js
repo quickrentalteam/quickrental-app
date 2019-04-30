@@ -51,9 +51,7 @@ const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 let addUserToDB = item => {
-  db.ref('/users').push({
-    item
-  });
+  db.ref('/users').push(item);
 };
 
 
@@ -85,7 +83,7 @@ export class SignUp extends React.Component {
       // usernameValid: true,
       // confirmationPasswordValid: true,
     };
-
+    // addUserToDB({})
     this.setSelectedType = this.setSelectedType.bind(this);
     this.async = new Async();
     // this.validateEmail = this.validateEmail.bind(this);
@@ -114,23 +112,19 @@ export class SignUp extends React.Component {
   };
 
   checkNonEmpty = () => {
-      if( this.state.name === "" || this.state.email === "" || this.state.pass === "" || this.state.type === ""){
+      if( this.state.name === "" || this.state.email === "" || this.state.pass === "")
           return false;
-      }
-      else
-      {
-          return true;
-      }
+      return true;
   }
 
   createLogin = () => {
     if(this.checkNonEmpty()){
         if(this.state.pass === this.state.re_pass){
                 //Save user to firebase auth and realtime db
-                addItem({
-                  name: this.state.name,
-                  email: this.state.email,
-                  type: this.state.type
+                addUserToDB({
+                  "name": this.state.name,
+                  "email": this.state.email,
+                  "type": this.state.type
                 });
 
                 firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.pass).then( (user) => {
@@ -192,8 +186,10 @@ export class SignUp extends React.Component {
     this.props.navigation.navigate('Login1');
   };
 
-  setSelectedType = selectedType =>
+  setSelectedType = selectedType =>{
     LayoutAnimation.easeInEaseOut() || this.setState({ selectedType });
+    this.setType(selectedType);
+  }
 
   // showBottomToast = (toastMessage) => {
   //     this._toast.show({

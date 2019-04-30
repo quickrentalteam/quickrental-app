@@ -63,20 +63,21 @@ validateLogin = (email, pass) =>{
     let that = this;
     // Firebase Login Authentication
     firebase.auth().signInWithEmailAndPassword(email, pass).then(function(user){
-        let uid = user.user.uid;
-        //Retrieve profile saved on phone
-        that.async.getLogin(uid).then( (value) => {
-            //Parse and create the profile object
-            let obj = JSON.parse(value);
-            let profile = new Profile();
-            profile.copyObj(obj);
+        // let uid = user.user.uid;
+        // //Retrieve profile saved on phone
+        // that.async.getLogin(uid).then( (value) => {
+        //     //Parse and create the profile object
+        //     let obj = JSON.parse(value);
+        //     let profile = new Profile();
+        //     profile.copyObj(obj);
 
-            //Set the profile state in Redux to be used throughout application
-            that.props.setProfile(profile);
-            //Navigate to Main screen
-            that.props.navigation.navigate('Main');
+        //     //Set the profile state in Redux to be used throughout application
+        //     that.props.setProfile(profile);
+        //     //Navigate to Main screen
+            that.props.navigation.navigate('CardView');
         
-        });
+        // }
+        // );
     }).catch((error) => {
         console.log(error.code);
         if (error.code === 'auth/invalid-email')
