@@ -22,7 +22,7 @@ import NavigationType from '../../config/navigation/propTypes';
 import { FontAwesome } from '../../assets/icons';
 
 import { UtilStyles } from '../../assets/style/styles';
-import HeaderButtons, { HeaderButton, Item } from 'react-navigation-header-buttons';
+// import HeaderButtons, { HeaderButton, Item } from 'react-navigation-header-buttons';
 
 import { Ionicons, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -40,12 +40,12 @@ export class Articles4 extends React.Component {
   static navigationOptions = {
     title: 'Apartment Listing'.toUpperCase(),
 
-    headerRight: (
-      <HeaderButtons>
-        <Item title="search" onPress={() => alert('search')} />
-        <Item title="select" onPress={() => alert('select')} />
-      </HeaderButtons>
-    ),
+    // headerRight: (
+    //   <HeaderButtons>
+    //     <Item title="search" onPress={() => alert('search')} />
+    //     <Item title="select" onPress={() => alert('select')} />
+    //   </HeaderButtons>
+    // ),
 
     // headerRight: (
     //   <RkButton

@@ -22,6 +22,10 @@ import {
 
 import { Ionicons, AntDesign } from '@expo/vector-icons';
 
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from '../../../actions';
+
 
 import { FontIcons } from '../../assets/icons';
 import { FontAwesome } from '../../assets/icons';
@@ -37,6 +41,7 @@ import Profile from '../../components/Profile';
 
 import * as firebase from 'firebase';
 import { db } from '../../../db/database';
+import { LoginV1 } from './login1';
 
 // Enable LayoutAnimation on Android
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -120,16 +125,16 @@ export class SignUp extends React.Component {
   createLogin = () => {
     if(this.checkNonEmpty()){
         if(this.state.pass === this.state.re_pass){
-                //Save user to firebase auth and realtime db
-                addUserToDB({
-                  "name": this.state.name,
-                  "email": this.state.email,
-                  "type": this.state.type
-                });
-
                 firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.pass).then( (user) => {
-                    // let p = new Profile(this.state.name, this.state.email, this.state.pass, this.state.type);
-                    // this.async.storeLogin(p, user.user.uid);
+                    let p = new Profile(this.state.name, this.state.email, this.state.pass, this.state.type);
+                    this.async.storeLogin(p, user.user.uid);
+                    //Save user to firebase auth and realtime db
+                    addUserToDB({
+                      uuid: user.user.uid,
+                      name: this.state.name,
+                      email: this.state.email,
+                      type: this.state.type
+                    });
                     // this.showBottomToast('Login Created');
                     // ToastAndroid.showWithGravityAndOffset('Login Created',ToastAndroid.LONG,ToastAndroid.TOP,25, 50);
                     this.onSignUpButtonPressed(); 
@@ -339,6 +344,25 @@ export class SignUp extends React.Component {
     
   )
 }
+
+
+// The function takes data from the app current state,
+// and insert/links it into the props of our component.
+// This function makes Redux know that this component needs to be passed a piece of the state
+function mapStateToProps(state, props) {
+  return {
+  }
+}
+
+// Doing this merges our actions into the component’s props,
+// while wrapping them in dispatch() so that they immediately dispatch an Action.
+// Just by doing this, we will have access to the actions defined in out actions file (action/home.js)
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(Actions, dispatch);
+}
+
+//Connect everything
+export default connect(mapStateToProps, mapDispatchToProps)("LoginV1");
 
 export const UserTypeItem = props => {
   const { image, label, labelColor, selected, ...attributes } = props;

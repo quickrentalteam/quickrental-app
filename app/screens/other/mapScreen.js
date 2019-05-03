@@ -24,7 +24,10 @@ export class MapScreen extends React.Component {
   }
 
   onNavigateButtonPress = () => {
-    this.props.navigation.goBack();
+    this.props.navigation.navigate("CRUDApartment", {
+                                    latitude: this.state.location.coords.latitude,
+                                    longitude: this.state.location.coords.longitude
+                                  });
   }
 
   alertFunction = () => {
@@ -67,7 +70,7 @@ export class MapScreen extends React.Component {
     //   {cancelable: false},
     //   );
  
-    console.log("wee" + this.state.location.coords.latitude + " " + this.state.location.coords.longitude);
+    // console.log(this.state.location.coords.latitude + " " + this.state.location.coords.longitude);
   };
   
   render() {
