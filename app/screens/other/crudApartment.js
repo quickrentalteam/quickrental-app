@@ -73,13 +73,17 @@ export class CRUDApartment extends React.Component {
     });
   };
 
-  addFeature = feature => {
+  addFeature = (feature) => {
+    features = [];
     // Check if feature already exists in array or if list is empty
     // if (!Array.isArray(this.state.features) || !array.length || this.state.features.indexOf(feature) <= -1)
     // {
-      this.setState({
-        features: [...this.state.features, feature]
-      });
+      // this.setState({
+      //   features: [...this.state.features, feature]
+      // });
+
+      this.state.features.push(feature);
+      console.log("weehee" + this.state.features);
     // }
 
     // If feature already exists in the array, remove it [Toggling]
@@ -369,7 +373,10 @@ export class CRUDApartment extends React.Component {
                     <View style={[UtilStyles.columnContainer, { flex: 1 }]}>
                       <View style={styles.componentRow}>
                         <RkChoice 
-                          onValueChange={this.addFeature("Furnished")}
+
+                        // onChangeText={aptName => this.setState({ aptName })}
+
+                          onChange={this.addFeature("Furnished")}
                         />
                         <RkText rkType="bold" style={styles.caption}>
                           Furnished
@@ -377,28 +384,32 @@ export class CRUDApartment extends React.Component {
                       </View>
                       <View style={styles.componentRow}>
                         <RkChoice 
-                          onChange={this.addFeature("Studio")}/>
+                          onChange={this.addFeature("Studio")}
+                          />
                         <RkText rkType="bold" style={styles.caption}>
                           Studio
                         </RkText>
                       </View>
                       <View style={styles.componentRow}>
                         <RkChoice 
-                          onChange={this.addFeature("A/C")}/>
+                          onChange={this.addFeature("A/C")}
+                          />
                         <RkText rkType="bold" style={styles.caption}>
                           A/C
                         </RkText>
                       </View>
                       <View style={styles.componentRow}>
                         <RkChoice 
-                          onChange={this.addFeature("Utilities Included")}/>
+                          onChange={this.addFeature("Utilities Included")}
+                          />
                         <RkText rkType="bold" style={styles.caption}>
                           Utilities
                         </RkText>
                       </View>
                       <View style={styles.componentRow}>
                         <RkChoice 
-                          onChange={this.addFeature("Laundry")}/>
+                          onChange={this.addFeature("Laundry")}
+                          />
                         <RkText rkType="bold" style={styles.caption}>
                           Laundry
                         </RkText>
@@ -407,35 +418,41 @@ export class CRUDApartment extends React.Component {
                     <View style={[UtilStyles.columnContainer, { flex: 1 }]}>
                       <View style={styles.componentRow}>
                         <RkChoice 
-                          onChange={this.addFeature("Unfurnished")}/>
+                          onChange={this.addFeature("Unfurnished")}
+                          />
                         <RkText rkType="bold" style={styles.caption}>
                           Unfurnished
                         </RkText>
                       </View>
                       <View style={styles.componentRow}>
                         <RkChoice 
-                          onChange={this.addFeature("Shared")}/>
+                          onChange={this.addFeature("Shared")}
+                          />
                         <RkText rkType="bold" style={styles.caption}>
                           Shared
                         </RkText>
                       </View>
                       <View style={styles.componentRow}>
                         <RkChoice 
-                          onChange={this.addFeature("Security")}/>
+                          onChange={this.addFeature("Security")}
+                          />
                         <RkText rkType="bold" style={styles.caption}>
                           Security
                         </RkText>
                       </View>
                       <View style={styles.componentRow}>
                         <RkChoice 
-                          onChange={this.addFeature("Parking")}/>
+                          onChange={this.addFeature("Parking")}
+                          />
                         <RkText rkType="bold" style={styles.caption}>
                           Parking
                         </RkText>
                       </View>
                       <View style={styles.componentRow}>
                         <RkChoice 
-                          onChange={this.addFeature("Pets")}/>
+                          onChange={this.addFeature("Pets")}
+                          />
+                          
                         <RkText rkType="bold" style={styles.caption}>
                           Pets
                         </RkText>
@@ -481,6 +498,8 @@ export class CRUDApartment extends React.Component {
               </View>
             </View>
           </View>
+
+          
         </RkAvoidKeyboard>
       </ScrollView>
     );
