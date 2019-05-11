@@ -1,7 +1,6 @@
 import {AsyncStorage } from 'react-native';
 export default class Async{
     constructor(){
-
     }
     storeLogin = async (profile, uid) => {
         try {

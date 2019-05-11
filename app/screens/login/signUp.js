@@ -9,6 +9,7 @@ import {
   LayoutAnimation,
   TouchableOpacity,
   ScrollView,
+  Alert
 } from 'react-native';
 import {
   RkButton,
@@ -20,6 +21,10 @@ import {
 } from 'react-native-ui-kitten';
 
 import { Ionicons, AntDesign } from '@expo/vector-icons';
+
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from '../../../actions';
 
 
 import { FontIcons } from '../../assets/icons';
@@ -35,6 +40,8 @@ import Async from '../../components/Async';
 import Profile from '../../components/Profile';
 
 import * as firebase from 'firebase';
+import { db } from '../../../db/database';
+import { Login } from './login';
 
 // Enable LayoutAnimation on Android
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -47,6 +54,10 @@ const USER_STUDENT = require('../../assets/images/user-student.png');
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
+
+let addUserToDB = item => {
+  db.ref('/users').push(item);
+};
 
 
 export class SignUp extends React.Component {
@@ -77,7 +88,7 @@ export class SignUp extends React.Component {
       // usernameValid: true,
       // confirmationPasswordValid: true,
     };
-
+    // addUserToDB({})
     this.setSelectedType = this.setSelectedType.bind(this);
     this.async = new Async();
     // this.validateEmail = this.validateEmail.bind(this);
@@ -106,22 +117,24 @@ export class SignUp extends React.Component {
   };
 
   checkNonEmpty = () => {
-      if( this.state.name === "" || this.state.email === "" || this.state.pass === "" || this.state.type === ""){
+      if( this.state.name === "" || this.state.email === "" || this.state.pass === "")
           return false;
-      }
-      else
-      {
-          return true;
-      }
+      return true;
   }
 
   createLogin = () => {
     if(this.checkNonEmpty()){
         if(this.state.pass === this.state.re_pass){
-                //Save user to firebase
                 firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.pass).then( (user) => {
-                    // let p = new Profile(this.state.name, this.state.email, this.state.pass, this.state.type);
-                    // this.async.storeLogin(p, user.user.uid);
+                    let p = new Profile(this.state.name, this.state.email, this.state.pass, this.state.type);
+                    this.async.storeLogin(p, user.user.uid);
+                    //Save user to firebase auth and realtime db
+                    addUserToDB({
+                      uuid: user.user.uid,
+                      name: this.state.name,
+                      email: this.state.email,
+                      type: this.state.type
+                    });
                     // this.showBottomToast('Login Created');
                     // ToastAndroid.showWithGravityAndOffset('Login Created',ToastAndroid.LONG,ToastAndroid.TOP,25, 50);
                     this.onSignUpButtonPressed(); 
@@ -178,8 +191,10 @@ export class SignUp extends React.Component {
     this.props.navigation.navigate('Login1');
   };
 
-  setSelectedType = selectedType =>
+  setSelectedType = selectedType =>{
     LayoutAnimation.easeInEaseOut() || this.setState({ selectedType });
+    this.setType(selectedType);
+  }
 
   // showBottomToast = (toastMessage) => {
   //     this._toast.show({
@@ -308,6 +323,7 @@ export class SignUp extends React.Component {
           <GradientButton
             style={styles.save}
             rkType='large'
+            icon=''
             text='SIGN UP'
             onPress={this.onSignUpButtonPressed}
           />
@@ -328,6 +344,25 @@ export class SignUp extends React.Component {
     
   )
 }
+
+
+// The function takes data from the app current state,
+// and insert/links it into the props of our component.
+// This function makes Redux know that this component needs to be passed a piece of the state
+function mapStateToProps(state, props) {
+  return {
+  }
+}
+
+// Doing this merges our actions into the component’s props,
+// while wrapping them in dispatch() so that they immediately dispatch an Action.
+// Just by doing this, we will have access to the actions defined in out actions file (action/home.js)
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(Actions, dispatch);
+}
+
+//Connect everything
+export default connect(mapStateToProps, mapDispatchToProps)("Login");
 
 export const UserTypeItem = props => {
   const { image, label, labelColor, selected, ...attributes } = props;

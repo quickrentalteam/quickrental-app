@@ -5,6 +5,7 @@ import {
   RkText,
   RkComponent,
 } from 'react-native-ui-kitten';
+import PropTypes from 'prop-types';
 
 export class GradientButton extends RkComponent {
   componentName = 'GradientButton';
@@ -14,13 +15,17 @@ export class GradientButton extends RkComponent {
     text: {},
   };
 
+  static propTypes = {
+    icon: PropTypes.node.isRequired,
+  };
+
   renderContent = (textStyle) => {
     const hasText = this.props.text === undefined;
     return hasText ? this.props.children : this.renderText(textStyle);
   };
 
   renderText = (textStyle) => (
-    <RkText style={textStyle}>{this.props.text}</RkText>
+    <RkText style={textStyle}>{this.props.icon}{this.props.text}</RkText>
   );
 
   render() {

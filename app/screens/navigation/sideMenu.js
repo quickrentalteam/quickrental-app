@@ -51,7 +51,8 @@ export class SideMenu extends React.Component {
           </RkText>
           <RkText>{item.title}</RkText>
         </View>
-        <RkText rkType='awesome secondaryColor small'>{FontAwesome.chevronRight}</RkText>
+        {/* <RkText rkType='awesome secondaryColor small'>{FontAwesome.chevronRight}</RkText> */}
+        <RkText rkType='awesome secondaryColor small'></RkText>
       </View>
     </TouchableHighlight>
   );

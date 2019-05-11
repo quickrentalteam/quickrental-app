@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   View,
   Keyboard,
@@ -7,265 +7,617 @@ import {
   ScrollView,
   Button,
   FlatList,
-} from 'react-native';
+  Dimensions,
+  Alert
+} from "react-native";
 import {
   RkText,
   RkTextInput,
   RkStyleSheet,
   RkAvoidKeyboard,
-} from 'react-native-ui-kitten';
-import { GradientButton } from '../../components/';
-import { PasswordTextInput } from '../../components/passwordTextInput';
-import {
-  DatePicker,
-  DatePart,
-} from '../../components/picker/datePicker';
-import { CardInput } from '../../components/cardInput';
-import { scale } from '../../utils/scale';
-import NavigationType from '../../config/navigation/propTypes';
+  RkButton,
+  RkChoice
+} from "react-native-ui-kitten";
+import { GradientButton } from "../../components/";
+import NavigationType from "../../config/navigation/propTypes";
+import { UtilStyles } from "../../assets/style/styles";
+import { ImagePicker, Permissions, Location, MapView } from "expo";
+import ImageBrowser from "../../components/ImageBrowser";
+import Grid from "react-native-grid-component";
+import * as firebase from "firebase";
+import { db, imgBucket } from "../../../db/database";
 
-import { ImagePicker, Permissions } from 'expo';
-import ImageBrowser from '../../components/ImageBrowser';
-import {Features} from '../../components';
+
+let addAptToDB = item => {
+  db.ref("/apartments").push(item);
+};
+
+// const { width } = Dimensions.get("window");
+// firebase.auth().signInWithEmailAndPassword("test1@mail.com", "password");
+let currentUserUUID = "c014ae3f-ee81-40b8-99f8-b8ba787c9c2f";
+// let currentUserUUID = firebase.auth().currentUser.uuid;
+console.log(currentUserUUID);
 
 export class CRUDApartment extends React.Component {
-
   static propTypes = {
-    navigation: NavigationType.isRequired,
+    navigation: NavigationType.isRequired
   };
   static navigationOptions = {
-    title: 'Add Apartment'.toUpperCase(),
+    title: "Add Apartment".toUpperCase()
   };
 
   constructor(props) {
     super(props);
     this.state = {
+      aptName: "",
+      price: 0,
+      features: [],
+      mainImg: "",
+      phoneNum: "",
+      postedBy: currentUserUUID,
       imageBrowserOpen: false,
-      photos: []
-    }
+      photos: [],
+      locationResult: null,
+      location: { coords: { latitude: 37.78825, longitude: -122.4324 } }
+    };
   }
 
-  state = {
-    image: null,
-    nameOnCard: '',
-    price: '',
-    cardCode: '',
-    expireYear: 2017,
-    expireMonth: 8,
-    pickerVisible: false,
-  };
+  uploadPhotos = async () => {
+    this.uploadArray()
+      .then(() => {
+        Alert.alert("Images uploaded!");
+      })
+      .catch((error) => {
+        Alert.alert(error);
+      })
+  }
+  
 
-    //Allows Select Image Upload
-    selectPicture = async () => {
-        await Permissions.askAsync(Permissions.CAMERA_ROLL);
-        const { cancelled, uri } = await ImagePicker.launchImageLibraryAsync({
-            aspect: 1,
-            allowsEditing: true,
-        });
-        if (!cancelled) this.setState({ image: uri });
-    };
+  uploadArray = async () => {
+    this.state.photos.forEach(photo => {
+      this.uploadImage(photo);
+    });
+  }
 
-    takePicture = async () => {
-        await Permissions.askAsync(Permissions.CAMERA);
-        const { cancelled, uri } = await ImagePicker.launchCameraAsync({
-            allowsEditing: false,
-        });
-        this.setState({ image: uri });
-    };
+  uploadImage = async (uri) => {
+    const response = await fetch(uri);
+    const blob = await response.blob();
+    var ref = imgBucket.ref().child(currentUserUUID + "/");
+    return ref.put(blob);
+  }
 
-    //Allows Multiple Image Upload
-    imageBrowserCallback = (callback) => {
-        callback.then((photos) => {
-          console.log(photos)
-          this.setState({
-            imageBrowserOpen: false,
-            photos
-          })
-        }).catch((e) => console.log(e))
-      }
-    
-      renderImage(item, i) {
-        return(
-            <View style={styles.images}>
-                <Image
-                    style={{height: 100, width: 100}}
-                    source={{uri: item.file}}
-                    key={i}
-                />
-                <FlatList
-                    numColumns={4}
-                />
-            </View>
-        )
-      }
-    //End Multiple Image Upload
-
-  onDatePickerConfirm = (date) => {
+  setName = (value) =>{
     this.setState({
-      expireMonth: date.month.key,
-      expireYear: date.year,
-      pickerVisible: false,
+        aptName: value,
     });
   };
 
-  onDatePickerCancel = () => {
-    this.setState({ pickerVisible: false });
+  setPrice = (value) => {
+    this.setState({
+      price: value,
+    });
+  };
+
+  addFeature = (feature) => {
+    // Check if feature already exists in array or if list is empty
+    // if (!Array.isArray(this.state.features) || !array.length || this.state.features.indexOf(feature) <= -1)
+    // {
+      // this.setState({
+      //   features: [...this.state.features, feature]
+      // });
+
+    this.state.features.push(feature);
+      // console.log("weehee" + this.state.features);
+    // }
+
+    // If feature already exists in the array, remove it [Toggling]
+    // else if (this.state.features.indexOf(feature) > -1)
+    // {
+    //   this.setState({
+    //     features: this.state.features.filter(f => f != feature)
+    //   })
+    // }
+  };
+
+  setName = (value) => {
+    this.setState({
+      aptName: value
+    });
+  };
+
+  setLocation = (value) => {
+    this.setState({
+      location: value
+    });
+  };
+
+  setMainImg = (value) => {
+    this.setState({
+      mainImg: value
+    });
+  };
+
+  setPostedBy = (value) => {
+    this.setState({
+      postedBy: value
+    });
+  };
+
+  alertFunction = () => {
+    Alert.alert(
+      "Your Location Has Been Entered. Press OK to be redirected back.",
+      undefined,
+      [{ text: "OK", onPress: this.onNavigateButtonPress }],
+      { cancelable: false }
+    );
+  };
+
+  _getLocationAsync = async () => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== "granted") {
+      this.setState({
+        locationResult: "Permission to access location was denied",
+        location
+      });
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+    this.setState({ locationResult: JSON.stringify(location), location });
+    this.setLocation(location);
+
+    // setTimeout(function(){
+    Alert.alert(
+      "Your Location Has Been Entered.",
+      undefined,
+      [{ text: "OK" }],
+      { cancelable: false }
+    );
+    // }, 2500);
+
+    // console.log(this.state.location.coords.latitude + " " + this.state.location.coords.longitude);
+  };
+
+  //Allows Select Image Upload
+  selectPicture = async () => {
+    await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    const { cancelled, uri } = await ImagePicker.launchImageLibraryAsync({
+      aspect: 1,
+      allowsEditing: true
+    });
+    if (!cancelled) this.setState({ image: uri });
+  };
+
+  takePicture = async () => {
+    await Permissions.askAsync(Permissions.CAMERA);
+    const { cancelled, uri } = await ImagePicker.launchCameraAsync({
+      allowsEditing: false
+    });
+    this.setState({ image: uri });
+  };
+
+  //Allows Multiple Image Upload
+  imageBrowserCallback = callback => {
+    callback
+      .then(photos => {
+        console.log(photos);
+        this.setState({
+          imageBrowserOpen: false,
+          photos
+        });
+      })
+      .catch(e => console.log(e));
+  };
+
+  renderImage(item, i) {
+    return (
+      <View style={styles.item}>
+        <Image
+          style={{
+            height: 160,
+            width: (Dimensions.get("window").width - 50) / 3
+          }}
+          source={{ uri: item.file }}
+          key={i}
+        />
+      </View>
+    );
+  }
+
+  renderPlaceholder = i => <View style={styles.item} key={i} />;
+  //End Multiple Image Upload
+
+  //Navigate To Maps
+  onMapButtonPress = () => {
+    this._getLocationAsync();
+    // this.props.navigation.navigate("MapScreen");
+  };
+
+  onNavigateButtonPress = () => {
+    this.props.navigation.navigate("CardView");
+  };
+
+  //Alert for saving apartment and navigation to the home page
+  onSaveButtonPress = () => {
+
+    addAptToDB({
+      aptName: this.state.aptName,
+      price: this.state.price,
+      features: this.state.features,
+      phoneNum: this.state.phoneNum,
+      // postedBy: UUID,
+      location: this.state.location.coords
+    });
+
+    Alert.alert(
+      "Apartment Saved!",
+      "You will redirected to the Home Screen.",
+      [{ text: "OK", onPress: this.onNavigateButtonPress }],
+      { cancelable: false }
+    );
+
+    // setTimeout(function(){
+    //  }, 2500);
   };
 
   onAddButtonPressed = () => {
     this.props.navigation.goBack();
   };
 
+  onChangedNumber(text) {
+    this.setState({
+      price: parseInt(text.replace(/[^0-9]/g, ""))
+    });
+  }
+  
+
+  onPhoneTextChange(text) {
+    var cleaned = ("" + text).replace(/\D/g, "");
+    var match = cleaned.match(/^(1|)?(\d{3})(\d{3})(\d{4})$/);
+    if (match) {
+      var intlCode = match[1] ? "+1 " : "",
+        number = [intlCode, "(", match[2], ") ", match[3], "-", match[4]].join(
+          ""
+        );
+
+      this.setState({
+        phoneNum: number
+      });
+
+      return;
+    }
+
+    this.setState({
+      phoneNum: text
+    });
+  }
+
   render() {
     if (this.state.imageBrowserOpen) {
-        return(<ImageBrowser max={4} callback={this.imageBrowserCallback}/>);
-      }
+      return <ImageBrowser max={20} callback={this.imageBrowserCallback} />;
+    }
 
     return (
-    <ScrollView>
-    <RkAvoidKeyboard
-      style={styles.screen}
-      onStartShouldSetResponder={() => true}
-      onResponderRelease={() => Keyboard.dismiss()}>
-      <View style={[styles.formContent]}>
-        <View>
+      <ScrollView style={styles.screen}>
+        <RkAvoidKeyboard
+          onStartShouldSetResponder={() => true}
+          onResponderRelease={() => Keyboard.dismiss()}
+        >
+          <View style={[styles.formContent]}>
+            <View style={styles.row}>
+              <RkText rkType="subtitle">Enter Location</RkText>
+              {/* </View> */}
 
-          <View style={[styles.content]}>
-            <View style={[styles.textRow]}>
-              <RkText rkType='subtitle'>Name Of Apartment</RkText>
+              <RkButton
+                rkType="outline rounded"
+                style={{ alignSelf: "stretch", width: 160 }}
+                onPress={this.onMapButtonPress}
+              >
+                Use Current Location
+              </RkButton>
             </View>
-            <RkTextInput
-              rkType='rounded'
-              onChangeText={(nameOnCard) => this.setState({ nameOnCard })}
-              value={this.state.nameOnCard}
-            />
-          </View>
+            <View style={styles.boxWithShadow}>
+              <MapView
+                style={styles.mapStyle}
+                region={{
+                  latitude: this.state.location.coords.latitude,
+                  longitude: this.state.location.coords.longitude,
+                  latitudeDelta: 0.0922,
+                  longitudeDelta: 0.0421
+                }}
+                provider={MapView.PROVIDER_GOOGLE}
+                showsUserLocation={true}
+                showsMyLocationButton={true}
+              />
+            </View>
+            <View style={[UtilStyles.columnContainer]}>
+              <RkTextInput label="Apartment Name" rkType="form" />
 
-            <View >
-                <View style={[styles.textRow]}>
-                <RkText rkType='subtitle'>Display Image</RkText>
-                </View>
-                <Image style={styles.image} source={{ uri: this.state.image }} />
-                <View style={styles.row}>
-                    <ButtonTest onPress={this.selectPicture}>Gallery</ButtonTest>
-                    <ButtonTest onPress={this.takePicture}>Camera</ButtonTest>
-                </View>
-            </View>
-
-            <View style={[styles.content]}>
-            <View style={[styles.textRow]}>
-              <RkText rkType='subtitle'>Price</RkText>
-            </View>
-            <RkTextInput
-              rkType='rounded'
-              onChangeText={(price) => this.setState({ price })}
-              value={this.state.price}
-            />
-          </View>
-          
-          <Features/>
-          {/* <Features></Features> */}
-
-          <View style={[styles.content]}>
-            <View style={[styles.textRow]}>
-              <RkText rkType='subtitle'>Upload Apartment Photos</RkText>
-            </View>
-            <View style={styles.containerImages}>
-                <Button
-                title="Choose Images"
-                onPress={() => this.setState({imageBrowserOpen: true})}
+              {/* <View style={[styles.textRow]}> */}
+              <View style={styles.row}>
+                <RkText
+                  style={styles.txt}
+                  rkType="subtitle"
+                  onChangeText={aptName => this.setState({ aptName })}
+                >
+                  Apartment Image
+                </RkText>
+                {/* </View> */}
+                <Image
+                  style={styles.image}
+                  source={{ uri: this.state.image }}
+                  defaultSource={require("../../assets/images/placeholder.png")}
                 />
-                <RkText>Upload all Apartment Photos</RkText>
-                <ScrollView>
-                {this.state.photos.map((item,i) => this.renderImage(item,i))}
-                </ScrollView>
+              </View>
+
+              <View style={styles.row}>
+                <RkButton
+                  rkType="outline rounded"
+                  style={UtilStyles.spaceTop}
+                  onPress={this.selectPicture}
+                >
+                  Gallery
+                </RkButton>
+                <RkButton
+                  rkType="outline rounded"
+                  style={[UtilStyles.spaceTop, styles.align]}
+                  onPress={this.takePicture}
+                >
+                  Camera
+                </RkButton>
+              </View>
+
+              <RkTextInput
+                label="Price"
+                rkType="form"
+                keyboardType="numeric"
+                onChangeText={price => this.onChangedNumber(price)}
+                value={"$" + this.state.price}
+                maxLength={10} //setting limit of input
+              />
+
+              {/* add info that states user must be standing at the apartments location to automatically get location */}
+
+              <RkTextInput
+                label="Contact"
+                rkType="form"
+                onChangeText={text => this.onPhoneTextChange(text)}
+                value={this.state.phoneNum}
+                textContentType="telephoneNumber"
+                dataDetectorTypes="phoneNumber"
+                keyboardType="phone-pad"
+                maxLength={14}
+              />
+
+              {/* FEATURES ENTRY*/}
+
+              <View style={styles.containerAmenities}>
+                <View style={[UtilStyles.section, UtilStyles.bordered]}>
+                  <RkText rkType="header">Amenities</RkText>
+                  <View style={[UtilStyles.rowContainer]}>
+                    <View style={[UtilStyles.columnContainer, { flex: 1 }]}>
+                    <RkChoiceGroup>
+                      <View style={styles.componentRow}>                      
+                        <RkChoice 
+
+                        // onChangeText={aptName => this.setState({ aptName })}
+
+                          onChange={this.addFeature("Furnished")}
+                        />
+                        <RkText rkType="bold" style={styles.caption}>
+                          Furnished
+                        </RkText>
+                      </View>
+                      <View style={styles.componentRow}>
+                        <RkChoice 
+                          onChange={this.addFeature("Studio")}
+                          />
+                        <RkText rkType="bold" style={styles.caption}>
+                          Studio
+                        </RkText>
+                      </View>
+                      <View style={styles.componentRow}>
+                        <RkChoice 
+                          onChange={this.addFeature("A/C")}
+                          />
+                        <RkText rkType="bold" style={styles.caption}>
+                          A/C
+                        </RkText>
+                      </View>
+                      <View style={styles.componentRow}>
+                        <RkChoice 
+                          onChange={this.addFeature("Utilities Included")}
+                          />
+                        <RkText rkType="bold" style={styles.caption}>
+                          Utilities
+                        </RkText>
+                      </View>
+                      <View style={styles.componentRow}>
+                        <RkChoice 
+                          onChange={this.addFeature("Laundry")}
+                          />
+                        <RkText rkType="bold" style={styles.caption}>
+                          Laundry
+                        </RkText>
+                      </View>
+                      </RkChoiceGroup>
+                    </View>
+                    <View style={[UtilStyles.columnContainer, { flex: 1 }]}>
+                      <RkChoiceGroup>
+                      <View style={styles.componentRow}>
+                        <RkChoice 
+                          onChange={this.addFeature("Unfurnished")}
+                          />
+                        <RkText rkType="bold" style={styles.caption}>
+                          Unfurnished
+                        </RkText>
+                      </View>
+                      <View style={styles.componentRow}>
+                        <RkChoice 
+                          onChange={this.addFeature("Shared")}
+                          />
+                        <RkText rkType="bold" style={styles.caption}>
+                          Shared
+                        </RkText>
+                      </View>
+                      <View style={styles.componentRow}>
+                        <RkChoice 
+                          onChange={this.addFeature("Security")}
+                          />
+                        <RkText rkType="bold" style={styles.caption}>
+                          Security
+                        </RkText>
+                      </View>
+                      <View style={styles.componentRow}>
+                        <RkChoice 
+                          onChange={this.addFeature("Parking")}
+                          />
+                        <RkText rkType="bold" style={styles.caption}>
+                          Parking
+                        </RkText>
+                      </View>
+                      <View style={styles.componentRow}>
+                        <RkChoice 
+                          onChange={this.addFeature("Pets")}
+                          />
+                          
+                        <RkText rkType="bold" style={styles.caption}>
+                          Pets
+                        </RkText>
+                      </View>
+                      </RkChoiceGroup>
+                    </View>
+                  </View>
+                </View>
+              </View>
+
+              <View style={[styles.content]}>
+                <View style={[styles.textRow]}>
+                  <RkText rkType="subtitle">Upload Apartment Photos</RkText>
+                </View>
+                <View style={styles.containerImages}>
+                  <RkButton
+                    rkType="outline rounded"
+                    style={{ alignSelf: "center", width: 160 }}
+                    onPress={() => this.setState({ imageBrowserOpen: true })}
+                  >
+                    Upload Photos
+                  </RkButton>
+                  <RkText>Your Apartment Photos</RkText>
+
+                  <ScrollView>
+                    <Grid
+                      style={styles.list}
+                      renderItem={this.renderImage}
+                      renderPlaceholder={this.renderPlaceholder}
+                      data={this.state.photos}
+                      itemsPerRow={3}
+                    />
+                  </ScrollView>
+                </View>
+              </View>
+
+              <View>
+                <GradientButton
+                  rkType="large"
+                  icon=""
+                  text="SAVE APARTMENT"
+                  onPress={this.onSaveButtonPress}
+                />
+              </View>
             </View>
-            
           </View>
-        </View>
 
-        <View>
-          <GradientButton
-            rkType='large'
-            text='SAVE APARTMENT'
-            onPress={this.onAddButtonPressed}
-          />
-        </View>
-      </View>
-    </RkAvoidKeyboard>
-    </ScrollView>
+          
+        </RkAvoidKeyboard>
+      </ScrollView>
     );
-    }
+  }
 }
-
-const ButtonTest = ({ onPress, children }) => (
-    <TouchableOpacity style={styles.button} onPress={onPress}>
-      <RkText style={styles.text}>{children}</RkText>
-    </TouchableOpacity>
-  );
-  
 
 const styles = RkStyleSheet.create(theme => ({
   screen: {
     padding: 15,
     flex: 1,
-    backgroundColor: theme.colors.screen.base,
+    backgroundColor: theme.colors.screen.base
   },
   content: {
-    marginTop: 10,
+    marginTop: 10
   },
   formContent: {
-    justifyContent: 'space-between',
-    flexDirection: 'column',
+    justifyContent: "space-between",
+    flexDirection: "column",
     flex: 1,
+    paddingTop: 10
   },
   textRow: {
-    marginLeft: 20,
-  },
-  expireDateBlock: {
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-  },
-  expireDateInput: {
-    flex: 0.48,
-    marginVertical: 10,
-  },
-  expireDateInnerInput: {
-    textAlign: 'center',
-  },
-  expireDateDelimiter: {
-    flex: 0.04,
-  },
-  balloon: {
-    maxWidth: scale(250),
-    padding: 15,
-    borderRadius: 100,
-    borderWidth: 0.5,
-    borderColor: theme.colors.border.solid,
+    marginLeft: 20
   },
   images: {
-    flexDirection: 'row',
-    paddingHorizontal: 0.5,
+    flexDirection: "row",
+    paddingHorizontal: 0.5
   },
 
   text: {
-    fontSize: 21,
+    fontSize: 21
   },
-  row: { flexDirection: 'row' },
-  image: { width: 100, height: 100, backgroundColor: 'gray' },
+  row: { flex: 1, flexDirection: "row", justifyContent: "space-between" },
+  row1: { flex: 1, flexDirection: "row" },
+  txt: {
+    paddingHorizontal: 7
+  },
+  image: { width: 100, height: 100 },
   button: {
     padding: 13,
     margin: 15,
-    backgroundColor: '#dddddd',
-  },
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 100,
+    backgroundColor: "#dddddd"
   },
   containerImages: {
     flex: 1,
-    marginTop: 30,
+    marginTop: 30
   },
+  list: {
+    flex: 1
+  },
+  item: {
+    flex: 1,
+    height: 160,
+    margin: 1
+  },
+  align: {
+    alignSelf: "stretch"
+  },
+  containerAmenities: {
+    flex: 1,
+    backgroundColor: theme.colors.screen.base,
+    paddingTop: 10
+  },
+  componentRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 25
+  },
+  caption: {
+    marginLeft: 16,
+    fontSize: 15,
+    margin: 10
+  },
+  mapStyle: { 
+    flex: 1, 
+    height: 300, 
+    width: 300,
+    alignItems: 'center',
+    alignSelf: 'center',
+    borderWidth: 2,
+    borderRadius: 10,
+    borderColor: '#5a91ed',
+    borderBottomWidth: 0,    
+    marginTop: 10,
+  },
+  boxWithShadow:{
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.8,
+    shadowRadius: 6,
+    elevation: 4,
+  }
 }));

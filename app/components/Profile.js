@@ -1,16 +1,10 @@
-const LANDLORD = 'LANDLORD';
-const USER = 'USER';
-
 export default class Profile{
-    constructor(name, email, password){
-        this.role = USER;
+    constructor(name, email, password, type){
         this.name = name;
         this.email = email;
         this.password = password;
-    }
-
-    getRole = () => {
-        return this.role;
+        this.type = type;
+        this.bookmarks = bookmarks;
     }
     getEmail = () => {
         return this.email;
@@ -19,6 +13,10 @@ export default class Profile{
     getName = () => {
         return this.name;
     }
+    getPassword = () => {
+        return this.password;
+    }
+
     getPassword = () => {
         return this.password;
     }
@@ -35,15 +33,22 @@ export default class Profile{
         this.password = array;
     }
 
+    setType = (type) =>{
+        this.type = type;
+    }
+
+    getBookmarks = () => {
+        return this.bookmarks;
+    }
+
+    addBookmark = (apt) =>{
+        this.getBookmarks().push(apt);
+    };
+
     copyObj = (obj) => {
         this.name = obj.name;
         this.email = obj.email;
         this.password = obj.password;
         this.type = obj.type;
     };
-
-    setAdmin = () => {
-        this.role = ADMIN;
-    };
- 
 }

@@ -51,7 +51,7 @@ export class Contacts extends React.Component {
   };
 
   onItemPressed = (item) => {
-    this.props.navigation.navigate('ProfileV1', { id: item.id });
+    this.props.navigation.navigate('Profile', { id: item.id });
   };
 
   renderItem = ({ item }) => (

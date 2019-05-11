@@ -16,9 +16,11 @@ import { UtilStyles } from '../assets/style/styles';
 
 export class Features extends React.Component {
 
-  render = () => (
-    <View style={styles.container}>
 
+
+  render = () => (
+
+    <View style={styles.containerAmenities}>
         <View style={[UtilStyles.section, UtilStyles.bordered]}>
           <RkText rkType='header'>Amenities</RkText>
           <View style={[UtilStyles.rowContainer]}>
@@ -68,13 +70,13 @@ export class Features extends React.Component {
             </View>
           </View>
           </View>
-
     </View>
   );
+
 }
   
 const styles = RkStyleSheet.create(theme => ({
-  container: {
+  containerAmenities: {
     flex: 1,
     backgroundColor: theme.colors.screen.base,
     paddingTop: 10,

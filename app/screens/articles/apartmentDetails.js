@@ -18,17 +18,15 @@ import {
   SocialBar,
 } from '../../components';
 import NavigationType from '../../config/navigation/propTypes';
-import { GradientButton } from '../../components/';
+import { GradientButton } from '../../components';
 import { UtilStyles } from '../../assets/style/styles';
 import { Gallery } from '../../components/gallery';
 import { Constants, MapView } from 'expo';
-
-
 import { Ionicons, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 
 const moment = require('moment');
 
-export class Article extends React.Component {
+export class ApartmentDetails extends React.Component {
   static propTypes = {
     navigation: NavigationType.isRequired,
   };
@@ -48,15 +46,15 @@ export class Article extends React.Component {
   state = {
     data: undefined,
     mapRegion: {
-      latitude: 10.641890,
-      longitude: -61.400718,
+      latitude: 10.240582320848704, //change to values obtained from firebase
+      longitude: -61.47291180683437, //change to values obtained from firebase
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421,
     },
   };
 
   onAvatarPressed = () => {
-    this.props.navigation.navigate('ProfileV1', { id: this.data.user.id });
+    this.props.navigation.navigate('Profile', { id: this.data.user.id });
   };
 
   _handleMapRegionChange = mapRegion => {
@@ -66,15 +64,18 @@ export class Article extends React.Component {
 
   render = () => (
     <ScrollView style={styles.root}>
-      <RkCard rkType='article'>
       <View style={styles.container}>
         <MapView
           style={{ alignSelf: 'stretch', height: 300 }}
           region={this.state.mapRegion}
           onRegionChange={this._handleMapRegionChange}
+          provider={MapView.PROVIDER_GOOGLE}
+          showsUserLocation={true}
+          showsMyLocationButton={true}
           onPress={() => this.props.navigation.navigate('Map')}
         />
       </View>
+      <RkCard rkType='article'>
         {/* <Image rkCardImg source={this.data.photo} /> */}
         <View rkCardHeader>
           <SocialBar rkType='space' showLabel />
@@ -108,49 +109,36 @@ export class Article extends React.Component {
       <Gallery items={this.state.data.images} />
 
       <View style={{ alignItems: 'center' }}>
-      <View style={styles.bordered}>
-        <RkText style={styles.title} rkType='header4'>Interested?</RkText>
+        <View style={styles.bordered}>
+          <RkText style={styles.title} rkType='header4'>Interested?</RkText>
         </View>
-
-        {/* <View> */}
-
-        <RkButton
-              rkType='rounded success'
-              style={[
-                { width: 100, justifyContent: 'flex-start', paddingLeft: 9 },
-                UtilStyles.spaceVertical,
-              ]}>
-
-              {/* <RkText rkType='moon large primary'> {<Ionicons name={"ios-heart-outline"} size={25}/>} </RkText> */}
-
-              <Ionicons style={[styles.icon, styles.iconRound]} name={"ios-heart-outline"}  />
-              <RkText rkType='caption'>{`Message ${this.data.user.firstName}`}</RkText>
-          </RkButton>
-
-
-        <GradientButton
-              style={styles.save}
-              rkType='large'
-              text={`Message ${this.data.user.firstName} ${this.data.user.lastName}`}
-              // onPress={this.onSignUpButtonPressed}
-        />
-
-        <GradientButton
-              style={styles.save}
-              rkType='large'
-              text={`Call ${this.data.user.firstName}`}
-              // onPress={this.onSignUpButtonPressed}
-        />
-
-        <GradientButton
-              style={styles.save}
-              rkType='large'
-              text={`Direct Message ${this.data.user.firstName}`}
-              // onPress={this.onSignUpButtonPressed}
-        />
-        {/* </View> */}
       </View>
 
+      <View style={styles.buttonSection}>
+        <GradientButton
+              style={styles.save}
+              rkType='large'
+              icon={<MaterialCommunityIcons name={"cellphone-android"} size={25}/>}
+              text={` Message ${this.data.user.firstName} ${this.data.user.lastName}`}
+              // onPress={this.onSignUpButtonPressed}
+        />
+
+        <GradientButton
+              style={styles.save}
+              rkType='large'
+              icon={<Ionicons name={"ios-call"} size={25}/>}
+              text={` Call ${this.data.user.firstName}`}
+              // onPress={this.onSignUpButtonPressed}
+        />
+
+        <GradientButton
+              style={styles.save}
+              rkType='large'
+              icon={<MaterialCommunityIcons name={"facebook-messenger"} size={25}/>}
+              text={` Direct Message ${this.data.user.firstName}`}
+              // onPress={this.onSignUpButtonPressed}
+        />
+      </View>
 
     </ScrollView>
   )
@@ -159,6 +147,9 @@ export class Article extends React.Component {
 const styles = RkStyleSheet.create(theme => ({
   root: {
     backgroundColor: theme.colors.screen.base,
+  },
+  buttonSection: {
+    paddingHorizontal: 17,
   },
   title: {
     marginBottom: 5,

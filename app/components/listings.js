@@ -9,13 +9,13 @@ import {
   RkText,
   RkCard, RkStyleSheet,
 } from 'react-native-ui-kitten';
-import { SocialBar } from '../../components';
-import { data } from '../../data';
-import NavigationType from '../../config/navigation/propTypes';
+import { SocialBar } from '../components';
+import { data } from '../data';
+import NavigationType from '../config/navigation/propTypes';
 
 const moment = require('moment');
 
-export class Articles1 extends React.Component {
+export class Listings extends React.Component {
   static propTypes = {
     navigation: NavigationType.isRequired,
   };
@@ -29,7 +29,7 @@ export class Articles1 extends React.Component {
 
   extractItemKey = (item) => `${item.id}`;
 
-  onItemPressed = ({ item }) => {
+  onItemPressed = (item) => {
     this.props.navigation.navigate('Article', { id: item.id });
   };
 
@@ -38,15 +38,18 @@ export class Articles1 extends React.Component {
       delayPressIn={70}
       activeOpacity={0.8}
       onPress={() => this.onItemPressed(item)}>
-      <RkCard rkType='backImg'>
+      <RkCard rkType='imgBlock' style={styles.card}>
         <Image rkCardImg source={item.photo} />
         <View rkCardImgOverlay rkCardContent style={styles.overlay}>
-          <RkText rkType='header2 inverseColor'>{item.header}</RkText>
-          <RkText rkType='secondary2 inverseColor'>{moment().add(item.time, 'seconds').fromNow()}</RkText>
-          <View rkCardFooter style={styles.footer}>
-            <SocialBar rkType='leftAligned' />
-          </View >
+          <RkText rkType='header4 inverseColor'>{item.header}</RkText>
+          <RkText
+            style={styles.time}
+            rkType='secondary2 inverseColor'>{moment().add(item.time, 'seconds').fromNow()}
+          </RkText>
         </View>
+        <View rkCardFooter>
+          <SocialBar rkType='space' showLabel />
+        </View >
       </RkCard>
     </TouchableOpacity>
   );
@@ -56,19 +59,21 @@ export class Articles1 extends React.Component {
       data={this.state.data}
       renderItem={this.renderItem}
       keyExtractor={this.extractItemKey}
-      style={styles.root}
+      style={styles.container}
     />
   );
 }
 
 const styles = RkStyleSheet.create(theme => ({
-  root: {
-    backgroundColor: theme.colors.screen.base,
+  container: {
+    backgroundColor: theme.colors.screen.scroll,
+    paddingVertical: 8,
+    paddingHorizontal: 14,
   },
-  overlay: {
-    justifyContent: 'flex-end',
+  card: {
+    marginVertical: 8,
   },
-  footer: {
-    width: 240,
+  time: {
+    marginTop: 5,
   },
 }));

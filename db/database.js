@@ -5,8 +5,9 @@ import Firebase from 'firebase';
     authDomain: "quick-rental-9e5.firebaseapp.com",
     databaseURL: "https://quick-rental-9e5.firebaseio.com/",
     projectId: "quick-rental-9e5",
-    storageBucket: "gs://quick-rental-9e5.appspot.com",
+    storageBucket: "quick-rental-9e5.appspot.com",
     messagingSenderId: "329178222611"
   };
 let app = Firebase.initializeApp(config);
+export const imgBucket = app.storage();
 export const db = app.database();

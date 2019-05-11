@@ -5,6 +5,7 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
+  Dimensions,
 } from 'react-native';
 import {
   RkCard,
@@ -18,14 +19,16 @@ import { SocialBar, SocialSetting } from '../../components';
 import { data } from '../../data';
 
 import { ImageIcon } from '../../components/ImageIcon';
-
-import { FontAwesome } from '@expo/vector-icons';
+import Toast, {DURATION} from 'react-native-easy-toast'
+import { FontAwesome } from '../../assets/icons';
 
 // import { RkSwitch } from './switch/index';
 import PropTypes from 'prop-types';
+import NavigationType from '../../config/navigation/propTypes';
 
 import { UtilStyles } from '../../assets/style/styles';
 
+const { width } = Dimensions.get('window')
 const moment = require('moment');
 
 export class CardView extends React.Component {
@@ -46,20 +49,32 @@ export class CardView extends React.Component {
   //   };
   // }
 
+  static propTypes = {
+    navigation: NavigationType.isRequired,
+  };
+
   static navigationOptions = {
     title: 'Apartment Listing'.toUpperCase(),
   };
 
   state = {
     data: data.getArticles('post'),
-    value: false,
+    // value: false,
     tintColor: RkTheme.current.colors.accent,
   };
 
-  onBasicSwitchValueChange = (value) => {
-    this.setState({ value: value });
-    this.props.navigation.navigate('Articles4');
+  onButtonPress = () => {
+    this.refs.toast.show('Added to Bookmarks!');
   };
+
+  onButtonPress1 = () => {
+    this.refs.toast.show('hmmmm :D!');
+  };
+
+  // onBasicSwitchValueChange = (val) => {
+  //   this.setState({ value: val });
+  //   this.props.navigation.navigate('Articles4');
+  // };
 
   // onSwitchValueChanged = (value) => {
   //   this.setState({ selected: value });
@@ -83,7 +98,7 @@ export class CardView extends React.Component {
     <TouchableOpacity
       delayPressIn={70}
       activeOpacity={0.8}
-      onPress={() => this.props.navigation.navigate('Article', { id: item.id })}>
+      onPress={() => this.props.navigation.navigate('ApartmentDetails', { id: item.id })}>
     <RkCard style={styles.card}>
 
       <View rkCardHeader>
@@ -93,8 +108,10 @@ export class CardView extends React.Component {
           img={item.user.photo}
         />
         <View>
+
           <RkText rkType='header4'>{`${item.user.firstName} ${item.user.lastName}`}</RkText>
           <RkText rkType='secondary2 hintColor'>{moment().add(item.time, 'seconds').fromNow()}</RkText>
+
         </View>
       </View>
 
@@ -104,10 +121,9 @@ export class CardView extends React.Component {
           <View rkCardImgOverlay={true} />
       </View>
 
-
-        <RkButton rkType='circle accent-bg' style={styles.floating}>
-          <ImageIcon name='plus' />
-        </RkButton>
+      <RkButton rkType='circle accent-bg' style={styles.floating} onPress={this.onButtonPress}>
+        <ImageIcon name='plus' />
+      </RkButton>
 
       <View rkCardHeader style={styles.content}>
           <RkText style={styles.section} rkType='header4'>{item.title}</RkText>
@@ -129,32 +145,45 @@ export class CardView extends React.Component {
 
   render = () => (
 
-    <ScrollView
-    automaticallyAdjustContentInsets={true}
-    style={UtilStyles.container}>
+    <View style={UtilStyles.container}>>
+      <ScrollView
+      automaticallyAdjustContentInsets={true}
+      // style={UtilStyles.container}
+      >
 
-        <View style={styles.row}>
-          <SocialSetting name='List View' icon={FontAwesome.google} tintColor={RkTheme.current.colors.google} onPress={() => this.props.navigation.navigate('Articles4')}></SocialSetting>/>
-      </View>
-      {/* <View style={[UtilStyles.columnContainer, UtilStyles.bordered]}>
-            <View style={styles.componentRow}>
-              <RkText style={styles.text}>List View</RkText>
-              <RkSwitch
-                tintColor='orange'
-                value={this.state.value}
-                onValueChange={this.onBasicSwitchValueChange}
-              />
-            </View>
-          </View> */}
 
-          <FlatList
-      data={this.state.data}
-      renderItem={this.renderItem}
-      keyExtractor={this.extractItemKey}
-      style={styles.container}
+          <View style={styles.row}>
+            <SocialSetting name='List View' icon={FontAwesome.google} tintColor={RkTheme.current.colors.google} onPress={() => this.props.navigation.navigate('ListView')}/>
+        </View>  
+        {/* <View style={[UtilStyles.columnContainer, UtilStyles.bordered]}>
+              <View style={styles.componentRow}>
+                <RkText style={styles.text}>List View</RkText>
+                <RkSwitch
+                  tintColor='orange'
+                  value={this.state.value}
+                  onValueChange={this.onBasicSwitchValueChange}
+                />
+              </View>
+            </View> */}
+
+            <FlatList
+              data={this.state.data}
+              renderItem={this.renderItem}
+              keyExtractor={this.extractItemKey}
+              style={styles.container}
+            />
+
+    </ScrollView>
+    <Toast 
+      ref="toast"
+      position='bottom'
+      // positionValue={width}
+      // fadeInDuration={750}
+      // fadeOutDuration={1000}
+      opacity={0.8}
+      // textStyle={{color:'red'}}
     />
-
-  </ScrollView>
+  </View>
     
     
   );

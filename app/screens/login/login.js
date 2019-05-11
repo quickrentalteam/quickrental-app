@@ -4,6 +4,7 @@ import {
   Image,
   Dimensions,
   Keyboard,
+  Alert
 } from 'react-native';
 import {
   RkButton,
@@ -13,6 +14,11 @@ import {
   RkStyleSheet,
   RkTheme,
 } from 'react-native-ui-kitten';
+
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from '../../../actions';
+
 import { FontAwesome } from '../../assets/icons';
 import { Ionicons, AntDesign } from '@expo/vector-icons';
 import { GradientButton } from '../../components/gradientButton';
@@ -24,16 +30,23 @@ import Profile from '../../components/Profile';
 
 import * as firebase from 'firebase';
 
-export class LoginV1 extends React.Component {
+export class Login extends React.Component {
   constructor(props) {
     super(props);
-
+    // global.UUID = "";
     this.state = {
         email: "",
         pass: "",
     };
     this.async = new Async();
 }
+
+static propTypes = {
+  navigation: NavigationType.isRequired,
+};
+static navigationOptions = {
+  header: null,
+};
 
 // showBottomToast = (toastMessage) => {
 //   this._toast.show({
@@ -45,6 +58,8 @@ export class LoginV1 extends React.Component {
 componentDidMount() {
     // this.props.getData(); //call our action
 };
+
+
 
 setUsername = (value) =>{
     this.setState({
@@ -63,6 +78,7 @@ validateLogin = (email, pass) =>{
     // Firebase Login Authentication
     firebase.auth().signInWithEmailAndPassword(email, pass).then(function(user){
         let uid = user.user.uid;
+        // global.UUID = user.user.uid;
         //Retrieve profile saved on phone
         that.async.getLogin(uid).then( (value) => {
             //Parse and create the profile object
@@ -73,9 +89,10 @@ validateLogin = (email, pass) =>{
             //Set the profile state in Redux to be used throughout application
             that.props.setProfile(profile);
             //Navigate to Main screen
-            that.props.navigation.navigate('Main');
+            that.props.navigation.navigate('CardView');
         
-        });
+        }
+        );
     }).catch((error) => {
         console.log(error.code);
         if (error.code === 'auth/invalid-email')
@@ -93,13 +110,6 @@ validateLogin = (email, pass) =>{
             
     });
 }
-
-  static propTypes = {
-    navigation: NavigationType.isRequired,
-  };
-  static navigationOptions = {
-    header: null,
-  };
 
   getThemeImageSource = (theme) => (
     theme.name === 'light' ?
@@ -154,6 +164,7 @@ validateLogin = (email, pass) =>{
         <GradientButton
           style={styles.save}
           rkType='large'
+          icon=''
           onPress={this.onLoginButtonPressed}
           text='LOGIN'
         />
@@ -169,6 +180,25 @@ validateLogin = (email, pass) =>{
     </RkAvoidKeyboard>
   )
 }
+
+// The function takes data from the app current state,
+// and insert/links it into the props of our component.
+// This function makes Redux know that this component needs to be passed a piece of the state
+function mapStateToProps(state, props) {
+  return {
+      profile: state.profileReducer.profile,
+  }
+}
+
+// Doing this merges our actions into the component’s props,
+// while wrapping them in dispatch() so that they immediately dispatch an Action.
+// Just by doing this, we will have access to the actions defined in out actions file (action/home.js)
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(Actions, dispatch);
+}
+
+//Connect everything
+export default connect(mapStateToProps, mapDispatchToProps)("CardView");
 
 const styles = RkStyleSheet.create(theme => ({
   screen: {
