@@ -33,7 +33,7 @@ import { Ionicons, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons'
 //   <HeaderButton {...passMeFurther} {<MaterialCommunityIcons name={"lock-reset"} size={25}/>}  IconComponent={Ionicons} iconSize={23} color="blue" />
 // );
 
-export class Articles4 extends React.Component {
+export class ListView extends React.Component {
   static propTypes = {
     navigation: NavigationType.isRequired,
   };

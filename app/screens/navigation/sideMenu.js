@@ -12,7 +12,7 @@ import {
   RkText,
   RkTheme,
 } from 'react-native-ui-kitten';
-import { MainRoutes } from '../../config/navigation/routes';
+import { MainRoutes } from '../../config/navigation/routesFinalTest';
 import { FontAwesome } from '../../assets/icons';
 import NavigationType from '../../config/navigation/propTypes';
 
@@ -51,7 +51,8 @@ export class SideMenu extends React.Component {
           </RkText>
           <RkText>{item.title}</RkText>
         </View>
-        <RkText rkType='awesome secondaryColor small'>{FontAwesome.chevronRight}</RkText>
+        {/* <RkText rkType='awesome secondaryColor small'>{FontAwesome.chevronRight}</RkText> */}
+        <RkText rkType='awesome secondaryColor small'></RkText>
       </View>
     </TouchableHighlight>
   );

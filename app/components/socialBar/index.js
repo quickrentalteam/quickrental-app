@@ -8,8 +8,8 @@ import {
 import { FontAwesome } from '../../assets/icons';
 
 import { Ionicons } from '@expo/vector-icons';
-
-// import NavigationType from '../../config/navigation/propTypes';
+// import { withNavigation } from 'react-navigation';
+import NavigationType from '../../config/navigation/propTypes';
 
 export class SocialBar extends RkComponent {
   componentName = 'SocialBar';
@@ -50,7 +50,7 @@ export class SocialBar extends RkComponent {
 
   onCommentButtonPressed = () => {
     const defaultCount = SocialBar.data.comments;
-    // this.props.navigation.navigate('Comments');
+    // this.props.navigation.navigation('Comments');
     this.setState({
       comments: this.state.comments === defaultCount ? this.state.comments + 1 : defaultCount,
     });
@@ -81,7 +81,7 @@ export class SocialBar extends RkComponent {
           </RkButton>
         </View>
         <View style={section}>
-          <RkButton rkType='clear' onPress={this.onCommentButtonPressed}>
+          <RkButton rkType='clear' onPress={this.onCommentButtonPressed} >
             <RkText rkType='awesome hintColor' style={icon}>{FontAwesome.comment}</RkText>
             <RkText rkType='primary4 hintColor' style={label}>{comments}</RkText>
           </RkButton>
@@ -97,3 +97,5 @@ export class SocialBar extends RkComponent {
     );
   }
 }
+
+// export default withNavigation(SocialBar);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapView, Location, Permissions } from 'expo';
+import { MapView } from 'expo';
 
 export class Map extends React.Component {
   static navigationOptions = {

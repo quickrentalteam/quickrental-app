@@ -1,9 +1,4 @@
-// export * from './articles1';
-// export * from './articles2';
-// export * from './articles3';
-export * from './articles4';
-// export * from './blogposts';
-// export * from './blogposts1';
-export * from './article';
+export * from './listView';
+export * from './apartmentDetails';
 export * from './cardView';
 export * from './map';

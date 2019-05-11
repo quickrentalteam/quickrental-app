@@ -30,7 +30,7 @@ import Profile from '../../components/Profile';
 
 import * as firebase from 'firebase';
 
-export class LoginV1 extends React.Component {
+export class Login extends React.Component {
   constructor(props) {
     super(props);
     // global.UUID = "";

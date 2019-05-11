@@ -14,7 +14,7 @@ import {
 import { Avatar } from '../../components/avatar';
 import { Gallery } from '../../components/gallery';
 import { Listings } from '../../components/listings';
-import { data } from '../../data/';
+import { data } from '../../data';
 import formatNumber from '../../utils/textUtils';
 import NavigationType from '../../config/navigation/propTypes';
 import { scaleVertical } from '../../utils/scale';
@@ -23,7 +23,7 @@ import { SocialBar } from '../../components';
 
 const moment = require('moment');
 
-export class ProfileV1 extends React.Component {
+export class UserProfile extends React.Component {
 
   // state = {
   //   data: undefined,

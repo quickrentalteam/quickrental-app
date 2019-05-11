@@ -41,7 +41,7 @@ import Profile from '../../components/Profile';
 
 import * as firebase from 'firebase';
 import { db } from '../../../db/database';
-import { LoginV1 } from './login1';
+import { Login } from './login';
 
 // Enable LayoutAnimation on Android
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -362,7 +362,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 //Connect everything
-export default connect(mapStateToProps, mapDispatchToProps)("LoginV1");
+export default connect(mapStateToProps, mapDispatchToProps)("Login");
 
 export const UserTypeItem = props => {
   const { image, label, labelColor, selected, ...attributes } = props;

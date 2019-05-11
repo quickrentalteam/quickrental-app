@@ -18,7 +18,7 @@ import {
   SocialBar,
 } from '../../components';
 import NavigationType from '../../config/navigation/propTypes';
-import { GradientButton } from '../../components/';
+import { GradientButton } from '../../components';
 import { UtilStyles } from '../../assets/style/styles';
 import { Gallery } from '../../components/gallery';
 import { Constants, MapView } from 'expo';
@@ -26,7 +26,7 @@ import { Ionicons, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons'
 
 const moment = require('moment');
 
-export class Article extends React.Component {
+export class ApartmentDetails extends React.Component {
   static propTypes = {
     navigation: NavigationType.isRequired,
   };
@@ -54,7 +54,7 @@ export class Article extends React.Component {
   };
 
   onAvatarPressed = () => {
-    this.props.navigation.navigate('ProfileV1', { id: this.data.user.id });
+    this.props.navigation.navigate('UserProfile', { id: this.data.user.id });
   };
 
   _handleMapRegionChange = mapRegion => {
