@@ -12,7 +12,7 @@ import {
   RkText,
   RkTheme,
 } from 'react-native-ui-kitten';
-import { MainRoutes } from '../../config/navigation/routesFinalTest';
+import { MainRoutes } from '../../config/navigation/routes';
 import { FontAwesome } from '../../assets/icons';
 import NavigationType from '../../config/navigation/propTypes';
 

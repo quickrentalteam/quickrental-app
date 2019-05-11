@@ -7,7 +7,7 @@ import transition from './transitions';
 import {
   MainRoutes,
   MenuRoutes,
-} from './routesFinalTest';
+} from './routes';
 
 const main = {};
 const flatRoutes = {};
@@ -56,7 +56,7 @@ export const AppRoutes = DrawerRoutes;
 // export const SocialRoutes = _.find(MainRoutes, { id: 'SocialMenu' }).children;
 // export const ArticleRoutes = _.find(MainRoutes, { id: 'ArticlesMenu' }).children;
 // export const MessagingRoutes = _.find(MainRoutes, { id: 'MessagingMenu' }).children;
-// export const WalkthroughRoutes = _.find(MainRoutes, { id: 'WalkthroughMenu' }).children;
+export const WalkthroughRoutes = _.find(MainRoutes, { id: 'WalkthroughMenu' }).children;
 // export const OtherRoutes = _.find(MainRoutes, { id: 'OtherMenu' }).children;
 
 // export const LoginRoutes = _.find(MainRoutes, { id: 'Login' }).children;
