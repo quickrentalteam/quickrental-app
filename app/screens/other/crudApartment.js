@@ -21,12 +21,11 @@ import {
 import { GradientButton } from "../../components/";
 import NavigationType from "../../config/navigation/propTypes";
 import { UtilStyles } from "../../assets/style/styles";
-// import {UUID} from "../../screens/login/login1";
 import { ImagePicker, Permissions, Location, MapView } from "expo";
 import ImageBrowser from "../../components/ImageBrowser";
 import Grid from "react-native-grid-component";
 import * as firebase from "firebase";
-import { db } from "../../../db/database";
+import { db, imgBucket } from "../../../db/database";
 
 
 let addAptToDB = item => {
@@ -34,8 +33,10 @@ let addAptToDB = item => {
 };
 
 // const { width } = Dimensions.get("window");
-
-
+// firebase.auth().signInWithEmailAndPassword("test1@mail.com", "password");
+let currentUserUUID = "c014ae3f-ee81-40b8-99f8-b8ba787c9c2f";
+// let currentUserUUID = firebase.auth().currentUser.uuid;
+console.log(currentUserUUID);
 
 export class CRUDApartment extends React.Component {
   static propTypes = {
@@ -53,12 +54,36 @@ export class CRUDApartment extends React.Component {
       features: [],
       mainImg: "",
       phoneNum: "",
-      // postedBy: UUID,
+      postedBy: currentUserUUID,
       imageBrowserOpen: false,
       photos: [],
       locationResult: null,
       location: { coords: { latitude: 37.78825, longitude: -122.4324 } }
     };
+  }
+
+  uploadPhotos = async () => {
+    this.uploadArray()
+      .then(() => {
+        Alert.alert("Images uploaded!");
+      })
+      .catch((error) => {
+        Alert.alert(error);
+      })
+  }
+  
+
+  uploadArray = async () => {
+    this.state.photos.forEach(photo => {
+      this.uploadImage(photo);
+    });
+  }
+
+  uploadImage = async (uri) => {
+    const response = await fetch(uri);
+    const blob = await response.blob();
+    var ref = imgBucket.ref().child(currentUserUUID + "/");
+    return ref.put(blob);
   }
 
   setName = (value) =>{
@@ -74,7 +99,6 @@ export class CRUDApartment extends React.Component {
   };
 
   addFeature = (feature) => {
-    features = [];
     // Check if feature already exists in array or if list is empty
     // if (!Array.isArray(this.state.features) || !array.length || this.state.features.indexOf(feature) <= -1)
     // {
@@ -82,8 +106,8 @@ export class CRUDApartment extends React.Component {
       //   features: [...this.state.features, feature]
       // });
 
-      this.state.features.push(feature);
-      console.log("weehee" + this.state.features);
+    this.state.features.push(feature);
+      // console.log("weehee" + this.state.features);
     // }
 
     // If feature already exists in the array, remove it [Toggling]
@@ -371,7 +395,8 @@ export class CRUDApartment extends React.Component {
                   <RkText rkType="header">Amenities</RkText>
                   <View style={[UtilStyles.rowContainer]}>
                     <View style={[UtilStyles.columnContainer, { flex: 1 }]}>
-                      <View style={styles.componentRow}>
+                    <RkChoiceGroup>
+                      <View style={styles.componentRow}>                      
                         <RkChoice 
 
                         // onChangeText={aptName => this.setState({ aptName })}
@@ -414,8 +439,10 @@ export class CRUDApartment extends React.Component {
                           Laundry
                         </RkText>
                       </View>
+                      </RkChoiceGroup>
                     </View>
                     <View style={[UtilStyles.columnContainer, { flex: 1 }]}>
+                      <RkChoiceGroup>
                       <View style={styles.componentRow}>
                         <RkChoice 
                           onChange={this.addFeature("Unfurnished")}
@@ -457,6 +484,7 @@ export class CRUDApartment extends React.Component {
                           Pets
                         </RkText>
                       </View>
+                      </RkChoiceGroup>
                     </View>
                   </View>
                 </View>

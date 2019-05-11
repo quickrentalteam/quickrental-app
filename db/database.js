@@ -9,4 +9,5 @@ import Firebase from 'firebase';
     messagingSenderId: "329178222611"
   };
 let app = Firebase.initializeApp(config);
+export const imgBucket = app.storage();
 export const db = app.database();
