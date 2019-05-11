@@ -54,7 +54,7 @@ export class ApartmentDetails extends React.Component {
   };
 
   onAvatarPressed = () => {
-    this.props.navigation.navigate('UserProfile', { id: this.data.user.id });
+    this.props.navigation.navigate('Profile', { id: this.data.user.id });
   };
 
   _handleMapRegionChange = mapRegion => {

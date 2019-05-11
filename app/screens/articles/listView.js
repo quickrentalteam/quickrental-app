@@ -82,7 +82,7 @@ export class ListView extends React.Component {
     <TouchableOpacity
       delayPressIn={70}
       activeOpacity={0.8}
-      onPress={() => this.props.navigation.navigate('Article', { id: item.id })}>
+      onPress={() => this.props.navigation.navigate('ApartmentDetails', { id: item.id })}>
       <RkCard rkType='horizontal' style={styles.card}>
         <Image rkCardImg source={item.photo} />
         <View rkCardContent>

@@ -54,7 +54,7 @@ export class Bookmarks extends React.Component {
   extractItemKey = (item) => `${item.id}`;
 
   onItemPressed = (item) => {
-    this.props.navigation.navigate('Article', { id: item.id });
+    this.props.navigation.navigate('ApartmentDetails', { id: item.id });
   };
 
   renderItem = ({ item }) => (

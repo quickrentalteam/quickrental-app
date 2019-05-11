@@ -5,6 +5,8 @@ import { withRkTheme } from 'react-native-ui-kitten';
 import { NavBar } from '../../components/index';
 import transition from './transitions';
 import {
+  moreRoutes,
+  OtherRoutes,
   MainRoutes,
   MenuRoutes,
 } from './routes';
@@ -18,6 +20,14 @@ const routeMapping = (route) => ({
 });
 
 (MenuRoutes).forEach(route => {
+  flatRoutes[route.id] = routeMapping(route);
+  main[route.id] = routeMapping(route);
+  route.children.forEach(nestedRoute => {
+    flatRoutes[nestedRoute.id] = routeMapping(nestedRoute);
+  });
+});
+
+(moreRoutes).forEach(route => {
   flatRoutes[route.id] = routeMapping(route);
   main[route.id] = routeMapping(route);
   route.children.forEach(nestedRoute => {

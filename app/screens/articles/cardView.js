@@ -98,7 +98,7 @@ export class CardView extends React.Component {
     <TouchableOpacity
       delayPressIn={70}
       activeOpacity={0.8}
-      onPress={() => this.props.navigation.navigate('Article', { id: item.id })}>
+      onPress={() => this.props.navigation.navigate('ApartmentDetails', { id: item.id })}>
     <RkCard style={styles.card}>
 
       <View rkCardHeader>
@@ -153,7 +153,7 @@ export class CardView extends React.Component {
 
 
           <View style={styles.row}>
-            <SocialSetting name='List View' icon={FontAwesome.google} tintColor={RkTheme.current.colors.google} onPress={() => this.props.navigation.navigate('Articles4')}/>
+            <SocialSetting name='List View' icon={FontAwesome.google} tintColor={RkTheme.current.colors.google} onPress={() => this.props.navigation.navigate('ListView')}/>
         </View>  
         {/* <View style={[UtilStyles.columnContainer, UtilStyles.bordered]}>
               <View style={styles.componentRow}>
