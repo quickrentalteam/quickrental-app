@@ -35,6 +35,36 @@ export const postGame = (key, game) => {
 };
 
 
+// Fetches the specific apartment data from firebase
+export const getApt = (key) => {
+    let apt = db.ref('/apartments/' + key);
+
+    return apt;
+};
+
+//Fetches specific apartment data from initial fetch
+export const getAptFromCache = (key, apts) =>{
+    let apt = apts[key];
+
+    return apt;
+};
+
+
+// Fetches all apartment records to populate the home page 
+export const getApts = () => {
+    let apts = db.ref('/apartments/');
+
+    return apts;
+};
+
+
+// Fetches user information from db
+export const getUser = (uuid) => {
+    let user = db.ref('/users/' + uuid);
+
+    return user;
+};
+
 
 export const getOrgs = (that) => {
     db.ref('/v1/Organizations').on("value", function(snapshot) {

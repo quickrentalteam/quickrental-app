@@ -24,7 +24,7 @@ import { UtilStyles } from "../../assets/style/styles";
 import { ImagePicker, Permissions, Location, MapView } from "expo";
 import ImageBrowser from "../../components/ImageBrowser";
 import Grid from "react-native-grid-component";
-import * as firebase from "firebase";
+import {getUUID, getVerification, getDisplayName} from '../../../db/user';
 import { db, imgBucket } from "../../../db/database";
 
 
@@ -32,10 +32,11 @@ let addAptToDB = item => {
   db.ref("/apartments").push(item);
 };
 
-// const { width } = Dimensions.get("window");
-// firebase.auth().signInWithEmailAndPassword("test1@mail.com", "password");
-let currentUserUUID = "c014ae3f-ee81-40b8-99f8-b8ba787c9c2f";
-// let currentUserUUID = firebase.auth().currentUser.uuid;
+
+
+if (currentUser == null)
+  let currentUserUUID = "c014ae3f-ee81-40b8-99f8-b8ba787c9c2f"; // Debugging purposes if skipping straight to CRUD screen
+else let currentUserUUID = getUUID();
 console.log(currentUserUUID);
 
 export class CRUDApartment extends React.Component {
@@ -61,6 +62,11 @@ export class CRUDApartment extends React.Component {
       location: { coords: { latitude: 37.78825, longitude: -122.4324 } }
     };
   }
+  
+  componentDidMount = () => {
+    if (!getVerification())
+      Alert.alert("You must verify your email before listings can appear.");
+  };
 
   uploadPhotos = async () => {
     this.uploadArray()

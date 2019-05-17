@@ -1,4 +1,12 @@
-const articles = [{
+// import * as fb from '../../../db/services'
+import {db} from '../../../db/database'
+
+let apts = db.ref('/apartments');
+
+// Check if valid entry in DB, else use lcoal data for debugging
+if ( apts != null && 'header' in apts)
+  const articles = apts;
+else const articles = [{
   id: 1,
   photo: require('../img/loc.png'),
   type: 'article',
