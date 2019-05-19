@@ -1,5 +1,9 @@
 export const URL = "https://quick-rental-9e5.firebaseio.com";
-import Firebase from 'firebase';
+
+// import Firebase from 'firebase';
+import * as firebase from 'firebase';
+import 'firebase/firestore';
+
  let config = {
     apiKey: "AIzaSyA1WGJAy8V2Ym7m3JrmLKvyaay-YABHJcs",
     authDomain: "quick-rental-9e5.firebaseapp.com",
@@ -8,6 +12,8 @@ import Firebase from 'firebase';
     storageBucket: "quick-rental-9e5.appspot.com",
     messagingSenderId: "329178222611"
   };
-let app = Firebase.initializeApp(config);
+  
+let app = firebase.initializeApp(config);
 export const imgBucket = app.storage();
 export const db = app.database();
+export const dbCollection = firebase.firestore();

@@ -16,7 +16,8 @@ import {
   RkStyleSheet,
   RkAvoidKeyboard,
   RkButton,
-  RkChoice
+  RkChoice,
+  RkChoiceGroup
 } from "react-native-ui-kitten";
 import { GradientButton } from "../../components/";
 import NavigationType from "../../config/navigation/propTypes";
@@ -32,12 +33,7 @@ let addAptToDB = item => {
   db.ref("/apartments").push(item);
 };
 
-
-
-if (currentUser == null)
-  let currentUserUUID = "c014ae3f-ee81-40b8-99f8-b8ba787c9c2f"; // Debugging purposes if skipping straight to CRUD screen
-else let currentUserUUID = getUUID();
-console.log(currentUserUUID);
+let currentUserUUID = getUUID();
 
 export class CRUDApartment extends React.Component {
   static propTypes = {

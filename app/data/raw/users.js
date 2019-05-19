@@ -1,3 +1,5 @@
+import {db, dbCollection} from '../../../db/database'
+
 const images = [
   require('../img/Image10.png'),
   require('../img/Image11.png'),
@@ -79,5 +81,8 @@ const users = [{
   images,
 
 },];
+
+
+// dbCollection.collection('quickrental').doc("users").set(JSON.stringify(users));
 
 export default users;

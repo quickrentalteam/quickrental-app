@@ -1,4 +1,6 @@
-export const Conversations = [
+import {db, dbCollection} from '../../../db/database'
+
+const Conversations = [
   {
     withUserId: 4,
     messages: [
@@ -78,5 +80,7 @@ export const Conversations = [
       }],
   },
 ];
+
+// dbCollection.collection('quickrental').doc("conversations").set(JSON.stringify(Conversations));
 
 export default Conversations;

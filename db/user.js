@@ -1,26 +1,22 @@
 import * as firebase from 'firebase';
 // import {Alert} from 'react-native';
 
-const currentUser = firebase.auth().currentUser;
+export const currentUser = firebase.auth().currentUser;
 
-const getUUID = () => {
-    return currentUser.uid;
+export const getUUID = () => {
+    if (currentUser != null)
+        return currentUser.uid;
+    else return "c014ae3f-ee81-40b8-99f8-b8ba787c9c2f" // Debugging purposes
 };
 
-const getDisplayName = () => {
+ export const getDisplayName = () => {
     return currentUser.displayName;
 };
 
-const getVerification = () => {
+export const getVerification = () => {
     return currentUser.emailVerified;
 };
 
-const signOut = () => {
+export const signOut = () => {
     firebase.auth().signOut();
 };
-
-export default signOut;
-export default getUUID;
-export default getDisplayName;
-export default getVerification;
-export default currentUser;
