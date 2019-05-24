@@ -8,6 +8,9 @@ export class ImageIcon extends Component {
     heart: <Image source={require('../assets/icons/heart.png')}/>,
     phone: <Image source={require('../assets/icons/phone.png')}/>,
     user: <Image source={require('../assets/icons/user.png')}/>,
+    close: <Image source={require('../assets/icons/closetry.png')}/>,
+    closebookmarks: <Image source={require('../assets/icons/closebookmarks.png')}/>,
+    check: <Image source={require('../assets/icons/check.png')}/>,
   };
 
   render() {

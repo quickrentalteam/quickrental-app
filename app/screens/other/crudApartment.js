@@ -16,7 +16,8 @@ import {
   RkStyleSheet,
   RkAvoidKeyboard,
   RkButton,
-  RkChoice
+  RkChoice,
+  RkChoiceGroup,
 } from "react-native-ui-kitten";
 import { GradientButton } from "../../components/";
 import NavigationType from "../../config/navigation/propTypes";
@@ -50,7 +51,9 @@ export class CRUDApartment extends React.Component {
     super(props);
     this.state = {
       aptName: "",
+      streetName: "",
       price: 0,
+      distance: 0,
       features: [],
       mainImg: "",
       phoneNum: "",
@@ -92,9 +95,21 @@ export class CRUDApartment extends React.Component {
     });
   };
 
+  setName = (value) =>{
+    this.setState({
+        streetName: value,
+    });
+  };
+
   setPrice = (value) => {
     this.setState({
       price: value,
+    });
+  };
+
+  setDistance = (value) => {
+    this.setState({
+      distance: value,
     });
   };
 
@@ -304,12 +319,12 @@ export class CRUDApartment extends React.Component {
         >
           <View style={[styles.formContent]}>
             <View style={styles.row}>
-              <RkText rkType="subtitle">Enter Location</RkText>
+              <RkText rkType="primary1">Enter Location</RkText>
               {/* </View> */}
 
               <RkButton
                 rkType="outline rounded"
-                style={{ alignSelf: "stretch", width: 160 }}
+                style={{ alignSelf: "stretch", width: 210 }}
                 onPress={this.onMapButtonPress}
               >
                 Use Current Location
@@ -330,11 +345,9 @@ export class CRUDApartment extends React.Component {
               />
             </View>
             <View style={[UtilStyles.columnContainer]}>
-              <RkTextInput label="Apartment Name" rkType="form" />
-
               {/* <View style={[styles.textRow]}> */}
               <View style={styles.row}>
-                <RkText
+                <RkText rkType="primary1"
                   style={styles.txt}
                   rkType="subtitle"
                   onChangeText={aptName => this.setState({ aptName })}
@@ -365,6 +378,19 @@ export class CRUDApartment extends React.Component {
                   Camera
                 </RkButton>
               </View>
+              
+              <RkTextInput label="Apartment Name" rkType="form" />
+              <RkTextInput label="Apartment Street Name" rkType="form" />
+
+              <RkTextInput
+                label="Walking Distance"
+                rkType="form"
+                keyboardType="numeric"
+                // onChangeText={price => this.onChangedNumber(price)}
+                value={this.state.distance + "km"}
+                maxLength={3} //setting limit of input
+              />
+
 
               <RkTextInput
                 label="Price"
@@ -492,7 +518,7 @@ export class CRUDApartment extends React.Component {
 
               <View style={[styles.content]}>
                 <View style={[styles.textRow]}>
-                  <RkText rkType="subtitle">Upload Apartment Photos</RkText>
+                  <RkText rkType="primary1">Upload Apartment Photos</RkText>
                 </View>
                 <View style={styles.containerImages}>
                   <RkButton
@@ -502,7 +528,7 @@ export class CRUDApartment extends React.Component {
                   >
                     Upload Photos
                   </RkButton>
-                  <RkText>Your Apartment Photos</RkText>
+                  <RkText style={{ alignSelf: "center", padding: 10 }} rkType='secondary2'>Your Apartment Photos</RkText>
 
                   <ScrollView>
                     <Grid
@@ -541,7 +567,8 @@ const styles = RkStyleSheet.create(theme => ({
     backgroundColor: theme.colors.screen.base
   },
   content: {
-    marginTop: 10
+    marginTop: 10,
+    marginBottom: 10
   },
   formContent: {
     justifyContent: "space-between",

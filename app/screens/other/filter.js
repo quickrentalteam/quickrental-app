@@ -99,6 +99,12 @@ export class Filter extends React.Component {
     });
   };
 
+  //Navigate To Maps
+  onResultsButtonPress = () => {
+    this.props.navigation.navigate('CardView');
+  };
+
+
   render = () => (
     <ScrollView style={styles.container} automaticallyAdjustContentInsets={true}>
 
@@ -106,7 +112,7 @@ export class Filter extends React.Component {
         {/* {this.renderImage()} */}
         <RkText rkType='h1'>Advanced Search</RkText>
     </View>
-    <View style={[styles.headerTop, styles.bordered]}>
+    {/* <View style={[styles.headerTop, styles.bordered]}>
         <View style={styles.rowButtonTop}>
             <View style={styles.buttons}>
                 <RkButton style={styles.buttontop} rkType='icon circle'>
@@ -119,7 +125,7 @@ export class Filter extends React.Component {
                 </RkButton>
             </View>
         </View>
-        </View>
+        </View> */}
 
         {/* <SliderContainer caption='<Slider/> with custom style #9 and thumbImage'>
           <Slider
@@ -220,7 +226,7 @@ export class Filter extends React.Component {
           </View>
         </View>
 
-        <GradientButton rkType='large' style={styles.button} text='SEARCH' />
+        <GradientButton rkType='large' style={styles.button} text='SEARCH' onPress = {this.onResultsButtonPress} />
 
     </ScrollView>
   )

@@ -5,6 +5,7 @@ import {
   Image,
   TouchableOpacity,
   FlatList,
+  Alert,
 } from 'react-native';
 import {
   RkText,
@@ -18,8 +19,9 @@ import { data } from '../../data';
 import formatNumber from '../../utils/textUtils';
 import NavigationType from '../../config/navigation/propTypes';
 import { scaleVertical } from '../../utils/scale';
-
+import { ImageIcon } from '../../components/ImageIcon';
 import { SocialBar } from '../../components';
+import call from 'react-native-phone-call';
 
 const moment = require('moment');
 
@@ -48,6 +50,45 @@ export class UserProfile extends React.Component {
   }
 
   extractItemKey = (item) => `${item.id}`;
+    // `${item.withUser.id}`;
+  
+
+  alertFunction = () => {
+    Alert.alert(
+      'Are you sure you want to remove this listing?', undefined,
+      [
+        {text: 'Yes', onPress: this.onNavigateButtonPress},
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        
+      ],
+      {cancelable: false},
+      );
+  }
+
+  call = () => {
+    //handler to make a call
+    const args = {
+      number: '1(868)765-7621', //get number dynamically!!!
+      prompt: false,
+    };
+    call(args).catch(console.error);
+  };
+
+  //Navigate To Direct Message
+  onMessageButtonPress = (item) => {
+    // const navigationParams = { userId: item.withUser.id };
+    this.props.navigation.navigate('Chat'); //need to fix to make dynamic
+  };
+
+  //Navigate To CRUD Apartment
+  onButtonPress = () => {
+    this.props.navigation.navigate('CRUDApartment');
+  };
+
 
   onItemPressed = (item) => {
     this.props.navigation.navigate('ApartmentDetails', { id: item.id });
@@ -59,6 +100,9 @@ export class UserProfile extends React.Component {
       activeOpacity={0.8}
       onPress={() => this.onItemPressed(item)}>
       <RkCard rkType='imgBlock' style={styles.card}>
+        <RkButton rkType='clear' style={styles.floatingclose} onPress={this.alertFunction}>
+          <ImageIcon name='closebookmarks' size={45}/>
+        </RkButton>
         <Image rkCardImg source={item.photo} />
         <View rkCardImgOverlay rkCardContent style={styles.overlay}>
           <RkText rkType='header4 inverseColor'>{item.header}</RkText>
@@ -95,9 +139,9 @@ export class UserProfile extends React.Component {
         </View> */}
       </View>
       <View style={styles.buttons}>
-        <RkButton style={styles.button} rkType='clear link'>CALL</RkButton>
+        <RkButton style={styles.button} onPress={this.call} rkType='clear link'>CALL</RkButton>
         <View style={styles.separator} />
-        <RkButton style={styles.button} rkType='clear link'>MESSAGE</RkButton>
+        <RkButton style={styles.button} onPress={this.onMessageButtonPress} rkType='clear link'>MESSAGE</RkButton>
       </View>
 
       <FlatList
@@ -109,7 +153,7 @@ export class UserProfile extends React.Component {
       {/* <Listings items={this.state.data.images} /> */}
 
       <View style={styles.footer}>
-      <RkButton style={styles.button} rkType='circle highlight'>
+      <RkButton style={styles.button} rkType='circle highlight' onPress={this.onButtonPress}>
         <Image source={require('../../assets/icons/iconPlus.png')} />
       </RkButton>
     </View>
@@ -173,5 +217,13 @@ const styles = RkStyleSheet.create(theme => ({
   },
   time: {
     marginTop: 5,
+  },
+  floatingclose: {
+    width: 40,
+    height: 40,
+    position: 'absolute',
+    zIndex: 450,
+    right: 1,
+    top: -3,
   },
 }));

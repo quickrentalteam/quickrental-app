@@ -23,6 +23,7 @@ import { UtilStyles } from '../../assets/style/styles';
 import { Gallery } from '../../components/gallery';
 import { Constants, MapView } from 'expo';
 import { Ionicons, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
+import call from 'react-native-phone-call';
 
 const moment = require('moment');
 
@@ -59,6 +60,21 @@ export class ApartmentDetails extends React.Component {
 
   _handleMapRegionChange = mapRegion => {
     this.setState({ mapRegion });
+  };
+
+  call = () => {
+    //handler to make a call
+    const args = {
+      number: '1(868)765-7621', //get number dynamically!!!
+      prompt: false,
+    };
+    call(args).catch(console.error);
+  };
+
+  //Navigate To Direct Message
+  onMessageButtonPress = (item) => {
+    // const navigationParams = { userId: item.withUser.id };
+    this.props.navigation.navigate('Chat'); //need to fix to make dynamic
   };
 
 
@@ -115,19 +131,20 @@ export class ApartmentDetails extends React.Component {
       </View>
 
       <View style={styles.buttonSection}>
-        <GradientButton
+        {/* <GradientButton
               style={styles.save}
               rkType='large'
               icon={<MaterialCommunityIcons name={"cellphone-android"} size={25}/>}
               text={` Message ${this.data.user.firstName} ${this.data.user.lastName}`}
               // onPress={this.onSignUpButtonPressed}
-        />
+        /> */}
 
         <GradientButton
               style={styles.save}
               rkType='large'
               icon={<Ionicons name={"ios-call"} size={25}/>}
               text={` Call ${this.data.user.firstName}`}
+              onPress={this.call}
               // onPress={this.onSignUpButtonPressed}
         />
 
@@ -136,6 +153,7 @@ export class ApartmentDetails extends React.Component {
               rkType='large'
               icon={<MaterialCommunityIcons name={"facebook-messenger"} size={25}/>}
               text={` Direct Message ${this.data.user.firstName}`}
+              onPress={this.onMessageButtonPress}
               // onPress={this.onSignUpButtonPressed}
         />
       </View>

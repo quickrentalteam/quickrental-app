@@ -32,6 +32,7 @@
     "react-native-looped-carousel": "^0.1.13",
     "react-native-maps": "^0.24.2",
     "react-native-material-dropdown": "^0.11.1",
+    "react-native-phone-call": "^1.0.9",
     "react-native-progress-bar": "0.1.2",
     "react-native-root-toast": "^3.0.2",
     "react-native-sideswipe": "^1.4.2",
