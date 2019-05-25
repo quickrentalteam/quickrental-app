@@ -184,11 +184,11 @@ export class SignUp extends React.Component {
 
   onSignUpButtonPressed = () => {
     this.createLogin();
-    this.props.navigation.navigate('Login1');
+    this.props.navigation.navigate('CardView');
   };
 
   onSignInButtonPressed = () => {
-    this.props.navigation.navigate('Login1');
+    this.props.navigation.navigate('Login');
   };
 
   setSelectedType = selectedType =>{

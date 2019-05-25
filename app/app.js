@@ -15,6 +15,8 @@ import { bootstrap } from './config/bootstrap';
 import track from './config/analytics';
 import { data } from './data';
 
+console.disableYellowBox = true;
+
 bootstrap();
 data.populateData();
 

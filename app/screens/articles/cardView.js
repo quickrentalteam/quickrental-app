@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Dimensions,
+  Alert,
 } from 'react-native';
 import {
   RkCard,
@@ -13,6 +14,7 @@ import {
   RkButton,
   RkSwitch,
   RkTheme,
+  RkTextInput,
 } from 'react-native-ui-kitten';
 import { Avatar } from '../../components/avatar';
 import { SocialBar, SocialSetting } from '../../components';
@@ -25,8 +27,10 @@ import { FontAwesome } from '../../assets/icons';
 // import { RkSwitch } from './switch/index';
 import PropTypes from 'prop-types';
 import NavigationType from '../../config/navigation/propTypes';
-
+import { GradientButton } from '../../components/';
 import { UtilStyles } from '../../assets/style/styles';
+
+import { Ionicons, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 
 const { width } = Dimensions.get('window')
 const moment = require('moment');
@@ -71,6 +75,23 @@ export class CardView extends React.Component {
     this.refs.toast.show('hmmmm :D!');
   };
 
+  alertFunction = () => {
+    Alert.alert(
+      'Are you sure you want to delete this listing?', undefined,
+      [
+        {text: 'Yes', onPress: this.onNavigateButtonPress},
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        
+      ],
+      {cancelable: false},
+      );
+  }
+
+
   // onBasicSwitchValueChange = (val) => {
   //   this.setState({ value: val });
   //   this.props.navigation.navigate('Articles4');
@@ -82,24 +103,33 @@ export class CardView extends React.Component {
 
   extractItemKey = (item) => `${item.id}`;
 
-  renderItem = ({ item, index }) => (
+  renderInputLabel = () => (
+    <RkText rkType='awesome'>{FontAwesome.search}</RkText>
+  );
 
-    // <View>
-    //   <View style={[UtilStyles.columnContainer, UtilStyles.bordered]}>
-    //         <View style={styles.componentRow}>
-    //           <RkText>List View</RkText>
-    //           <RkSwitch
-    //             value={this.state.value}
-    //             onValueChange={this.onBasicSwitchValueChange}
-    //           />
-    //         </View>
-    //       </View>
-    
+  renderHeader = () => (
+    <View style={styles.searchContainer}>
+      <RkTextInput
+        autoCapitalize='none'
+        autoCorrect={false}
+        // onChange={this.onInputChanged}
+        label={this.renderInputLabel()}
+        rkType='row'
+        placeholder='Search'
+      />
+    </View>
+  );
+
+  renderItem = ({ item, index }) => (
     <TouchableOpacity
       delayPressIn={70}
       activeOpacity={0.8}
       onPress={() => this.props.navigation.navigate('ApartmentDetails', { id: item.id })}>
     <RkCard style={styles.card}>
+
+    <RkButton rkType='clear' style={styles.floatingclose} onPress={this.alertFunction}>
+      <ImageIcon name='close' size={45}/>
+    </RkButton>
 
       <View rkCardHeader>
         <Avatar
@@ -121,7 +151,7 @@ export class CardView extends React.Component {
           <View rkCardImgOverlay={true} />
       </View>
 
-      <RkButton rkType='circle accent-bg' style={styles.floating} onPress={this.onButtonPress}>
+      <RkButton rkType='circle accent-bg info' style={styles.floating} onPress={this.onButtonPress}>
         <ImageIcon name='plus' />
       </RkButton>
 
@@ -139,49 +169,43 @@ export class CardView extends React.Component {
     </TouchableOpacity>
 
     // </View>
-
-    
   );
 
   render = () => (
 
-    <View style={UtilStyles.container}>>
+    <View style={UtilStyles.container}>
       <ScrollView
+      contentContainerStyle={{flex: 1}}
       automaticallyAdjustContentInsets={true}
       // style={UtilStyles.container}
       >
+      <FlatList
+        data={this.state.data}
+        renderItem={this.renderItem}
+        ListHeaderComponent={this.renderHeader}
+        keyExtractor={this.extractItemKey}
+        style={styles.container}
+      />
 
+      <View style={styles.mainContainerStyle}>
+        <GradientButton
+          style={styles.floatingMenuButtonStyle}
+          rkType='circle accent-bg'
+          icon= {<MaterialCommunityIcons name={"view-list"} size={35} color="white"/>}
+          text=''
+          onPress={() => this.props.navigation.navigate('ListView')}
+        />
 
-          <View style={styles.row}>
-            <SocialSetting name='List View' icon={FontAwesome.google} tintColor={RkTheme.current.colors.google} onPress={() => this.props.navigation.navigate('ListView')}/>
-        </View>  
-        {/* <View style={[UtilStyles.columnContainer, UtilStyles.bordered]}>
-              <View style={styles.componentRow}>
-                <RkText style={styles.text}>List View</RkText>
-                <RkSwitch
-                  tintColor='orange'
-                  value={this.state.value}
-                  onValueChange={this.onBasicSwitchValueChange}
-                />
-              </View>
-            </View> */}
-
-            <FlatList
-              data={this.state.data}
-              renderItem={this.renderItem}
-              keyExtractor={this.extractItemKey}
-              style={styles.container}
-            />
+        {/* <RkButton rkType='circle accent-bg' style={styles.floatingMenuButtonStyle} onPress={() => this.props.navigation.navigate('ListView')}>
+          <MaterialCommunityIcons name='view-list' size={35}  color="white"/>
+        </RkButton> */}
+      </View>
 
     </ScrollView>
     <Toast 
       ref="toast"
       position='bottom'
-      // positionValue={width}
-      // fadeInDuration={750}
-      // fadeOutDuration={1000}
       opacity={0.8}
-      // textStyle={{color:'red'}}
     />
   </View>
     
@@ -193,7 +217,7 @@ const styles = RkStyleSheet.create(theme => ({
   container: {
     backgroundColor: theme.colors.screen.scroll,
     paddingVertical: 8,
-    paddingHorizontal: 10,
+    paddingHorizontal: 14,
   },
   card: {
     marginVertical: 8,
@@ -217,5 +241,30 @@ const styles = RkStyleSheet.create(theme => ({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+  },
+
+  mainContainerStyle: {
+    flexDirection: 'column',
+    flex: 1
+  },
+
+  floatingMenuButtonStyle: {
+    width: 56,
+    height: 56,
+    zIndex: 200,
+    right: 10,
+    // top: 236,
+
+    alignSelf: 'flex-end',
+    position: 'absolute',
+    bottom: 17,
+  },
+  floatingclose: {
+    width: 40,
+    height: 40,
+    position: 'absolute',
+    zIndex: 450,
+    right: 1,
+    top: -3,
   },
 }));

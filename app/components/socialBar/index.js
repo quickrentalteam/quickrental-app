@@ -6,6 +6,7 @@ import {
   RkComponent,
 } from 'react-native-ui-kitten';
 import { FontAwesome } from '../../assets/icons';
+import { ImageIcon } from '../../components/ImageIcon';
 
 import { Ionicons } from '@expo/vector-icons';
 // import { withNavigation } from 'react-navigation';
@@ -87,8 +88,10 @@ export class SocialBar extends RkComponent {
           </RkButton>
         </View>
         <View style={section}>
+
           <RkButton rkType='clear' onPress={this.onShareButtonPressed}>
-            <Ionicons style={icon} name="ios-checkmark-circle-outline" />
+            <ImageIcon name='check' size={45}/>
+            {/* <Ionicons style={icon} name="ios-checkmark-circle-outline" /> */}
             {/* <RkText rkType='awesome hintColor' style={icon}>{FontAwesome.user}</RkText> */}
             {/* <RkText rkType='primary4 hintColor' style={label}>{shares}</RkText> */}
           </RkButton>

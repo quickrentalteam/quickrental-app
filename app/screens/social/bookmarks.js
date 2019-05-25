@@ -5,6 +5,7 @@ import {
   Image,
   TouchableOpacity,
   FlatList,
+  Alert,
 } from 'react-native';
 import {
   RkText,
@@ -20,6 +21,7 @@ import NavigationType from '../../config/navigation/propTypes';
 import { scaleVertical } from '../../utils/scale';
 
 import { SocialBar } from '../../components';
+import { ImageIcon } from '../../components/ImageIcon';
 
 const moment = require('moment');
 
@@ -33,7 +35,7 @@ export class Bookmarks extends React.Component {
     navigation: NavigationType.isRequired,
   };
   static navigationOptions = {
-    title: 'User Profile'.toUpperCase(),
+    title: 'Bookmarks'.toUpperCase(),
   };
 
   state = {
@@ -57,12 +59,33 @@ export class Bookmarks extends React.Component {
     this.props.navigation.navigate('ApartmentDetails', { id: item.id });
   };
 
+  alertFunction = () => {
+    Alert.alert(
+      'Are you sure you want to remove this listing?', undefined,
+      [
+        {text: 'Yes', onPress: this.onNavigateButtonPress},
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        
+      ],
+      {cancelable: false},
+      );
+  }
+
   renderItem = ({ item }) => (
     <TouchableOpacity
       delayPressIn={70}
       activeOpacity={0.8}
       onPress={() => this.onItemPressed(item)}>
       <RkCard rkType='imgBlock' style={styles.card}>
+
+      <RkButton rkType='clear' style={styles.floatingclose} onPress={this.alertFunction}>
+        <ImageIcon name='closebookmarks' size={45}/>
+      </RkButton>
+
         <Image rkCardImg source={item.photo} />
         <View rkCardImgOverlay rkCardContent style={styles.overlay}>
           <RkText rkType='header4 inverseColor'>{item.header}</RkText>
@@ -177,5 +200,13 @@ const styles = RkStyleSheet.create(theme => ({
   },
   time: {
     marginTop: 5,
+  },
+  floatingclose: {
+    width: 40,
+    height: 40,
+    position: 'absolute',
+    zIndex: 450,
+    right: 1,
+    top: -3,
   },
 }));
