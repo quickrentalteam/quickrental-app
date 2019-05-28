@@ -13,7 +13,7 @@ import {
 export class Walkthrough2 extends React.Component {
   getThemeImageSource = (theme) => (
     theme.name === 'light' ?
-      require('../../assets/images/screensImage.png') : require('../../assets/images/screensImageDark.png')
+      require('../../assets/images/splashBack.png') : require('../../assets/images/screensImageDark.png')
   );
 
   renderImage = () => (

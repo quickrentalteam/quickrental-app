@@ -75,6 +75,10 @@ export class CardView extends React.Component {
     this.refs.toast.show('hmmmm :D!');
   };
 
+  onSearchPress = () => {
+    this.props.navigation.navigate('Filter');
+  };
+
   alertFunction = () => {
     Alert.alert(
       'Are you sure you want to delete this listing?', undefined,
@@ -109,13 +113,12 @@ export class CardView extends React.Component {
 
   renderHeader = () => (
     <View style={styles.searchContainer}>
-      <RkTextInput
-        autoCapitalize='none'
-        autoCorrect={false}
-        // onChange={this.onInputChanged}
-        label={this.renderInputLabel()}
-        rkType='row'
-        placeholder='Search'
+     <GradientButton
+        style={styles.save}
+        rkType='large'
+        icon={<Ionicons name={"ios-search"} size={35} color="white"/> }
+        text=' Advanced Search'
+        onPress={this.onSearchPress}
       />
     </View>
   );
@@ -259,6 +262,15 @@ const styles = RkStyleSheet.create(theme => ({
     position: 'absolute',
     bottom: 17,
   },
+
+  searchContainer: {
+    backgroundColor: theme.colors.screen.bold,
+    paddingHorizontal: 13,
+    paddingVertical: 10,
+    height: 80,
+    alignItems: 'center',
+  },
+
   floatingclose: {
     width: 40,
     height: 40,

@@ -72,7 +72,7 @@ export class UserProfile extends React.Component {
   call = () => {
     //handler to make a call
     const args = {
-      number: '1(868)765-7621', //get number dynamically!!!
+      number: '1(868)423-5243', //get number dynamically!!!
       prompt: false,
     };
     call(args).catch(console.error);

@@ -6,7 +6,9 @@ const articles = [{
   header: 'Kappan Apartment',
   text: 'Price: $3200\n' +
   'Location: Rapsey Street\n' +
-  'Walking Distance: 0.5km\n',
+  'Walking Distance: 0.5km\n' + '\n' +
+  'Amenities: \n' +
+  'Furnished\n' + 'Shared\n',
 
   // text: 'Price: $1500' + 'Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis. Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.',
   comments: [{
@@ -34,7 +36,10 @@ const articles = [{
   header: 'Streatham Lodge Apartments',
   text: 'Price: $1500\n' +
   'Location: Streatham Lodge Road\n' +
-  'Walking Distance: 2km\n',
+  'Walking Distance: 2km\n' + ' \n' +
+
+  'Amenities: ' +
+  'Furnished' + 'A/C',
   comments: [{
     id: 1,
     text: 'Not bad!',

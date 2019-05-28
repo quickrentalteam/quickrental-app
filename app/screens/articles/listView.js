@@ -53,6 +53,10 @@ export class ListView extends React.Component {
     this.props.navigation.navigate('CardView');
   };
 
+  onSearchPress = () => {
+    this.props.navigation.navigate('Filter');
+  };
+
   onButtonPress = () => {
     this.refs.toast.show('Added to Bookmarks!');
   };
@@ -97,16 +101,34 @@ export class ListView extends React.Component {
   );
 
   renderHeader = () => (
-    <View style={styles.searchContainer}>
-      <RkTextInput
-        autoCapitalize='none'
-        autoCorrect={false}
-        // onChange={this.onInputChanged}
-        label={this.renderInputLabel()}
-        rkType='row'
-        placeholder='Search'
+    <View style = {styles.searchContainer}>
+
+    <GradientButton
+        style={styles.save}
+        rkType='large'
+        icon={<Ionicons name={"ios-search"} size={35} color="white"/> }
+        text=' Advanced Search'
+        onPress={this.onSearchPress}
       />
+
+    {/* <RkButton style={[styles.githubButton, UtilStyles.spaceTop]} rkType='info outline' onPress={this.onSearchPress}>
+      <MaterialCommunityIcons name={"cards-outline"} size={35} color="white"/> 
+    
+      <RkText style = {styles.colorText} rkType='caption'>Advanced Search</RkText>
+
+    </RkButton> */}
     </View>
+            
+    // <View  onPress={this.onSearchPress} style={styles.searchContainer}>
+    //   <RkTextInput
+    //     autoCapitalize='none'
+    //     autoCorrect={false}
+    //     // onChange={this.onInputChanged}
+    //     label={this.renderInputLabel()}
+    //     rkType='row'
+    //     placeholder='Search'
+    //   />
+    // </View>
   );
 
   renderItem = ({ item }) => (
@@ -277,9 +299,9 @@ const styles = RkStyleSheet.create(theme => ({
 
   searchContainer: {
     backgroundColor: theme.colors.screen.bold,
-    paddingHorizontal: 16,
+    paddingHorizontal: 13,
     paddingVertical: 10,
-    height: 60,
+    height: 80,
     alignItems: 'center',
   },
 
@@ -290,5 +312,17 @@ const styles = RkStyleSheet.create(theme => ({
   },
   searchIcon: {
     marginLeft: 16,
+  },
+
+  githubButton: {
+    flex: 1,
+    backgroundColor: '#292f34',
+    // justifyContent: 'flex-start',
+    alignItems: 'center',
+    paddingLeft: 0,
+  },
+
+  colorText: {
+    color: "white",
   },
 }));
